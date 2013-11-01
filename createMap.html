@@ -17,41 +17,42 @@
   <style>.projmouse {top: 28px}</style>
   <script>
     var CM = CM || {};
-    CM.options = CM.options || {};
-    CM.options.controls = {
-      scaleline: true,
-      latlonmouse: true,
-      projectedmouse: true
-    };
-    CM.options.rasters = ['cat', 'osm'];
-    // CM.options.vectors = [{
-    // 	parser: 'GeoJSON',
-    // 	url: '../girona.geojson',
-    //   attribution: 'route lines: me',
-    //   stroke: {
-    //   	color: '#0000cc',
-    //     width: 3,
-    //     opacity: 0.7
-    //   }
-    // },
-    // {
-    // 	parser: 'GeoJSON',
-    // 	url: '../barcelona.geojson',
-    //   attribution: 'route lines: me',
-    //   stroke: {
-    //   	color: '#0000cc',
-    //     width: 3,
-    //     opacity: 0.7
-    //   }
-    // }];
-    // CM.options.noZoomToExtent = true;
-    // CM.options.center = {
+    CM.options = {
+      controls: {
+        scaleline: true,
+        latlonmouse: true,
+        projectedmouse: true
+      },
+      rasters: ['cat', 'osm'],
+      vectors: [{
+        parser: 'GeoJSON',
+        url: '../girona.geojson',
+        attribution: 'route lines: me',
+        stroke: {
+          color: '#0000cc',
+          width: 3,
+          opacity: 0.7
+        }
+      },
+      {
+        parser: 'GeoJSON',
+        url: '../barcelona.geojson',
+        attribution: 'route lines: me',
+        stroke: {
+          color: '#0000cc',
+          width: 3,
+          opacity: 0.7
+        }
+      }]
+    // noZoomToExtent: true
+    // center: {
     //   lon: -77.93255,
     //   lat: 37.9555
-    // };
-    CM.options.zoom = 3;
-    // CM.options.target = 'map';
-    // CM.options.noKeyboardPan = true;
+    // }
+      // zoom: 3
+    // target: 'map'
+    // noKeyboardPan: true
+    };
   </script>
 </body>
 </html>

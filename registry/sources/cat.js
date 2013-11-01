@@ -7,8 +7,8 @@ Proj4js.defs['EPSG:25831'] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs'
 (function(CM) {
   var extent = [258000, 4485000, 536000, 4752000],
     projCode = 'EPSG:25831';
-  CM.tileSources = CM.tileSources || {};
-  CM.tileSources.cat = {
+  CM.rasters = CM.rasters || {};
+  CM.rasters.cat = {
   	layer: new ol.layer.Tile({
       source: new ol.source.TileWMS({
         url: 'http://mapcache.icc.cat/map/bases/service?',
@@ -22,7 +22,8 @@ Proj4js.defs['EPSG:25831'] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs'
         },
         extent: extent,
         projection: projCode
-      })
+      }),
+      id: 'cat'
     }),
     extent: extent,
     projCode: projCode,
