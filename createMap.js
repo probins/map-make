@@ -42,42 +42,72 @@ window.onload = function() {
     projCode: 'EPSG:4326'
   };
   var rasterLayers = [], vectorLayers = [], views = {};
-  var i = 0, s, defaultCenter, defaultView;
+  var defaultView;
+
+  // create raster sources and views
+  if (options.rasters) {
+    var r = createRasters(options);
+    rasterLayers = r[0];
+    views = r[1];
+  } else {
+    // vectors only, so use 4326 view
+    views['EPSG:4326'] = createView({projCode: 'EPSG:4326'}, options);
+    defaultView = 'EPSG:4326';
+  }
+
+  // create vector sources
+  if (options.vectors) {
+    vectorLayers = createVectors(options.vectors);
+    // by default, maps with vectors zoom to data extent, unless
+    // noZoomToExtent set
+    options.zoomToExtent = options.noZoomToExtent ? false : true;
+  }
+
+  if (options.zoomToExtent) {
+    addFeatureListener(vectorLayers, rasterLayers);
+  } else {
+    if (rasterLayers[0]) {
+      rasterLayers[0].setVisible(true);
+    }
+  }
   
-  var createView = function(layer) {
-  // view options
-  // default center is center of raster extents; default zoom 0
-  	defaultCenter = layer.extent ? ol.extent.getCenter(layer.extent)
-        : [0, 0];
-    var center = options.center ?
-        ol.proj.transform([options.center.lon, options.center.lat], 'EPSG:4326', layer.projCode)
-        : defaultCenter;
-    var viewOptions = {
-      center: center,
-      zoom: options.zoom || 0
-    };
-    if (layer.projCode) {
-      viewOptions.projection = layer.projCode;
-    }
-    if (layer.resolutions) {
-      viewOptions.resolutions = layer.resolutions;
-    }
-    if (options.rotation) {
-      viewOptions.rotation = options.rotation;
-    }
-    return new ol.View2D(viewOptions);
+  var mapOptions = {
+    renderer: ol.RendererHint.CANVAS, // currently only canvas handles vectors
+    layers: rasterLayers.concat(vectorLayers),
+    view: views[defaultView]//,
+    // keyboardElement: document
   };
 
-  // add raster sources
-  if (options.rasters) {
-    var slect = document.createElement('select');
-    slect.id = 'layerswitch';
-    for (i, s = options.rasters; i < s.length; i++) {
+  // create default target div with 400px height and tabindex if not defined in options 
+  mapOptions.target = options.target || createMapTarget(options.noKeyboardPan);
+
+  // add controls
+  if (options.controls) {
+    mapOptions.controls = ol.control.defaults().extend(createControls(options));
+  }
+
+  // stick map var in global so can be used in console
+  CM.map = new ol.Map(mapOptions);
+  if (!options.zoomToExtent) {
+    document.getElementById('status').style.display = 'none';
+  }
+  if (!options.noKeyboardPan) {
+  	CM.map.getTarget().focus();
+  }
+
+
+/** functions
+ */
+  function createRasters(options) {
+  	var slect = createLayerswitch(options);
+  	var rasterLayers = [], rasters = options.rasters;
+  	var views = {};
+    for (var i = 0; i < rasters.length; i++) {
       // this assumes correct raster defined
-      var raster = CM.rasters[s[i]];
+      var raster = CM.rasters[rasters[i]];
       if (!views[raster.projCode]) {
         // 1 view per projection
-        views[raster.projCode] = createView(raster);
+        views[raster.projCode] = createView(raster, options);
       }
       if (i === 0) {
         defaultView = raster.projCode;
@@ -86,51 +116,16 @@ window.onload = function() {
       raster.layer.setVisible(false);
       rasterLayers.push(raster.layer);
       var option = document.createElement('option');
-      option.value = option.textContent = s[i];
+      option.value = option.textContent = rasters[i];
       option.selected = (i === 0) ? true : false;
-      slect.appendChild( option );
+      slect.appendChild(option);
     }
-    slect.onchange = function(evt) {
-      var ls = document.getElementById('layerswitch');
-      var slected = ls.options[ls.selectedIndex].value;
-      var projCode;
-      for (i = 0; i < rasterLayers.length; i++) {
-        if (options.rasters[i] == slected) {
-          projCode = rasterLayers[i].getSource().getProjection().getCode();
-          rasterLayers[i].setVisible(true);
-        } else {
-          rasterLayers[i].setVisible(false);
-        }
-      }
-      var from = CM.map.getView().getProjection().getCode();
-      if (projCode != from) {
-        var extent = CM.map.getView().calculateExtent(CM.map.getSize());
-        var view = views[projCode];
-        var to = view.getProjection();
-        var transformer = ol.proj.getTransform(from, to);
-        var newExtent = ol.extent.transform(extent, transformer);
-        if (options.vectors) {
-          for (i = 0; i < vectorLayers.length; i++) {
-            // FIXME not in api
-            var features = vectorLayers[i].featureCache_.idLookup_;
-            for (var j = 0; j < features.length; j++) {
-              features[j].getGeometry().transform(transformer);
-            }
-          }
-        }
-        CM.map.setView(view);
-        CM.map.getView().fitExtent(newExtent, CM.map.getSize());
-      }
-    };
-    document.body.appendChild(slect);
-  } else {
-    views['EPSG:4326'] = createView({projCode: 'EPSG:4326'});
-    defaultView = 'EPSG:4326';
+    return [rasterLayers, views];
   }
 
-  // add vector sources
-  if (options.vectors) {
-    for (i = 0, s = options.vectors; i < s.length; i++) {
+  function createVectors(vectors) {
+  	var vectorLayers = [];
+    for (var i = 0, s = vectors; i < s.length; i++) {
       var vectOpts = {
         source: new ol.source.Vector({
           url: s[i].url,
@@ -154,12 +149,10 @@ window.onload = function() {
       }
       vectorLayers.push(new ol.layer.Vector(vectOpts));
     }
-    // by default, maps with vectors zoom to data extent, unless
-    // noZoomToExtent set
-    options.zoomToExtent = options.noZoomToExtent ? false : true;
+    return vectorLayers;
   }
-
-  if (options.zoomToExtent) {
+  
+  function addFeatureListener(vectorLayers, rasterLayers) {
     /**
      * Add event returns extent, so can use this to zoom to feature data extent.
      * Make tile layers visible at this point, so tiles are only fetched after the
@@ -180,37 +173,39 @@ window.onload = function() {
         document.getElementById('status').style.display = 'none';
       }
     };
-    for (i = 0; i < vectorLayers.length; i++) {
+    for (var i = 0; i < vectorLayers.length; i++) {
       vectorLayers[i].on('featureadd', featureAdd);
     }
     if (rasterLayers[0]) {
       rasterLayers[0].setVisible(false);
     }
-  } else {
-    if (rasterLayers[0]) {
-      rasterLayers[0].setVisible(true);
-    }
   }
   
-  var mapOptions = {
-    renderer: ol.RendererHint.CANVAS, // currently only canvas handles vectors
-    layers: rasterLayers.concat(vectorLayers),
-    view: views[defaultView]
-  };
-
-  // create default target div with 400px height and tabindex if not defined in options 
-  if (options.target) {
-    mapOptions.target = options.target;
-  } else {
-    var mapDiv = document.createElement('div');
-    mapDiv.id = 'map';
-    mapDiv.style.height = "400px";
-    document.body.appendChild(mapDiv);
-    mapOptions.target = 'map';
+  function createView(layer, options) {
+  // uses center and zoom options
+  // default center is center of raster extents; default zoom 0
+  	var defaultCenter = layer.extent ? ol.extent.getCenter(layer.extent)
+        : [0, 0];
+    var center = options.center ?
+        ol.proj.transform([options.center.lon, options.center.lat], 'EPSG:4326', layer.projCode)
+        : defaultCenter;
+    var viewOptions = {
+      center: center,
+      zoom: options.zoom || 0
+    };
+    if (layer.projCode) {
+      viewOptions.projection = layer.projCode;
+    }
+    if (layer.resolutions) {
+      viewOptions.resolutions = layer.resolutions;
+    }
+    if (options.rotation) {
+      viewOptions.rotation = options.rotation;
+    }
+    return new ol.View2D(viewOptions);
   }
-    
-  // add controls
-  if (options.controls) {
+
+  function createControls(options) {
     var controls = [];
     if (options.controls.scaleline) {
       controls.push(new ol.control.ScaleLine());
@@ -237,16 +232,57 @@ window.onload = function() {
         className: 'ol-mouse-position projmouse'
       }));
     }
-    mapOptions.controls = ol.control.defaults().extend(controls);
+    return controls;
   }
 
-  CM.map = new ol.Map(mapOptions); // map var only needed for console
-  if (!options.zoomToExtent) {
-    document.getElementById('status').style.display = 'none';
+  function createLayerswitch(options) {
+    var slect = document.createElement('select');
+    slect.id = 'layerswitch';
+    slect.onchange = function(evt) {
+      // uses rasterLayers, options, views (as closures)
+      var ls = document.getElementById('layerswitch');
+      var slected = ls.options[ls.selectedIndex].value;
+      var projCode;
+      for (var i = 0; i < rasterLayers.length; i++) {
+        if (options.rasters[i] == slected) {
+          projCode = rasterLayers[i].getSource().getProjection().getCode();
+          rasterLayers[i].setVisible(true);
+        } else {
+          rasterLayers[i].setVisible(false);
+        }
+      }
+      var from = CM.map.getView().getProjection().getCode();
+      if (projCode != from) {
+        var extent = CM.map.getView().calculateExtent(CM.map.getSize());
+        var view = views[projCode];
+        var to = view.getProjection();
+        var transformer = ol.proj.getTransform(from, to);
+        var newExtent = ol.extent.transform(extent, transformer);
+        if (options.vectors) {
+          for (i = 0; i < vectorLayers.length; i++) {
+            // FIXME not in api
+            var features = vectorLayers[i].featureCache_.idLookup_;
+            for (var feature in features) {
+              features[feature].getGeometry().transform(transformer);
+            }
+          }
+        }
+        CM.map.setView(view);
+        CM.map.getView().fitExtent(newExtent, CM.map.getSize());
+      }
+    };
+    document.body.appendChild(slect);
+    return slect;
   }
 
-  if (!options.noKeyboardPan) {
-    CM.map.getViewport().tabIndex=0;
-    CM.map.getViewport().focus(); // so can use keyboard pan/zoom
+  function createMapTarget(noKeyboardPan) {
+    var mapDiv = document.createElement('div');
+    mapDiv.id = 'map';
+    mapDiv.style.height = '400px';
+    if (!noKeyboardPan) {
+      mapDiv.tabIndex=0; // so can use keyboard pan/zoom
+    }
+    document.body.appendChild(mapDiv);
+    return mapDiv;
   }
 };
