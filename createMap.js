@@ -1,11 +1,10 @@
-// Proj4js = proj4;
 // fix so proj can handle 3857
 Proj4js.defs['EPSG:3857'] = Proj4js.defs['EPSG:3785'];
 // wait for scripts to load
 window.onload = function() {
 /** initialise namespace/global var (CM stands for 'create map' :-))
  * other scripts update this var when they are loaded.
- * Currently, currently there are 2 properties: options and rasters.
+ * Currently, there are 2 properties: options and rasters.
  * Rasters are defined from registry scripts, one for each source/layer.
  * - each raster defines the projection/resolutions/extent for that source
  * - a different view is created for each projection
@@ -42,17 +41,26 @@ window.onload = function() {
     projCode: 'EPSG:4326'
   };
   var rasterLayers = [], vectorLayers = [], views = {};
-  var defaultView;
+  var defaultView, projCode;
+
+// main process
 
   // create raster sources and views
   if (options.rasters) {
-    var r = createRasters(options);
+    var r = createRasters(options.rasters); // returns layers and object with proj defs
     rasterLayers = r[0];
-    views = r[1];
+    for (projCode in r[1]) {
+      // 1 view per projection
+      if (projCode != 'dfault') {
+        views[projCode] = createView(options, projCode, r[1][projCode].extent, r[1][projCode].resolutions);
+      }
+    }
+    defaultView = r[1].dfault;
   } else {
     // vectors only, so use 4326 view
-    views['EPSG:4326'] = createView({projCode: 'EPSG:4326'}, options);
-    defaultView = 'EPSG:4326';
+    projCode = 'EPSG:4326';
+    views[projCode] = createView({projCode: projCode}, options);
+    defaultView = projCode;
   }
 
   // create vector sources
@@ -64,7 +72,7 @@ window.onload = function() {
   }
 
   if (options.zoomToExtent) {
-    addFeatureListener(vectorLayers, rasterLayers);
+    addFeatureListener(vectorLayers, rasterLayers[0]);
   } else {
     if (rasterLayers[0]) {
       rasterLayers[0].setVisible(true);
@@ -74,8 +82,7 @@ window.onload = function() {
   var mapOptions = {
     renderer: ol.RendererHint.CANVAS, // currently only canvas handles vectors
     layers: rasterLayers.concat(vectorLayers),
-    view: views[defaultView]//,
-    // keyboardElement: document
+    view: views[defaultView]
   };
 
   // create default target div with 400px height and tabindex if not defined in options 
@@ -83,7 +90,7 @@ window.onload = function() {
 
   // add controls
   if (options.controls) {
-    mapOptions.controls = ol.control.defaults().extend(createControls(options));
+    mapOptions.controls = ol.control.defaults().extend(createControls(options.controls));
   }
 
   // stick map var in global so can be used in console
@@ -98,33 +105,38 @@ window.onload = function() {
 
 /** functions
  */
-  function createRasters(options) {
-  	var slect = createLayerswitch(options);
-  	var rasterLayers = [], rasters = options.rasters;
-  	var views = {};
+  function createRasters(rasters) {
+    // uses CM global
+    var slect = createLayerswitch(rasters);
+    var rasterLayers = [];
+    var projs = {};
     for (var i = 0; i < rasters.length; i++) {
       // this assumes correct raster defined
       var raster = CM.rasters[rasters[i]];
-      if (!views[raster.projCode]) {
-        // 1 view per projection
-        views[raster.projCode] = createView(raster, options);
-      }
-      if (i === 0) {
-        defaultView = raster.projCode;
+      var projCode = raster.projCode || 'EPSG:3857';
+      if (!projs[projCode]) {
+        projs[projCode] = {
+          extent: raster.extent,
+          resolutions: raster.resolutions
+        };
+        // 1st one is default
+        if (!projs.dfault) {
+          projs.dfault = projCode;
+        }
       }
       // set layers invisible to start with
       raster.layer.setVisible(false);
       rasterLayers.push(raster.layer);
       var option = document.createElement('option');
-      option.value = option.textContent = rasters[i];
+      option.value = option.textContent = raster.layer.get('id');
       option.selected = (i === 0) ? true : false;
       slect.appendChild(option);
     }
-    return [rasterLayers, views];
+    return [rasterLayers, projs];
   }
 
   function createVectors(vectors) {
-  	var vectorLayers = [];
+    var vectorLayers = [];
     for (var i = 0, s = vectors; i < s.length; i++) {
       var vectOpts = {
         source: new ol.source.Vector({
@@ -133,7 +145,8 @@ window.onload = function() {
             html: s[i].attribution
           })],
           parser: new ol.parser[s[i].parser]()
-        })
+        }),
+        layerType: 'vector' // so can distinguish vector layers
       };
       if (s[i].stroke) {
         // change default style
@@ -152,12 +165,12 @@ window.onload = function() {
     return vectorLayers;
   }
   
-  function addFeatureListener(vectorLayers, rasterLayers) {
-    /**
-     * Add event returns extent, so can use this to zoom to feature data extent.
-     * Make tile layers visible at this point, so tiles are only fetched after the
-     * extent has been established and the appropriate zoom/resolution set.
-     */
+  /**
+   * Add event returns extent, so can use this to zoom to feature data extent.
+   * Make first tile layer visible at this point, so tiles are only fetched after the
+   * extent has been established and the appropriate zoom/resolution set.
+   */
+  function addFeatureListener(vectorLayers, rasterLayer0) {
     var vectorsExtent = ol.extent.createEmpty();
     var sourcesRead = 0;
     // callback
@@ -167,8 +180,9 @@ window.onload = function() {
       sourcesRead++;
       if (sourcesRead == vectorLayers.length) {
         CM.map.getView().fitExtent(vectorsExtent, CM.map.getSize());
-        if (rasterLayers[0]) {
-          rasterLayers[0].setVisible(true);
+        // CM.map.getLayers().getArray().filter(function(l){return l.lt=='vector'})
+        if (rasterLayer0) {
+          rasterLayer0.setVisible(true);
         }
         document.getElementById('status').style.display = 'none';
       }
@@ -176,28 +190,26 @@ window.onload = function() {
     for (var i = 0; i < vectorLayers.length; i++) {
       vectorLayers[i].on('featureadd', featureAdd);
     }
-    if (rasterLayers[0]) {
-      rasterLayers[0].setVisible(false);
-    }
   }
   
-  function createView(layer, options) {
-  // uses center and zoom options
+  function createView(options, projCode, extent, resolutions) {
+  // uses center, zoom and rotation options
+  // and extent, projCode and resolutions from layer def
   // default center is center of raster extents; default zoom 0
-  	var defaultCenter = layer.extent ? ol.extent.getCenter(layer.extent)
+  	var defaultCenter = extent ? ol.extent.getCenter(extent)
         : [0, 0];
     var center = options.center ?
-        ol.proj.transform([options.center.lon, options.center.lat], 'EPSG:4326', layer.projCode)
+        ol.proj.transform([options.center.lon, options.center.lat], 'EPSG:4326', projCode)
         : defaultCenter;
     var viewOptions = {
       center: center,
       zoom: options.zoom || 0
     };
-    if (layer.projCode) {
-      viewOptions.projection = layer.projCode;
+    if (projCode) {
+      viewOptions.projection = projCode;
     }
-    if (layer.resolutions) {
-      viewOptions.resolutions = layer.resolutions;
+    if (resolutions) {
+      viewOptions.resolutions = resolutions;
     }
     if (options.rotation) {
       viewOptions.rotation = options.rotation;
@@ -205,37 +217,47 @@ window.onload = function() {
     return new ol.View2D(viewOptions);
   }
 
-  function createControls(options) {
-    var controls = [];
-    if (options.controls.scaleline) {
-      controls.push(new ol.control.ScaleLine());
-    }
-    if (options.controls.latlonmouse) {
-      controls.push(
+  /**
+   * param: options.controls (object with each required control set to true)
+   * returns: array of ol controls
+   * TODO allow setting options for each control
+   */
+  function createControls(controls) {
+    var returns = [];
+    var functions = {
+      scaleline: function() {
+        return new ol.control.ScaleLine();
+      },
+      latlonmouse: function() {
         // mousePosition in LatLons
-        new ol.control.MousePosition({
+        return new ol.control.MousePosition({
           coordinateFormat: function(coordinate) {
-            // 4 decimal places for lonlats
+            // 4 decimal places for latlons
             return ol.coordinate.toStringHDMS(coordinate) + ' (' +
                 ol.coordinate.toStringXY(coordinate, 4) + ')';
           },
-          projection: 'EPSG:4326' //,
-      }));
+          projection: 'EPSG:4326'
+        });
+      },
+      projectedmouse: function() {
+        return new ol.control.MousePosition({
+          coordinateFormat: function(coordinate) {
+            // no decimal places for projected coords
+            return 'projected: ' + ol.coordinate.toStringXY(coordinate, 0);
+          },
+          // set class to override OL default position/style
+          className: 'ol-mouse-position projmouse'
+        });
+      }
+    };
+    
+    for (var control in controls) {
+      returns.push(functions[control]());
     }
-    if (options.controls.projectedmouse) {
-      controls.push(new ol.control.MousePosition({
-        coordinateFormat: function(coordinate) {
-          // no decimal places for projected coords
-          return 'projected: ' + ol.coordinate.toStringXY(coordinate, 0);
-        },
-        // set class to override OL default position/style
-        className: 'ol-mouse-position projmouse'
-      }));
-    }
-    return controls;
+    return returns;
   }
 
-  function createLayerswitch(options) {
+  function createLayerswitch(rasters) {
     var slect = document.createElement('select');
     slect.id = 'layerswitch';
     slect.onchange = function(evt) {
@@ -244,7 +266,7 @@ window.onload = function() {
       var slected = ls.options[ls.selectedIndex].value;
       var projCode;
       for (var i = 0; i < rasterLayers.length; i++) {
-        if (options.rasters[i] == slected) {
+        if (rasters[i] == slected) {
           projCode = rasterLayers[i].getSource().getProjection().getCode();
           rasterLayers[i].setVisible(true);
         } else {

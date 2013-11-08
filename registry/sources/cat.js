@@ -2,6 +2,7 @@
  * Proj4js loaded
  * ol loaded
  */
+ // FIXME id and attribution fixed in English
 Proj4js.defs['EPSG:25831'] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs';
 
 (function(CM) {
@@ -23,7 +24,7 @@ Proj4js.defs['EPSG:25831'] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs'
         extent: extent,
         projection: projCode
       }),
-      id: 'cat'
+      id: 'Catalan topos'
     }),
     extent: extent,
     projCode: projCode,
