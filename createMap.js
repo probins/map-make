@@ -45,9 +45,12 @@ window.onload = function() {
 
 // main process
 
+  // create layer switcher
+  var slect = createLayerswitch(options.rasters);
+
   // create raster sources and views
   if (options.rasters) {
-    var r = createRasters(options.rasters); // returns layers and object with proj defs
+    var r = createRasters(options.rasters, slect); // returns layers and object with proj defs
     rasterLayers = r[0];
     for (projCode in r[1]) {
       // 1 view per projection
@@ -105,9 +108,12 @@ window.onload = function() {
 
 /** functions
  */
-  function createRasters(rasters) {
+  /**
+   * param: options.rasters (array of ids), and layerswitcher
+   * returns array with layers array and projs array
+   */
+  function createRasters(rasters, slect) {
     // uses CM global
-    var slect = createLayerswitch(rasters);
     var rasterLayers = [];
     var projs = {};
     for (var i = 0; i < rasters.length; i++) {
@@ -126,6 +132,11 @@ window.onload = function() {
       }
       // set layers invisible to start with
       raster.layer.setVisible(false);
+      if (i === 0) {
+        raster.layer.activeLayer = true;
+      } else {
+        raster.layer.activeLayer = false;
+      }
       rasterLayers.push(raster.layer);
       var option = document.createElement('option');
       option.value = option.textContent = raster.layer.get('id');
@@ -135,6 +146,10 @@ window.onload = function() {
     return [rasterLayers, projs];
   }
 
+  /**
+   * param: options.vectors (array of ids)
+   * returns layers array
+   */
   function createVectors(vectors) {
     var vectorLayers = [];
     for (var i = 0, s = vectors; i < s.length; i++) {
@@ -180,7 +195,6 @@ window.onload = function() {
       sourcesRead++;
       if (sourcesRead == vectorLayers.length) {
         CM.map.getView().fitExtent(vectorsExtent, CM.map.getSize());
-        // CM.map.getLayers().getArray().filter(function(l){return l.lt=='vector'})
         if (rasterLayer0) {
           rasterLayer0.setVisible(true);
         }
@@ -192,10 +206,13 @@ window.onload = function() {
     }
   }
   
+  /**
+   * params: options (center, zoom and rotation),
+   *        projection code, extent, resolutions array from layer def
+   * returns ol.View2D instance
+   */
   function createView(options, projCode, extent, resolutions) {
-  // uses center, zoom and rotation options
-  // and extent, projCode and resolutions from layer def
-  // default center is center of raster extents; default zoom 0
+    // default center is center of raster extents; default zoom 0
   	var defaultCenter = extent ? ol.extent.getCenter(extent)
         : [0, 0];
     var center = options.center ?
@@ -257,39 +274,51 @@ window.onload = function() {
     return returns;
   }
 
+  /**
+   * param: options.rasters (array of ids)
+   * returns array with layers array and projs array
+   */
   function createLayerswitch(rasters) {
     var slect = document.createElement('select');
     slect.id = 'layerswitch';
     slect.onchange = function(evt) {
-      // uses rasterLayers, options, views (as closures)
+      /**
+       * on raster layer change, previous raster layer is set invisible,
+       * new raster layer is made visible
+       * if there are vector layers and the projection has changed, transform vectors
+       * FIXME uses views (as closure)
+       * uses CM global
+       */
       var ls = document.getElementById('layerswitch');
       var slected = ls.options[ls.selectedIndex].value;
-      var projCode;
-      for (var i = 0; i < rasterLayers.length; i++) {
-        if (rasters[i] == slected) {
-          projCode = rasterLayers[i].getSource().getProjection().getCode();
-          rasterLayers[i].setVisible(true);
-        } else {
-          rasterLayers[i].setVisible(false);
-        }
-      }
-      var from = CM.map.getView().getProjection().getCode();
-      if (projCode != from) {
-        var extent = CM.map.getView().calculateExtent(CM.map.getSize());
-        var view = views[projCode];
-        var to = view.getProjection();
-        var transformer = ol.proj.getTransform(from, to);
-        var newExtent = ol.extent.transform(extent, transformer);
-        if (options.vectors) {
-          for (i = 0; i < vectorLayers.length; i++) {
+      var oldLayer = CM.map.getLayers().getArray().filter(function(l) {
+        return l.activeLayer === true;
+      })[0]; // only one
+      var newLayer = CM.map.getLayers().getArray().filter(function(l) {
+        return l.get('id') == slected;
+      })[0]; // only one
+      oldLayer.setVisible(false);
+      oldLayer.activeLayer = false;
+      newLayer.setVisible(true);
+      newLayer.activeLayer = true;
+      // FIXME getCode not currently exported
+      var newProjCode = newLayer.getSource().getProjection().getCode();
+      var oldProjCode = oldLayer.getSource().getProjection().getCode();
+      if (newProjCode != oldProjCode) {
+        var oldExtent = CM.map.getView().calculateExtent(CM.map.getSize());
+        var transformer = ol.proj.getTransform(oldProjCode, newProjCode);
+        var newExtent = ol.extent.transform(oldExtent, transformer);
+        var vectorLayers = CM.map.getLayers().getArray().filter(function(l) {
+          return l.get('layerType') == 'vector';
+        });
+        for (var i = 0; i < vectorLayers.length; i++) {
             // FIXME not in api
             var features = vectorLayers[i].featureCache_.idLookup_;
             for (var feature in features) {
               features[feature].getGeometry().transform(transformer);
             }
-          }
         }
-        CM.map.setView(view);
+        CM.map.setView(views[newProjCode]);
         CM.map.getView().fitExtent(newExtent, CM.map.getSize());
       }
     };
