@@ -7,7 +7,6 @@
     layer: new ol.layer.Tile({
       source: new ol.source.OSM(),
       id: 'OpenStreetMap'
-    }),
-    projCode: 'EPSG:3857'
+    })
   };
 })(window.CM = window.CM || {});

@@ -24,26 +24,28 @@
         projectedmouse: true
       },
       rasters: ['cat', 'osm'],
-      // vectors: [{
-      //   parser: 'GeoJSON',
-      //   url: '../girona.geojson',
-      //   attribution: 'route lines: me',
-      //   stroke: {
-      //     color: '#0000cc',
-      //     width: 3,
-      //     opacity: 0.7
-      //   }
-      // },
-      // {
-      //   parser: 'GeoJSON',
-      //   url: '../barcelona.geojson',
-      //   attribution: 'route lines: me',
-      //   stroke: {
-      //     color: '#0000cc',
-      //     width: 3,
-      //     opacity: 0.7
-      //   }
-      // }]
+      vectors: [{
+        parser: 'GeoJSON',
+        url: '../girona.geojson',
+        attribution: 'route lines: me',
+        id: 'Girona',
+        stroke: {
+          color: '#0000cc',
+          width: 3,
+          opacity: 0.7
+        }
+      },
+      {
+        parser: 'GeoJSON',
+        url: '../barcelona.geojson',
+        attribution: 'route lines: me',
+        id: 'Barcelona',
+        stroke: {
+          color: '#0000cc',
+          width: 3,
+          opacity: 0.7
+        }
+      }]
     // noZoomToExtent: true
     // center: {
     //   lon: -77.93255,
