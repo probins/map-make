@@ -13,8 +13,10 @@ window.onload = function() {
  * valid options are:
  * - map options:
  * -- target (creates one if not present)
- * -- controls: currently scaleline, latlonmouse (mousePosition in latlons),
- *    projectedmouse (mousePosition in projected coords)
+ * -- widgets: currently scaleline, latlonmouse (mousePosition in latlons),
+ *    projectedmouse (mousePosition in projected coords); a layerswitcher is
+ *    always included
+ * -- vectorWidgets: currently tooltip and popup
  * -- noKeyboardPan: true (by default, keyboard pan/zoom are enabled on the
  *    viewport div; use this to override)
  * - layers options:
@@ -101,9 +103,9 @@ window.onload = function() {
   // create default target div with 400px height and tabindex if not defined in options 
   mapOptions.target = options.target || createMapTarget(options.noKeyboardPan);
 
-  // add controls
-  if (options.controls) {
-    mapOptions.controls = ol.control.defaults().extend(createControls(options.controls));
+  // add controls/widgets
+  if (options.widgets) {
+    mapOptions.controls = ol.control.defaults().extend(createControls(options.widgets));
   }
 
   // stick map var in global so can be used in console
@@ -115,14 +117,20 @@ window.onload = function() {
   	CM.map.getTarget().focus();
   }
 
+  // layerswitcher
   document.body.appendChild(layersDiv);
+
+  // add vector widgets
+  if (options.vectorWidgets && options.vectors) {
+    createVectorWidgets(options.vectorWidgets);
+  }
 
 
 /** functions
  */
   /**
    * param: options.rasters (array of ids)
-   * returns array with layers array and projs array
+   * returns array with layers array, projs array, layersDiv
    */
   function createRasters(rasters) {
     // uses CM global
@@ -205,7 +213,7 @@ window.onload = function() {
 
   /**
    * param: options.vectors (array of ids)
-   * returns layers array
+   * returns array of layers array and layersDiv
    */
   function createVectors(vectors) {
     var vectorLayers = [];
@@ -315,9 +323,9 @@ window.onload = function() {
   }
 
   /**
-   * param: options.controls (object with each required control set to true)
+   * param: options.widgets (object with each required widget set to true)
    * returns: array of ol controls
-   * TODO allow setting options for each control
+   * TODO allow setting options for each widget/control
    */
   function createControls(controls) {
     var returns = [];
@@ -352,6 +360,101 @@ window.onload = function() {
       returns.push(functions[control]());
     }
     return returns;
+  }
+
+  /**
+   * param: options.vectorWidgets (object with each required widget set to true)
+   * TODO allow setting options for each widget/control
+   */
+  function createVectorWidgets(widgets) {
+  	if (widgets.popup) {
+      var popup = document.createElement('div');
+      popup.id = 'popup';
+      popup.style.backgroundColor = 'white';
+      document.body.appendChild(popup);
+      var overlay = new ol.Overlay({
+        element: document.getElementById('popup'),
+        positioning: ol.OverlayPositioning.BOTTOM_CENTER,
+        stopEvent: true
+      });
+      CM.map.addOverlay(overlay);
+      
+      // click on feature displays attributes in overlay
+      CM.map.on(['click'], function(evt) {
+        var coordinate = evt.getCoordinate();
+        CM.map.getFeatures({
+          pixel: evt.getPixel(),
+          layers: vectorLayers,
+          success: function(featuresByLayer) {
+          	var features = [];
+            for (var i = 0; i < featuresByLayer.length; i++) {
+              features = features.concat(featuresByLayer[i]);
+            }
+            var html = '';
+            // if >1 feature, displays all in one box
+            for (i = 0; i < features.length; i++) {
+      	      if (i !== 0) {
+        	      html += '<br>';
+              }
+              html += 'Feature id: '	+ features[i].getId();
+        	    var atts = features[i].getAttributes();
+              for (var att in atts) {
+                if (att !== 'geometry') {
+                  html += '<br>' + att + ': ' + atts[att];
+        	      }
+              }
+            }
+            var el = overlay.getElement();
+            el.innerHTML = html;
+            el.style.display = 'block';
+            overlay.setPosition(coordinate);
+          }
+        });
+      });
+  	}
+  	
+  	if (widgets.tooltip) {
+      var tooltip = document.createElement('div');
+      tooltip.id = 'tooltip';
+      tooltip.style.position = 'absolute';
+      tooltip.style.zIndex = '20000';
+      tooltip.style.backgroundColor = 'white';
+      document.body.appendChild(tooltip);
+      // assumes only 1 canvas element
+      var canvas = document.getElementsByTagName('canvas')[0];
+      /**
+       * with canvas, vectors have no separate identity, so have to use mousemove
+       * with map.getFeatures() to establish whether there is a feature at the
+       * new mouse position. If so, make the tooltip div visible with title attribute
+       * div defined so dblclick hides the div
+       */
+      CM.map.getViewport().onmousemove = function(evt) {
+        var pixel = [evt.x, evt.y];
+        tooltip.style.top = (pixel[1] + 10) + 'px';
+        tooltip.style.left = (pixel[0] + 10) + 'px';
+        CM.map.getFeatures({
+          pixel: pixel,
+          layers: vectorLayers,
+          success: function(featuresByLayer) {
+          	var features = [];
+            for (var i = 0; i < featuresByLayer.length; i++) {
+              features = features.concat(featuresByLayer[i]);
+            }
+            // only handles 1st feature
+            var feature = features[0];
+            if (feature) {
+              tooltip.innerHTML = feature.get('title') || '';
+              tooltip.style.display = 'block';
+              // change cursor to indicate to users that they can click on this point
+              canvas.style.cursor = 'pointer';
+            } else {
+              tooltip.style.display = 'none';
+              canvas.style.cursor = 'default';
+            }
+          }
+        });
+      };
+    }
   }
 
   function createMapTarget(noKeyboardPan) {

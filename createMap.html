@@ -18,10 +18,14 @@
   <script>
     var CM = CM || {};
     CM.options = {
-      controls: {
+      widgets: {
         scaleline: true,
         latlonmouse: true,
         projectedmouse: true
+      },
+      vectorWidgets: {
+        tooltip: true,
+        popup: true
       },
       rasters: ['cat', 'osm'],
       vectors: [{

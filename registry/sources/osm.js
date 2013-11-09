@@ -1,5 +1,6 @@
 /** dependencies:
  * ol loaded
+ * FIXME: attribution fixed in English
  */
 (function(CM) {
   CM.rasters = CM.rasters || {};
