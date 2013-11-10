@@ -12,6 +12,7 @@ window.onload = function() {
  * Options are set in the html page.
  * valid options are:
  * - map options:
+ * - global: true (creates a reference to the map object in the CM global)
  * -- target (creates one if not present)
  * -- widgets: currently scaleline, latlonmouse (mousePosition in latlons),
  *    projectedmouse (mousePosition in projected coords); a layerswitcher is
@@ -47,7 +48,7 @@ window.onload = function() {
 
 // main process
 
-  // create layer switcher
+  // create layer switcher div
   var layersDiv = document.createElement('div');
   layersDiv.id = 'layerswitch';
 
@@ -87,7 +88,8 @@ window.onload = function() {
   }
 
   if (options.zoomToExtent) {
-    addFeatureListener(vectorLayers, rasterLayers[0]);
+    // if zoomToExtent, delay display of layers until vector data loaded
+    addFeatureListener(vectorLayers);
   } else {
     if (rasterLayers[0]) {
       rasterLayers[0].setVisible(true);
@@ -108,13 +110,17 @@ window.onload = function() {
     mapOptions.controls = ol.control.defaults().extend(createControls(options.widgets));
   }
 
+  var map = new ol.Map(mapOptions);
   // stick map var in global so can be used in console
-  CM.map = new ol.Map(mapOptions);
+  if (options.global) {
+  	CM.map = map;
+  }
+  
   if (!options.zoomToExtent) {
     document.getElementById('status').style.display = 'none';
   }
   if (!options.noKeyboardPan) {
-  	CM.map.getTarget().focus();
+  	map.getTarget().focus();
   }
 
   // layerswitcher
@@ -170,10 +176,11 @@ window.onload = function() {
         inputElem.checked = true;
       }
       inputElem.onclick = function(evt) {
-        var oldLayer = CM.map.getLayers().getArray().filter(function(l) {
+      	// uses 'map' as closure
+        var oldLayer = map.getLayers().getArray().filter(function(l) {
           return l.activeLayer === true;
         })[0]; // only one
-        var newLayer = CM.map.getLayers().getArray().filter(function(l) {
+        var newLayer = map.getLayers().getArray().filter(function(l) {
           return l.get('id') == evt.target.value;
         })[0]; // only one
         oldLayer.setVisible(false);
@@ -184,10 +191,10 @@ window.onload = function() {
         var newProjCode = newLayer.getSource().getProjection().getCode();
         var oldProjCode = oldLayer.getSource().getProjection().getCode();
         if (newProjCode != oldProjCode) {
-          var oldExtent = CM.map.getView().calculateExtent(CM.map.getSize());
+          var oldExtent = map.getView().calculateExtent(map.getSize());
           var transformer = ol.proj.getTransform(oldProjCode, newProjCode);
           var newExtent = ol.extent.transform(oldExtent, transformer);
-          var vectorLayers = CM.map.getLayers().getArray().filter(function(l) {
+          var vectorLayers = map.getLayers().getArray().filter(function(l) {
             return l instanceof ol.layer.Vector;
           });
           for (var i = 0; i < vectorLayers.length; i++) {
@@ -197,8 +204,8 @@ window.onload = function() {
               features[feature].getGeometry().transform(transformer);
             }
           }
-          CM.map.setView(views[newProjCode]);
-          CM.map.getView().fitExtent(newExtent, CM.map.getSize());
+          map.setView(views[newProjCode]);
+          map.getView().fitExtent(newExtent, map.getSize());
         }
       };
       rastersDiv.appendChild(inputElem);
@@ -251,7 +258,8 @@ window.onload = function() {
       inputElem.type = 'checkbox';
       inputElem.checked = true;
       inputElem.onclick = function(evt) {
-        var newLayer = CM.map.getLayers().getArray().filter(function(l) {
+      	// uses 'map' as closure
+        var newLayer = map.getLayers().getArray().filter(function(l) {
           return l.get('id') == evt.target.value;
         })[0]; // only one
         newLayer.setVisible(this.checked);
@@ -271,18 +279,22 @@ window.onload = function() {
    * Make first tile layer visible at this point, so tiles are only fetched after the
    * extent has been established and the appropriate zoom/resolution set.
    * 
-   * params: vectorLayers, 1st rasterLayer
+   * params: vectorLayers
    */
-  function addFeatureListener(vectorLayers, rasterLayer0) {
+  function addFeatureListener(vectorLayers) {
     var vectorsExtent = ol.extent.createEmpty();
     var sourcesRead = 0;
     // callback
     var featureAdd = function(e) {
+    	// uses 'map' as closure
       // FIXME hack until https://github.com/openlayers/ol3/issues/1134 fixed
       ol.extent.extend(vectorsExtent, e.extents ? e.extents[0] : e.a[0]);
       sourcesRead++;
       if (sourcesRead == vectorLayers.length) {
-        CM.map.getView().fitExtent(vectorsExtent, CM.map.getSize());
+        map.getView().fitExtent(vectorsExtent, map.getSize());
+        var rasterLayer0 = map.getLayers().getArray().filter(function(l) {
+          return l.activeLayer === true;
+        })[0]; // only one
         if (rasterLayer0) {
           rasterLayer0.setVisible(true);
         }
@@ -357,7 +369,9 @@ window.onload = function() {
     };
     
     for (var control in controls) {
-      returns.push(functions[control]());
+      if (functions[control]) {
+        returns.push(functions[control]());
+      }
     }
     return returns;
   }
@@ -367,93 +381,109 @@ window.onload = function() {
    * TODO allow setting options for each widget/control
    */
   function createVectorWidgets(widgets) {
-  	if (widgets.popup) {
-      var popup = document.createElement('div');
-      popup.id = 'popup';
-      popup.style.backgroundColor = 'white';
-      document.body.appendChild(popup);
-      var overlay = new ol.Overlay({
-        element: document.getElementById('popup'),
-        positioning: ol.OverlayPositioning.BOTTOM_CENTER,
-        stopEvent: true
-      });
-      CM.map.addOverlay(overlay);
+    // uses 'map'
+    var functions = {
+      popup: function() {
+        var popup = document.createElement('div');
+        popup.id = 'popup';
+        popup.style.backgroundColor = 'white';
+        document.body.appendChild(popup);
+        var overlay = new ol.Overlay({
+          element: document.getElementById('popup'),
+          positioning: ol.OverlayPositioning.BOTTOM_CENTER,
+          stopEvent: true
+        });
+        map.addOverlay(overlay);
       
-      // click on feature displays attributes in overlay
-      CM.map.on(['click'], function(evt) {
-        var coordinate = evt.getCoordinate();
-        CM.map.getFeatures({
-          pixel: evt.getPixel(),
-          layers: vectorLayers,
-          success: function(featuresByLayer) {
-          	var features = [];
-            for (var i = 0; i < featuresByLayer.length; i++) {
-              features = features.concat(featuresByLayer[i]);
-            }
-            var html = '';
-            // if >1 feature, displays all in one box
-            for (i = 0; i < features.length; i++) {
-      	      if (i !== 0) {
-        	      html += '<br>';
+        // click on feature displays attributes in overlay
+        map.on(['click'], function(evt) {
+          // uses overlay as closure
+          var coordinate = evt.getCoordinate();
+          map.getFeatures({
+            pixel: evt.getPixel(),
+            layers: map.getLayers().getArray().filter(function(l) {
+              return l instanceof ol.layer.Vector;
+            }),
+            success: function(featuresByLayer) {
+              var features = [];
+              for (var i = 0; i < featuresByLayer.length; i++) {
+                features = features.concat(featuresByLayer[i]);
               }
-              html += 'Feature id: '	+ features[i].getId();
-        	    var atts = features[i].getAttributes();
-              for (var att in atts) {
-                if (att !== 'geometry') {
-                  html += '<br>' + att + ': ' + atts[att];
-        	      }
+              var html = '';
+              // if >1 feature, displays all in one box
+              for (i = 0; i < features.length; i++) {
+                if (i !== 0) {
+         	        html += '<br>';
+                }
+                html += 'Id: '	+ features[i].getId();
+                var atts = features[i].getAttributes();
+                for (var att in atts) {
+                  // FIXME https://github.com/openlayers/ol3/issues/1257
+                  if (att !== 'geometry') {
+                    html += '<br>' + att + ': ' + atts[att];
+                  }
+                }
+              }
+              var el = overlay.getElement();
+              el.innerHTML = html;
+              el.style.display = 'block';
+              overlay.setPosition(coordinate);
+            }
+          });
+        });
+      },
+      tooltip: function() {
+        // uses 'map'
+        var tooltip = document.createElement('div');
+        tooltip.id = 'tooltip';
+        tooltip.style.position = 'absolute';
+        tooltip.style.zIndex = '20000';
+        tooltip.style.backgroundColor = 'white';
+        document.body.appendChild(tooltip);
+        // assumes only 1 canvas element
+        var canvas = document.getElementsByTagName('canvas')[0];
+        /**
+         * with canvas, vectors have no separate identity, so have to use mousemove
+         * with map.getFeatures() to establish whether there is a feature at the
+         * new mouse position. If so, make the tooltip div visible with title attribute
+         * div defined so dblclick hides the div
+         */
+        map.getViewport().onmousemove = function(evt) {
+        	var x = evt.x, y = evt.y
+          var pixel = [x, y];
+          tooltip.style.top = (y + 10) + 'px';
+          tooltip.style.left = (x + 10) + 'px';
+          map.getFeatures({
+            pixel: pixel,
+            layers: map.getLayers().getArray().filter(function(l) {
+              return l instanceof ol.layer.Vector;
+            }),
+            success: function(featuresByLayer) {
+              var features = [];
+              for (var i = 0; i < featuresByLayer.length; i++) {
+                features = features.concat(featuresByLayer[i]);
+              }
+              // only handles 1st feature
+              var feature = features[0];
+              if (feature) {
+                tooltip.innerHTML = feature.get('title') || '';
+                tooltip.style.display = 'block';
+                // change cursor to indicate to users that they can click on this point
+                canvas.style.cursor = 'pointer';
+              } else {
+                tooltip.style.display = 'none';
+                canvas.style.cursor = 'default';
               }
             }
-            var el = overlay.getElement();
-            el.innerHTML = html;
-            el.style.display = 'block';
-            overlay.setPosition(coordinate);
-          }
-        });
-      });
-  	}
-  	
-  	if (widgets.tooltip) {
-      var tooltip = document.createElement('div');
-      tooltip.id = 'tooltip';
-      tooltip.style.position = 'absolute';
-      tooltip.style.zIndex = '20000';
-      tooltip.style.backgroundColor = 'white';
-      document.body.appendChild(tooltip);
-      // assumes only 1 canvas element
-      var canvas = document.getElementsByTagName('canvas')[0];
-      /**
-       * with canvas, vectors have no separate identity, so have to use mousemove
-       * with map.getFeatures() to establish whether there is a feature at the
-       * new mouse position. If so, make the tooltip div visible with title attribute
-       * div defined so dblclick hides the div
-       */
-      CM.map.getViewport().onmousemove = function(evt) {
-        var pixel = [evt.x, evt.y];
-        tooltip.style.top = (pixel[1] + 10) + 'px';
-        tooltip.style.left = (pixel[0] + 10) + 'px';
-        CM.map.getFeatures({
-          pixel: pixel,
-          layers: vectorLayers,
-          success: function(featuresByLayer) {
-          	var features = [];
-            for (var i = 0; i < featuresByLayer.length; i++) {
-              features = features.concat(featuresByLayer[i]);
-            }
-            // only handles 1st feature
-            var feature = features[0];
-            if (feature) {
-              tooltip.innerHTML = feature.get('title') || '';
-              tooltip.style.display = 'block';
-              // change cursor to indicate to users that they can click on this point
-              canvas.style.cursor = 'pointer';
-            } else {
-              tooltip.style.display = 'none';
-              canvas.style.cursor = 'default';
-            }
-          }
-        });
-      };
+          });
+        };
+      }
+    };
+
+    for (var widget in widgets) {
+      if (functions[widget]) {
+        functions[widget]();
+      }
     }
   }
 
