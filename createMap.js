@@ -46,7 +46,8 @@ window.onload = function() {
   var rasterLayers = [], vectorLayers = [], views = {};
   var defaultView, projCode, label;
 
-// main process
+/** main process
+ */
 
   // create layer switcher div
   var layersDiv = document.createElement('div');
@@ -144,7 +145,39 @@ window.onload = function() {
     var projs = {};
     var rastersDiv = document.createElement('div');
     rastersDiv.id = 'rasters';
-        // OpenLayers.Element.addClass(this.baseLayersDiv, "baseLayersDiv");
+    var clickFunc = function(evt) {
+      // uses 'map' as closure
+      var oldLayer = map.getLayers().getArray().filter(function(l) {
+        return l.activeLayer === true;
+      })[0]; // only one
+      var newLayer = map.getLayers().getArray().filter(function(l) {
+        return l.get('id') == evt.target.value;
+      })[0]; // only one
+      oldLayer.setVisible(false);
+      oldLayer.activeLayer = false;
+      newLayer.setVisible(true);
+      newLayer.activeLayer = true;
+      // FIXME getCode not currently exported
+      var newProjCode = newLayer.getSource().getProjection().getCode();
+      var oldProjCode = oldLayer.getSource().getProjection().getCode();
+      if (newProjCode != oldProjCode) {
+        var oldExtent = map.getView().calculateExtent(map.getSize());
+        var transformer = ol.proj.getTransform(oldProjCode, newProjCode);
+        var newExtent = ol.extent.transform(oldExtent, transformer);
+        var vectorLayers = map.getLayers().getArray().filter(function(l) {
+          return l instanceof ol.layer.Vector;
+        });
+        for (var i = 0; i < vectorLayers.length; i++) {
+          // FIXME not in api
+          var features = vectorLayers[i].featureCache_.idLookup_;
+          for (var feature in features) {
+            features[feature].getGeometry().transform(transformer);
+          }
+        }
+        map.setView(views[newProjCode]);
+        map.getView().fitExtent(newExtent, map.getSize());
+      }
+    };
     for (var i = 0; i < rasters.length; i++) {
       // this assumes correct raster defined
       var raster = CM.rasters[rasters[i]];
@@ -175,39 +208,7 @@ window.onload = function() {
       if (i === 0) {
         inputElem.checked = true;
       }
-      inputElem.onclick = function(evt) {
-      	// uses 'map' as closure
-        var oldLayer = map.getLayers().getArray().filter(function(l) {
-          return l.activeLayer === true;
-        })[0]; // only one
-        var newLayer = map.getLayers().getArray().filter(function(l) {
-          return l.get('id') == evt.target.value;
-        })[0]; // only one
-        oldLayer.setVisible(false);
-        oldLayer.activeLayer = false;
-        newLayer.setVisible(true);
-        newLayer.activeLayer = true;
-        // FIXME getCode not currently exported
-        var newProjCode = newLayer.getSource().getProjection().getCode();
-        var oldProjCode = oldLayer.getSource().getProjection().getCode();
-        if (newProjCode != oldProjCode) {
-          var oldExtent = map.getView().calculateExtent(map.getSize());
-          var transformer = ol.proj.getTransform(oldProjCode, newProjCode);
-          var newExtent = ol.extent.transform(oldExtent, transformer);
-          var vectorLayers = map.getLayers().getArray().filter(function(l) {
-            return l instanceof ol.layer.Vector;
-          });
-          for (var i = 0; i < vectorLayers.length; i++) {
-            // FIXME not in api
-            var features = vectorLayers[i].featureCache_.idLookup_;
-            for (var feature in features) {
-              features[feature].getGeometry().transform(transformer);
-            }
-          }
-          map.setView(views[newProjCode]);
-          map.getView().fitExtent(newExtent, map.getSize());
-        }
-      };
+      inputElem.onclick = clickFunc;
       rastersDiv.appendChild(inputElem);
       var labelSpan = document.createElement('label');
       labelSpan.innerHTML = inputElem.value;
@@ -226,6 +227,14 @@ window.onload = function() {
     var vectorLayers = [];
     var vectorsDiv = document.createElement('div');
     vectorsDiv.id = 'vectors';
+    // function for click handler
+    var clickFunc = function(evt) {
+      // uses 'map' as closure
+      var newLayer = map.getLayers().getArray().filter(function(l) {
+        return l.get('id') == evt.target.value;
+      })[0]; // only one
+      newLayer.setVisible(this.checked);
+    };
 
     for (var i = 0, s = vectors; i < s.length; i++) {
       var vectOpts = {
@@ -257,13 +266,7 @@ window.onload = function() {
       inputElem.name = inputElem.value = s[i].id;
       inputElem.type = 'checkbox';
       inputElem.checked = true;
-      inputElem.onclick = function(evt) {
-      	// uses 'map' as closure
-        var newLayer = map.getLayers().getArray().filter(function(l) {
-          return l.get('id') == evt.target.value;
-        })[0]; // only one
-        newLayer.setVisible(this.checked);
-      };
+      inputElem.onclick = clickFunc;
       vectorsDiv.appendChild(inputElem);
       var labelSpan = document.createElement('label');
       labelSpan.innerHTML = inputElem.value;
@@ -351,7 +354,7 @@ window.onload = function() {
           coordinateFormat: function(coordinate) {
             // 4 decimal places for latlons
             return ol.coordinate.toStringHDMS(coordinate) + ' (' +
-                ol.coordinate.toStringXY(coordinate, 4) + ')';
+                ol.coordinate.format(coordinate, '{y}, {x}', 4) + ')';
           },
           projection: 'EPSG:4326'
         });
@@ -394,7 +397,6 @@ window.onload = function() {
           stopEvent: true
         });
         map.addOverlay(overlay);
-      
         // click on feature displays attributes in overlay
         map.on(['click'], function(evt) {
           // uses overlay as closure
@@ -413,7 +415,7 @@ window.onload = function() {
               // if >1 feature, displays all in one box
               for (i = 0; i < features.length; i++) {
                 if (i !== 0) {
-         	        html += '<br>';
+                  html += '<br>';
                 }
                 html += 'Id: '	+ features[i].getId();
                 var atts = features[i].getAttributes();
@@ -446,13 +448,11 @@ window.onload = function() {
          * with canvas, vectors have no separate identity, so have to use mousemove
          * with map.getFeatures() to establish whether there is a feature at the
          * new mouse position. If so, make the tooltip div visible with title attribute
-         * div defined so dblclick hides the div
          */
-        map.getViewport().onmousemove = function(evt) {
-        	var x = evt.x, y = evt.y
-          var pixel = [x, y];
-          tooltip.style.top = (y + 10) + 'px';
-          tooltip.style.left = (x + 10) + 'px';
+        map.on(['mousemove'], function(evt) {
+          var pixel = evt.getPixel();
+          tooltip.style.top = (pixel[1] + 10) + 'px';
+          tooltip.style.left = (pixel[0] + 10) + 'px';
           map.getFeatures({
             pixel: pixel,
             layers: map.getLayers().getArray().filter(function(l) {
@@ -464,6 +464,8 @@ window.onload = function() {
                 features = features.concat(featuresByLayer[i]);
               }
               // only handles 1st feature
+              // this might be problem if e.g. points on top of polygon:
+              // which is required?
               var feature = features[0];
               if (feature) {
                 tooltip.innerHTML = feature.get('title') || '';
@@ -476,8 +478,9 @@ window.onload = function() {
               }
             }
           });
-        };
+        });
       }
+      // these aren't added to map, so nothing to return
     };
 
     for (var widget in widgets) {
