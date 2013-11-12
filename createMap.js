@@ -1,3 +1,6 @@
+// uses following functions not currently exported:
+// source.getProjection(); vectorLayer.featureCache_.idLookup_ (getFeatures)
+
 // fix so proj can handle 3857
 Proj4js.defs['EPSG:3857'] = Proj4js.defs['EPSG:3785'];
 // wait for scripts to load
@@ -12,12 +15,10 @@ window.onload = function() {
  * Options are set in the html page.
  * valid options are:
  * - map options:
- * - global: true (creates a reference to the map object in the CM global)
  * -- target (creates one if not present)
  * -- widgets: currently scaleline, latlonmouse (mousePosition in latlons),
- *    projectedmouse (mousePosition in projected coords); a layerswitcher is
- *    always included
- * -- vectorWidgets: currently tooltip and popup
+ *    projectedmouse (mousePosition in projected coords), tooltip, popup;
+ *    a layerswitcher is always included
  * -- noKeyboardPan: true (by default, keyboard pan/zoom are enabled on the
  *    viewport div; use this to override)
  * - layers options:
@@ -36,6 +37,7 @@ window.onload = function() {
  * -- noZoomToExtent: true (to override zoom to vector data extent)
  * -- rotation
  * -- if no rasters, projCode can be set, else 4326 used
+ * - global: true (creates a reference to the map object in the CM global)
  */
   CM = CM || {};
   CM.rasters = CM.rasters || {};
@@ -44,7 +46,7 @@ window.onload = function() {
     projCode: 'EPSG:4326'
   };
   var rasterLayers = [], vectorLayers = [], views = {};
-  var defaultView, projCode, label;
+  var defaultView, projCode, label, i;
 
 /** main process
  */
@@ -55,7 +57,7 @@ window.onload = function() {
 
   // create raster sources and views
   if (options.rasters) {
-    var r = createRasters(options.rasters); // returns layers, object with proj defs, and layersDiv
+    var r = createRasters(options.rasters, CM.rasters); // returns layers, object with proj defs, and layersDiv
     rasterLayers = r[0];
     for (projCode in r[1]) {
       // 1 view per projection
@@ -106,17 +108,23 @@ window.onload = function() {
   // create default target div with 400px height and tabindex if not defined in options 
   mapOptions.target = options.target || createMapTarget(options.noKeyboardPan);
 
-  // add controls/widgets
-  if (options.widgets) {
-    mapOptions.controls = ol.control.defaults().extend(createControls(options.widgets));
-  }
-
   var map = new ol.Map(mapOptions);
   // stick map var in global so can be used in console
   if (options.global) {
   	CM.map = map;
   }
   
+  // add controls/widgets
+  if (options.widgets) {
+    var widgets = createWidgets(options.widgets);
+    for (i = 0; i < widgets.controls.length; i++) {
+      map.addControl(widgets.controls[i]);
+    }
+    for (i = 0; i < widgets.overlays.length; i++) {
+      map.addOverlay(widgets.overlays[i]);
+    }
+  }
+
   if (!options.zoomToExtent) {
     document.getElementById('status').style.display = 'none';
   }
@@ -127,25 +135,21 @@ window.onload = function() {
   // layerswitcher
   document.body.appendChild(layersDiv);
 
-  // add vector widgets
-  if (options.vectorWidgets && options.vectors) {
-    createVectorWidgets(options.vectorWidgets);
-  }
-
 
 /** functions
  */
   /**
    * param: options.rasters (array of ids)
+   *        CM.rasters (registry defs)
    * returns array with layers array, projs array, layersDiv
    */
-  function createRasters(rasters) {
-    // uses CM global
+  function createRasters(rasters, rasterDefs) {
     var rasterLayers = [];
     var projs = {};
+    // layerswitcher layer list and click handler
     var rastersDiv = document.createElement('div');
     rastersDiv.id = 'rasters';
-    var clickFunc = function(evt) {
+    var clickHandler = function(evt) {
       // uses 'map' as closure
       var oldLayer = map.getLayers().getArray().filter(function(l) {
         return l.activeLayer === true;
@@ -157,10 +161,11 @@ window.onload = function() {
       oldLayer.activeLayer = false;
       newLayer.setVisible(true);
       newLayer.activeLayer = true;
-      // FIXME getCode not currently exported
+      // FIXME getProjection not currently exported
       var newProjCode = newLayer.getSource().getProjection().getCode();
       var oldProjCode = oldLayer.getSource().getProjection().getCode();
       if (newProjCode != oldProjCode) {
+      	// new projection, so change view and reproject vectors
         var oldExtent = map.getView().calculateExtent(map.getSize());
         var transformer = ol.proj.getTransform(oldProjCode, newProjCode);
         var newExtent = ol.extent.transform(oldExtent, transformer);
@@ -179,10 +184,11 @@ window.onload = function() {
       }
     };
     for (var i = 0; i < rasters.length; i++) {
-      // this assumes correct raster defined
-      var raster = CM.rasters[rasters[i]];
+      // this assumes correct raster definition loaded
+      var raster = rasterDefs[rasters[i]];
       var projCode = raster.projCode || 'EPSG:3857';
       if (!projs[projCode]) {
+        // assumes all layers for 1 projection have same extent/resolutions
         projs[projCode] = {
           extent: raster.extent,
           resolutions: raster.resolutions
@@ -208,7 +214,7 @@ window.onload = function() {
       if (i === 0) {
         inputElem.checked = true;
       }
-      inputElem.onclick = clickFunc;
+      inputElem.onclick = clickHandler;
       rastersDiv.appendChild(inputElem);
       var labelSpan = document.createElement('label');
       labelSpan.innerHTML = inputElem.value;
@@ -228,7 +234,7 @@ window.onload = function() {
     var vectorsDiv = document.createElement('div');
     vectorsDiv.id = 'vectors';
     // function for click handler
-    var clickFunc = function(evt) {
+    var clickHandler = function(evt) {
       // uses 'map' as closure
       var newLayer = map.getLayers().getArray().filter(function(l) {
         return l.get('id') == evt.target.value;
@@ -266,7 +272,7 @@ window.onload = function() {
       inputElem.name = inputElem.value = s[i].id;
       inputElem.type = 'checkbox';
       inputElem.checked = true;
-      inputElem.onclick = clickFunc;
+      inputElem.onclick = clickHandler;
       vectorsDiv.appendChild(inputElem);
       var labelSpan = document.createElement('label');
       labelSpan.innerHTML = inputElem.value;
@@ -342,50 +348,42 @@ window.onload = function() {
    * returns: array of ol controls
    * TODO allow setting options for each widget/control
    */
-  function createControls(controls) {
-    var returns = [];
+  function createWidgets(widgets) {
+    var returns = {
+      controls: [],
+      overlays: []
+    };
     var functions = {
       scaleline: function() {
-        return new ol.control.ScaleLine();
+        return {
+          control: new ol.control.ScaleLine()
+        };
       },
       latlonmouse: function() {
         // mousePosition in LatLons
-        return new ol.control.MousePosition({
+        return {
+        	control: new ol.control.MousePosition({
           coordinateFormat: function(coordinate) {
             // 4 decimal places for latlons
             return ol.coordinate.toStringHDMS(coordinate) + ' (' +
                 ol.coordinate.format(coordinate, '{y}, {x}', 4) + ')';
           },
           projection: 'EPSG:4326'
-        });
+        })
+        };
       },
       projectedmouse: function() {
-        return new ol.control.MousePosition({
+        return {
+        	control: new ol.control.MousePosition({
           coordinateFormat: function(coordinate) {
             // no decimal places for projected coords
             return 'projected: ' + ol.coordinate.toStringXY(coordinate, 0);
           },
           // set class to override OL default position/style
           className: 'ol-mouse-position projmouse'
-        });
-      }
-    };
-    
-    for (var control in controls) {
-      if (functions[control]) {
-        returns.push(functions[control]());
-      }
-    }
-    return returns;
-  }
-
-  /**
-   * param: options.vectorWidgets (object with each required widget set to true)
-   * TODO allow setting options for each widget/control
-   */
-  function createVectorWidgets(widgets) {
-    // uses 'map'
-    var functions = {
+        })
+        };
+      },
       popup: function() {
         var popup = document.createElement('div');
         popup.id = 'popup';
@@ -396,11 +394,9 @@ window.onload = function() {
           positioning: ol.OverlayPositioning.BOTTOM_CENTER,
           stopEvent: true
         });
-        map.addOverlay(overlay);
         // click on feature displays attributes in overlay
         map.on(['click'], function(evt) {
           // uses overlay as closure
-          var coordinate = evt.getCoordinate();
           map.getFeatures({
             pixel: evt.getPixel(),
             layers: map.getLayers().getArray().filter(function(l) {
@@ -429,32 +425,30 @@ window.onload = function() {
               var el = overlay.getElement();
               el.innerHTML = html;
               el.style.display = 'block';
-              overlay.setPosition(coordinate);
+              overlay.setPosition(evt.getCoordinate());
             }
           });
         });
+        return {
+          overlay: overlay
+        };
       },
       tooltip: function() {
-        // uses 'map'
         var tooltip = document.createElement('div');
         tooltip.id = 'tooltip';
         tooltip.style.position = 'absolute';
         tooltip.style.zIndex = '20000';
         tooltip.style.backgroundColor = 'white';
         document.body.appendChild(tooltip);
-        // assumes only 1 canvas element
-        var canvas = document.getElementsByTagName('canvas')[0];
         /**
          * with canvas, vectors have no separate identity, so have to use mousemove
          * with map.getFeatures() to establish whether there is a feature at the
          * new mouse position. If so, make the tooltip div visible with title attribute
          */
         map.on(['mousemove'], function(evt) {
-          var pixel = evt.getPixel();
-          tooltip.style.top = (pixel[1] + 10) + 'px';
-          tooltip.style.left = (pixel[0] + 10) + 'px';
+          // uses 'map'
           map.getFeatures({
-            pixel: pixel,
+            pixel: evt.getPixel(),
             layers: map.getLayers().getArray().filter(function(l) {
               return l instanceof ol.layer.Vector;
             }),
@@ -467,8 +461,13 @@ window.onload = function() {
               // this might be problem if e.g. points on top of polygon:
               // which is required?
               var feature = features[0];
+              var tooltip = document.getElementById('tooltip');
+              // assumes only 1 canvas element
+              var canvas = document.getElementsByTagName('canvas')[0];
               if (feature) {
                 tooltip.innerHTML = feature.get('title') || '';
+                tooltip.style.left = (evt.getPixel()[0] + 10) + 'px';
+                tooltip.style.top = (evt.getPixel()[1] + 10) + 'px';
                 tooltip.style.display = 'block';
                 // change cursor to indicate to users that they can click on this point
                 canvas.style.cursor = 'pointer';
@@ -479,15 +478,22 @@ window.onload = function() {
             }
           });
         });
+        return {};
       }
-      // these aren't added to map, so nothing to return
     };
-
+    
     for (var widget in widgets) {
       if (functions[widget]) {
-        functions[widget]();
+        var widgie = functions[widget]();
+        if (widgie.control) {
+        	returns.controls.push(widgie.control);
+        }
+        if (widgie.overlay) {
+        	returns.overlays.push(widgie.overlay);
+        }
       }
     }
+    return returns;
   }
 
   function createMapTarget(noKeyboardPan) {
