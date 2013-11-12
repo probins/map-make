@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <title>OL3 createMap</title>
-  <link rel="stylesheet" href="../../../ol3/build/ol.css" />
-  <script src="../proj4js-compressed.js"></script>
-  <script src="../../../ol3/build/ol-simple.js"></script>
+  <link rel="stylesheet" href="../../../../ol3/build/ol.css" />
+  <script src="../../proj4js-compressed.js"></script>
+  <script src="../../../../ol3/build/ol-simple.js"></script>
 </head>
 <body>
   <!--<div id="map" style="height: 400px"></div>-->
   <div id="status" style="position: absolute; top: 40%; left: 40%;">Building
       map, please wait ...</div>
-  <script src="createMap.js"></script>
-  <script src="registry/sources/osm.js"></script>
-  <script src="registry/sources/cat.js"></script>
+  <script src="../createMap.js"></script>
+  <script src="../registry/sources/osm.js"></script>
+  <script src="../registry/sources/cat.js"></script>
   <style>.projmouse {top: 28px}</style>
   <script>
     var CM = CM || {};
@@ -21,7 +21,7 @@
       rasters: ['cat', 'osm'],
       vectors: [{
         parser: 'GeoJSON',
-        url: '../girona.geojson',
+        url: '../../girona.geojson',
         attribution: 'route lines: me',
         id: 'Girona',
         stroke: {
@@ -32,7 +32,7 @@
       },
       {
         parser: 'GeoJSON',
-        url: '../barcelona.geojson',
+        url: '../../barcelona.geojson',
         attribution: 'route lines: me',
         id: 'Barcelona',
         stroke: {
