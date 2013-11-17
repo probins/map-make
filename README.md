@@ -2,6 +2,8 @@
 
 A script and code registry to create maps using OpenLayers 3 by simply defining a json object.
 
+*Warning: this is at the moment a proof of concept demo, liable to change at any moment without notice. Use at your own peril.*
+
 ## Objective
 
 Simplify map creation for those with little or no knowledge of Javascript or cartography.

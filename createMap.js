@@ -363,25 +363,29 @@ window.onload = function() {
         // mousePosition in LatLons
         return {
         	control: new ol.control.MousePosition({
-          coordinateFormat: function(coordinate) {
-            // 4 decimal places for latlons
-            return ol.coordinate.toStringHDMS(coordinate) + ' (' +
-                ol.coordinate.format(coordinate, '{y}, {x}', 4) + ')';
-          },
-          projection: 'EPSG:4326'
-        })
+            coordinateFormat: function(coordinate) {
+              // 4 decimal places for latlons
+              return ol.coordinate.toStringHDMS(coordinate) + ' (' +
+                  ol.coordinate.format(coordinate, '{y}, {x}', 4) + ')';
+            },
+            projection: 'EPSG:4326'
+          })
         };
       },
       projectedmouse: function() {
+        var style = document.createElement('style');
+        // FIXME: make configurable
+        style.appendChild(document.createTextNode('.projmouse {top: 28px}'));
+        document.head.appendChild(style);
         return {
         	control: new ol.control.MousePosition({
-          coordinateFormat: function(coordinate) {
-            // no decimal places for projected coords
-            return 'projected: ' + ol.coordinate.toStringXY(coordinate, 0);
-          },
-          // set class to override OL default position/style
-          className: 'ol-mouse-position projmouse'
-        })
+            coordinateFormat: function(coordinate) {
+              // no decimal places for projected coords
+              return 'projected: ' + ol.coordinate.toStringXY(coordinate, 0);
+            },
+            // set class to override OL default position/style
+            className: 'ol-mouse-position projmouse'
+          })
         };
       },
       popup: function() {
