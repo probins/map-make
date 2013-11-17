@@ -11,3 +11,5 @@
     })
   };
 })(window.CM = window.CM || {});
+var test = 'test';
+this.tester = 'tester';
