@@ -2,14 +2,14 @@
  * ol loaded
  * FIXME: attribution fixed in English
  */
-(function(CM) {
+// (function(CM) {
   CM.rasters = CM.rasters || {};
   CM.rasters.osm = {
-    layer: new ol.layer.Tile({
+    getLayer: function() {
+    	return new ol.layer.Tile({
       source: new ol.source.OSM(),
       id: 'OpenStreetMap'
-    })
+    });
+    }
   };
-})(window.CM = window.CM || {});
-var test = 'test';
-this.tester = 'tester';
+// })(window.CM = window.CM || {});

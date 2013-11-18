@@ -2,15 +2,21 @@
  * Proj4js loaded
  * ol loaded
  */
- // FIXME id and attribution fixed in English
-Proj4js.defs['EPSG:25831'] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs';
 
-(function(CM) {
+// FIXME
+window.Proj4js = require('../../projMod');
+// FIXME non-api
+ol.HAVE_PROJ4JS = true;
+
+// (function() {
   var extent = [258000, 4485000, 536000, 4752000],
     projCode = 'EPSG:25831';
+Proj4js.defs[projCode] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs';
   CM.rasters = CM.rasters || {};
   CM.rasters.cat = {
-  	layer: new ol.layer.Tile({
+    getLayer: function() {
+ // FIXME id and attribution fixed in English
+  	  return new ol.layer.Tile({
       source: new ol.source.TileWMS({
         url: 'http://mapcache.icc.cat/map/bases/service?',
         attributions: [new ol.Attribution({
@@ -25,9 +31,10 @@ Proj4js.defs['EPSG:25831'] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs'
         projection: projCode
       }),
       id: 'Catalan topos'
-    }),
+    });
+    },
     extent: extent,
     projCode: projCode,
     resolutions: [1100, 550, 275, 100, 50, 25, 10, 5, 2, 1, 0.5, 0.25]
   };
-})(window.CM = window.CM || {});
+// })();

@@ -1,8 +1,6 @@
 // uses following functions not currently exported:
 // source.getProjection(); vectorLayer.featureCache_.idLookup_ (getFeatures)
 
-// fix so proj can handle 3857
-Proj4js.defs['EPSG:3857'] = Proj4js.defs['EPSG:3785'];
 // wait for scripts to load
 window.onload = function() {
 /** initialise namespace/global var (CM stands for 'create map' :-))
@@ -40,12 +38,13 @@ window.onload = function() {
  * - global: true (creates a reference to the map object in the CM global)
  */
   CM = CM || {};
-  CM.rasters = CM.rasters || {};
+  CM.rasters = {};
 
   var options = CM.options || {
     projCode: 'EPSG:4326'
   };
-  var rasterLayers = [], vectorLayers = [], views = {};
+  var imports = [];
+  var views = {};
   var defaultView, projCode, label, i;
 
 /** main process
@@ -55,21 +54,53 @@ window.onload = function() {
   var layersDiv = document.createElement('div');
   layersDiv.id = 'layerswitch';
 
+  // create map
+  var map = new ol.Map({
+    renderer: ol.RendererHint.CANVAS, // currently only canvas handles vectors
+    // create default target div with 400px height and tabindex if not defined in options 
+    target: options.target || createMapTarget(options.noKeyboardPan)
+  });
+  // stick map var in global so can be used in console
+  if (options.global) {
+    CM.map = map;
+  }
+  
   // create raster sources and views
   if (options.rasters) {
-    var r = createRasters(options.rasters, CM.rasters); // returns layers, object with proj defs, and layersDiv
-    rasterLayers = r[0];
-    for (projCode in r[1]) {
-      // 1 view per projection
-      if (projCode != 'dfault') {
-        views[projCode] = createView(options, projCode, r[1][projCode].extent, r[1][projCode].resolutions);
-      }
+    // fetch raster sources
+    for (i = 0; i < options.rasters.length; i++) {
+      imports.push('../registry/sources/' + options.rasters[i]);
+      // imports.push('github:probins/createmap/registry/sources/' + options.rasters[i]);
     }
-    defaultView = r[1].dfault;
-    label = document.createElement('div');
-    label.innerHTML = 'Rasters'; // FIXME English
-    layersDiv.appendChild(label);
-    layersDiv.appendChild(r[2]);
+  // jspm.config({
+  //   shim: {
+  //     // '../../../proj4js-compressed': true,
+  //     '../registry/sources/cat': ['../../projMod']
+  //   }
+  // });
+    jspm.import(imports, function() {
+      var r = createRasters(options.rasters, CM.rasters); // returns layers, object with proj defs, and layersDiv
+      for (projCode in r[1]) {
+        // 1 view per projection
+        if (projCode != 'dfault') {
+          views[projCode] = createView(options, projCode, r[1][projCode].extent, r[1][projCode].resolutions);
+        }
+      }
+      // rasterLayers = r[0];
+      defaultView = r[1].dfault;
+      label = document.createElement('div');
+      label.innerHTML = 'Rasters'; // FIXME English
+      layersDiv.appendChild(label);
+      layersDiv.appendChild(r[2]);
+      if (!options.vectors) {
+        r[0][0].setVisible(true);
+      }
+      // add layers to map
+      for (i = 0; i < r[0].length; i++) {
+        map.addLayer(r[0][i]);
+      }
+      map.setView(views[defaultView]);
+    });
   } else {
     // vectors only, so use 4326 view
     projCode = 'EPSG:4326';
@@ -79,8 +110,8 @@ window.onload = function() {
 
   // create vector sources
   if (options.vectors) {
-    var v = createVectors(options.vectors);
-    vectorLayers = v[0];
+    var v = createVectors(options.vectors); // returns layers array and div array
+    // vectorLayers = v[0];
     label = document.createElement('div');
     label.innerHTML = 'Vectors'; // FIXME English
     layersDiv.appendChild(label);
@@ -88,32 +119,31 @@ window.onload = function() {
     // by default, maps with vectors zoom to data extent, unless
     // noZoomToExtent set
     options.zoomToExtent = options.noZoomToExtent ? false : true;
-  }
-
-  if (options.zoomToExtent) {
-    // if zoomToExtent, delay display of layers until vector data loaded
-    addFeatureListener(vectorLayers);
-  } else {
-    if (rasterLayers[0]) {
-      rasterLayers[0].setVisible(true);
+    if (options.zoomToExtent) {
+      // if zoomToExtent, delay display of layers until vector data loaded
+      addFeatureListener(v[0]);
+    }
+    // add layers to map
+    for (i = 0; i < v[0].length; i++) {
+      map.addLayer(v[0][i]);
+    }
+    if (!options.rasters) {
+      map.setView(views[defaultView]);
     }
   }
-  
-  var mapOptions = {
-    renderer: ol.RendererHint.CANVAS, // currently only canvas handles vectors
-    layers: rasterLayers.concat(vectorLayers),
-    view: views[defaultView]
-  };
 
-  // create default target div with 400px height and tabindex if not defined in options 
-  mapOptions.target = options.target || createMapTarget(options.noKeyboardPan);
-
-  var map = new ol.Map(mapOptions);
-  // stick map var in global so can be used in console
-  if (options.global) {
-  	CM.map = map;
-  }
+  // if (!options.zoomToExtent) {
+  //   if (rasterLayers[0]) {
+  //     rasterLayers[0].setVisible(true);
+  //   }
+  // }
   
+  // var mapOptions = {
+  //   layers: rasterLayers.concat(vectorLayers),
+  //   view: views[defaultView]
+  // };
+
+
   // add controls/widgets
   if (options.widgets) {
     var widgets = createWidgets(options.widgets);
@@ -129,7 +159,7 @@ window.onload = function() {
     document.getElementById('status').style.display = 'none';
   }
   if (!options.noKeyboardPan) {
-  	map.getTarget().focus();
+    map.getTarget().focus();
   }
 
   // layerswitcher
@@ -165,7 +195,7 @@ window.onload = function() {
       var newProjCode = newLayer.getSource().getProjection().getCode();
       var oldProjCode = oldLayer.getSource().getProjection().getCode();
       if (newProjCode != oldProjCode) {
-      	// new projection, so change view and reproject vectors
+        // new projection, so change view and reproject vectors
         var oldExtent = map.getView().calculateExtent(map.getSize());
         var transformer = ol.proj.getTransform(oldProjCode, newProjCode);
         var newExtent = ol.extent.transform(oldExtent, transformer);
@@ -198,6 +228,7 @@ window.onload = function() {
           projs.dfault = projCode;
         }
       }
+      raster.layer = raster.getLayer();
       // set layers invisible to start with
       raster.layer.setVisible(false);
       if (i === 0) {
@@ -490,10 +521,10 @@ window.onload = function() {
       if (functions[widget]) {
         var widgie = functions[widget]();
         if (widgie.control) {
-        	returns.controls.push(widgie.control);
+          returns.controls.push(widgie.control);
         }
         if (widgie.overlay) {
-        	returns.overlays.push(widgie.overlay);
+          returns.overlays.push(widgie.overlay);
         }
       }
     }
@@ -510,4 +541,6 @@ window.onload = function() {
     document.body.appendChild(mapDiv);
     return mapDiv;
   }
+// });
+      // });
 };
