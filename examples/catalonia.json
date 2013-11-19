@@ -1,0 +1,10 @@
+    {
+      "rasters": ["osm", "cat"],
+      "widgets": {
+        "scaleline": true,
+        "latlonmouse": true,
+        "projectedmouse": true,
+        "tooltip": true,
+        "popup": true
+      }
+    }

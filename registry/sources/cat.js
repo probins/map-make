@@ -3,17 +3,15 @@
  * ol loaded
  */
 
-// FIXME
-window.Proj4js = require('../../projMod');
-// FIXME non-api
-ol.HAVE_PROJ4JS = true;
+  // FIXME
+  window.Proj4js = require('../../projMod');
+  // FIXME non-api
+  ol.HAVE_PROJ4JS = true;
 
-// (function() {
   var extent = [258000, 4485000, 536000, 4752000],
     projCode = 'EPSG:25831';
-Proj4js.defs[projCode] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs';
-  CM.rasters = CM.rasters || {};
-  CM.rasters.cat = {
+  Proj4js.defs[projCode] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs';
+  module.exports = {
     getLayer: function() {
  // FIXME id and attribution fixed in English
   	  return new ol.layer.Tile({
@@ -37,4 +35,3 @@ Proj4js.defs[projCode] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs';
     projCode: projCode,
     resolutions: [1100, 550, 275, 100, 50, 25, 10, 5, 2, 1, 0.5, 0.25]
   };
-// })();

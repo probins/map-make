@@ -3,10 +3,7 @@
 
 // wait for scripts to load
 window.onload = function() {
-/** initialise namespace/global var (CM stands for 'create map' :-))
- * other scripts update this var when they are loaded.
- * Currently, there are 2 properties: options and rasters.
- * Rasters are defined from registry scripts, one for each source/layer.
+/** Rasters are defined from registry scripts, one for each source/layer.
  * - each raster defines the projection/resolutions/extent for that source
  * - a different view is created for each projection
  * - only 1 raster can currently be displayed at one time
@@ -35,15 +32,16 @@ window.onload = function() {
  * -- noZoomToExtent: true (to override zoom to vector data extent)
  * -- rotation
  * -- if no rasters, projCode can be set, else 4326 used
- * - global: true (creates a reference to the map object in the CM global)
  */
-  CM = CM || {};
-  CM.rasters = {};
+ 
+ // FIXME fixed url
+ jspm.import('./examples/' + document.getElementById('mapDef').innerHTML + '.json!json',
+      function(mapDef) {
 
-  var options = CM.options || {
+  var options = mapDef || {
     projCode: 'EPSG:4326'
   };
-  var imports = [];
+  // var imports = [];
   var views = {};
   var defaultView, projCode, label, i;
 
@@ -60,32 +58,33 @@ window.onload = function() {
     // create default target div with 400px height and tabindex if not defined in options 
     target: options.target || createMapTarget(options.noKeyboardPan)
   });
-  // stick map var in global so can be used in console
-  if (options.global) {
-    CM.map = map;
-  }
-  
+
   // create raster sources and views
   if (options.rasters) {
+    var imports = [], config = {}, dir = './registry/sources/'; //FIXME fixed address
+    // imports.push('github:probins/createmap/registry/sources/' + options.rasters[i]);
     // fetch raster sources
     for (i = 0; i < options.rasters.length; i++) {
-      imports.push('../registry/sources/' + options.rasters[i]);
-      // imports.push('github:probins/createmap/registry/sources/' + options.rasters[i]);
+      var modName = options.rasters[i];
+      config[modName] = dir + modName;
+      imports.push(modName);
     }
-  // jspm.config({
-  //   shim: {
-  //     // '../../../proj4js-compressed': true,
-  //     '../registry/sources/cat': ['../../projMod']
-  //   }
-  // });
+  jspm.config({
+    map: config
+  });
     jspm.import(imports, function() {
-      var r = createRasters(options.rasters, CM.rasters); // returns layers, object with proj defs, and layersDiv
+      var rasters = {};
+    for (i = 0; i < options.rasters.length; i++) {
+      rasters[options.rasters[i]] = jspm.get(dir + options.rasters[i]);
+    }
+      var r = createRasters(options.rasters, rasters); // returns layers, object with proj defs, and layersDiv
       for (projCode in r[1]) {
         // 1 view per projection
         if (projCode != 'dfault') {
           views[projCode] = createView(options, projCode, r[1][projCode].extent, r[1][projCode].resolutions);
         }
       }
+      // if (i == options.rasters.length) {
       // rasterLayers = r[0];
       defaultView = r[1].dfault;
       label = document.createElement('div');
@@ -165,12 +164,15 @@ window.onload = function() {
   // layerswitcher
   document.body.appendChild(layersDiv);
 
+  // create map module and store in loader
+  jspm.set('map', new Module(map));
+
 
 /** functions
  */
   /**
    * param: options.rasters (array of ids)
-   *        CM.rasters (registry defs)
+   *        rasterDefs (registry defs)
    * returns array with layers array, projs array, layersDiv
    */
   function createRasters(rasters, rasterDefs) {
@@ -541,6 +543,5 @@ window.onload = function() {
     document.body.appendChild(mapDiv);
     return mapDiv;
   }
-// });
-      // });
+ });
 };

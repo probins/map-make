@@ -1,0 +1,41 @@
+    {
+      "global": true,
+      "rasters": ["osm", "cat"],
+      // vectors: [{
+      //   parser: "GeoJSON",
+      //   url: "../../girona.geojson",
+      //   attribution: "route lines: me",
+      //   id: "Girona",
+      //   stroke: {
+      //     color: "#0000cc",
+      //     width: 3,
+      //     opacity: 0.7
+      //   }
+      // },
+      // {
+      //   parser: "GeoJSON",
+      //   url: "../../barcelona.geojson",
+      //   attribution: "route lines: me",
+      //   id: "Barcelona",
+      //   stroke: {
+      //     color: "#0000cc",
+      //     width: 3,
+      //     opacity: 0.7
+      //   }
+      // }],
+      "widgets": {
+        "scaleline": true,
+        "latlonmouse": true,
+        "projectedmouse": true,
+        "tooltip": true,
+        "popup": true
+      }
+    // noZoomToExtent: true
+    // center: {
+    //   lon: -77.93255,
+    //   lat: 37.9555
+    // }
+      // zoom: 3
+    // target: "map"
+    // noKeyboardPan: true
+    }
