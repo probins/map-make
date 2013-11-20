@@ -1,8 +1,7 @@
 // uses following functions not currently exported:
-// source.getProjection(); vectorLayer.featureCache_.idLookup_ (getFeatures)
+// source.getProjection(); vectorLayer.featureCache_.idLookup_ (getFeatures);
+// ol.HAVE_PROJ4JS
 
-// wait for scripts to load
-window.onload = function() {
 /** Rasters are defined from registry scripts, one for each source/layer.
  * - each raster defines the projection/resolutions/extent for that source
  * - a different view is created for each projection
@@ -33,15 +32,24 @@ window.onload = function() {
  * -- rotation
  * -- if no rasters, projCode can be set, else 4326 used
  */
+
+// wait for scripts to load
+window.onload = function() {
+  var config = {
+    ol: './ol-simple',
+    proj: './projMod'
+  };
+  jspm.config({
+    map: config
+  });
  
- // FIXME fixed url
- jspm.import('./examples/' + document.getElementById('mapDef').innerHTML + '.json!json',
-      function(mapDef) {
+ // FIXME fixed url; assumes mapDef element exists and has content
+ jspm.import(['./examples/' + document.getElementById('mapDef').innerHTML + '.json!json', 'ol'],
+      function(mapDef, ol) {
 
   var options = mapDef || {
     projCode: 'EPSG:4326'
   };
-  // var imports = [];
   var views = {};
   var defaultView, projCode, label, i;
 
@@ -61,7 +69,7 @@ window.onload = function() {
 
   // create raster sources and views
   if (options.rasters) {
-    var imports = [], config = {}, dir = './registry/sources/'; //FIXME fixed address
+    var imports = [], dir = './registry/sources/'; //FIXME fixed address
     // imports.push('github:probins/createmap/registry/sources/' + options.rasters[i]);
     // fetch raster sources
     for (i = 0; i < options.rasters.length; i++) {
@@ -69,16 +77,16 @@ window.onload = function() {
       config[modName] = dir + modName;
       imports.push(modName);
     }
-  jspm.config({
-    map: config
-  });
+    jspm.config({
+      map: config
+    });
     jspm.import(imports, function() {
       var rasters = {};
-    for (i = 0; i < options.rasters.length; i++) {
-      rasters[options.rasters[i]] = jspm.get(dir + options.rasters[i]);
-    }
+      for (i = 0; i < options.rasters.length; i++) {
+        rasters[options.rasters[i]] = jspm.get(dir + options.rasters[i]);
+      }
       var r = createRasters(options.rasters, rasters); // returns layers, object with proj defs, and layersDiv
-      for (projCode in r[1]) {
+      for (var projCode in r[1]) {
         // 1 view per projection
         if (projCode != 'dfault') {
           views[projCode] = createView(options, projCode, r[1][projCode].extent, r[1][projCode].resolutions);
@@ -328,7 +336,7 @@ window.onload = function() {
     var sourcesRead = 0;
     // callback
     var featureAdd = function(e) {
-    	// uses 'map' as closure
+      // uses 'map' as closure
       // FIXME hack until https://github.com/openlayers/ol3/issues/1134 fixed
       ol.extent.extend(vectorsExtent, e.extents ? e.extents[0] : e.a[0]);
       sourcesRead++;
@@ -355,7 +363,7 @@ window.onload = function() {
    */
   function createView(options, projCode, extent, resolutions) {
     // default center is center of raster extents; default zoom 0
-  	var defaultCenter = extent ? ol.extent.getCenter(extent)
+    var defaultCenter = extent ? ol.extent.getCenter(extent)
         : [0, 0];
     var center = options.center ?
         ol.proj.transform([options.center.lon, options.center.lat], 'EPSG:4326', projCode)
@@ -395,7 +403,7 @@ window.onload = function() {
       latlonmouse: function() {
         // mousePosition in LatLons
         return {
-        	control: new ol.control.MousePosition({
+          control: new ol.control.MousePosition({
             coordinateFormat: function(coordinate) {
               // 4 decimal places for latlons
               return ol.coordinate.toStringHDMS(coordinate) + ' (' +
@@ -411,7 +419,7 @@ window.onload = function() {
         style.appendChild(document.createTextNode('.projmouse {top: 28px}'));
         document.head.appendChild(style);
         return {
-        	control: new ol.control.MousePosition({
+          control: new ol.control.MousePosition({
             coordinateFormat: function(coordinate) {
               // no decimal places for projected coords
               return 'projected: ' + ol.coordinate.toStringXY(coordinate, 0);
