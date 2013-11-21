@@ -1,0 +1,25 @@
+    {
+    	"description": "OpenStreetMap and Catalan rasters with 2 vector sources",
+      "rasters": ["osm", "catTopo"],
+      "vectors": [{
+        "parser": "GeoJSON",
+        "url": "../../girona.geojson",
+        "attribution": "route lines: me",
+        "id": "Girona",
+        "styles": ["bluelines"]
+      },
+      {
+        "parser": "GeoJSON",
+        "url": "../../barcelona.geojson",
+        "attribution": "route lines: me",
+        "id": "Barcelona",
+        "styles": ["bluelines"]
+      }],
+      "widgets": {
+        "scaleline": true,
+        "latlonmouse": true,
+        "projectedmouse": true,
+        "tooltip": true,
+        "popup": true
+      }
+    }

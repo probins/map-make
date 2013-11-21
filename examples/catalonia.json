@@ -1,10 +1,14 @@
     {
-      "rasters": ["osm", "cat"],
+    	"description": "OpenStreetMap and Catalan topo rasters without vectors",
+      "rasters": ["catTopo", "osm"],
       "widgets": {
         "scaleline": true,
         "latlonmouse": true,
-        "projectedmouse": true,
-        "tooltip": true,
-        "popup": true
-      }
+        "projectedmouse": true
+      },
+      "center": {
+        "lon": 2,
+        "lat": 42
+      },
+      "zoom": 3
     }
