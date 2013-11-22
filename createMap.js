@@ -30,14 +30,16 @@
  */
 
 // controller script
+// uses jspm global
 
 // wait for scripts to load
 window.onload = function() {
   // literal vars
 	var exampleDir = './examples/',
-      sourceDir = './registry/sources/',
-      styleDir = './registry/styles/';
-  // 'github:probins/createmap/registry/sources/'
+      registry = './registry/', // 'github:probins/createmap/registry/
+      sourceDir = registry + 'sources/',
+      styleDir = registry + 'styles/';
+  // jspm module name map
   var config = {
     ol: './ol-simple',
     proj: './projMod'
@@ -72,13 +74,13 @@ window.onload = function() {
   // import mapDef and olMap
   // FIXME assumes there is a mapDef in examples dir for this name
   jspm.import([exampleDir + mapDef + '.json!json',
-      './olMap', 'ol'], function(mapDef, olMap, ol) {
+      './olMap'], function(mapDef, olMap) {
     var options = mapDef || {
       projCode: 'EPSG:4326'
     };
 
-    // import raster/style modules based on config
-    var imports = [];
+    // import raster/style modules from registry based on config
+    var imports = [], styles = [];
     if (options.rasters) {
       for (i = 0; i < options.rasters.length; i++) {
         var modName = options.rasters[i];
@@ -90,7 +92,9 @@ window.onload = function() {
       for (i = 0; i < options.vectors.length; i++) {
         if (options.vectors[i].styles) {
           for (var j = 0; j < options.vectors[i].styles.length; j++) {
-            imports.push(styleDir + options.vectors[i].styles[j]);
+            var style = options.vectors[i].styles[j];
+            styles.push(style);
+            imports.push(styleDir + style + '.json!json');
           }
         }
       }
@@ -101,74 +105,57 @@ window.onload = function() {
     });
     // fetch raster/style modules
     jspm.import(imports, function() {
-    var views = {};
-    var defaultView, projCode, label, i;
-  // create layer switcher div
-  var layersDiv = document.createElement('div');
-  layersDiv.id = 'layerswitch';
+      var i, div;
+      // create layer switcher div
+      var layersDiv = document.createElement('div');
+      layersDiv.id = 'layerswitch';
 
-  // create map
-  olMap.createMap(options.target, options.noKeyboardPan);
-  var map = olMap.get();
+      // create map
+      olMap.createMap(options.target, options.noKeyboardPan);
 
-    if (options.rasters) {
-  // create raster sources and views
-      var rasters = {};
-      for (i = 0; i < options.rasters.length; i++) {
-        rasters[options.rasters[i]] = arguments[i];
+      if (options.rasters) {
+        // create raster sources and views
+        var rasters = {};
+        for (i = 0; i < options.rasters.length; i++) {
+          rasters[options.rasters[i]] = arguments[i];
+        }
+        div = olMap.createRasters(rasters, options); // returns layers div
+        addLayersDiv(div, layersDiv, 'Rasters'); // FIXME English
+        if (!options.vectors) {
+          olMap.make1stLayerVisible();
+        }
+      } else {
+        olMap.create4326View();
       }
-      var r = olMap.createRasters(options.rasters, rasters); // returns layers, object with proj defs, and layersDiv
-      for (projCode in r[1]) {
-        // 1 view per projection
-        if (projCode != 'dfault') {
-          views[projCode] = olMap.createView(options, projCode, r[1][projCode].extent, r[1][projCode].resolutions);
+
+      // create vector sources
+      if (options.vectors) {
+        var styleDefs = {};
+        if (styles) {
+          for (i = options.rasters.length; i < arguments.length; i++) {
+            styleDefs[styles[i-options.rasters.length]] = arguments[i];
+          }
+        }
+        for (i = 0; i < options.vectors.length; i++) {
+          if (options.vectors[i].styles) {
+            options.vectors[i].styles[0] = styleDefs[options.vectors[i].styles[0]]; //FIXME >1
+          }
+        }
+
+        div = olMap.createVectors(options.vectors); // returns layers div
+        addLayersDiv(div, layersDiv, 'Vectors'); // FIXME English
+
+        // by default, maps with vectors zoom to data extent, unless
+        // noZoomToExtent set
+        options.zoomToExtent = options.noZoomToExtent ? false : true;
+        if (options.zoomToExtent) {
+          // if zoomToExtent, delay display of layers until vector data loaded
+          olMap.addFeaturesListener();
+        }
+        if (!options.rasters) {
+          olMap.setDefaultView('EPSG:4326');
         }
       }
-      // if (i == options.rasters.length) {
-      // rasterLayers = r[0];
-      defaultView = r[1].dfault;
-      label = document.createElement('div');
-      label.innerHTML = 'Rasters'; // FIXME English
-      layersDiv.appendChild(label);
-      layersDiv.appendChild(r[2]);
-      if (!options.vectors) {
-        r[0][0].setVisible(true);
-      }
-      // add layers to map
-      for (i = 0; i < r[0].length; i++) {
-        map.addLayer(r[0][i]);
-      }
-      map.setView(views[defaultView]);
-  } else {
-    // vectors only, so use 4326 view
-    projCode = 'EPSG:4326';
-    views[projCode] = olMap.createView({projCode: projCode}, options);
-    defaultView = projCode;
-  }
-
-  // create vector sources
-  if (options.vectors) {
-    var v = olMap.createVectors(options.vectors); // returns layers array and div array
-    // vectorLayers = v[0];
-    label = document.createElement('div');
-    label.innerHTML = 'Vectors'; // FIXME English
-    layersDiv.appendChild(label);
-    layersDiv.appendChild(v[1]);
-    // by default, maps with vectors zoom to data extent, unless
-    // noZoomToExtent set
-    options.zoomToExtent = options.noZoomToExtent ? false : true;
-    if (options.zoomToExtent) {
-      // if zoomToExtent, delay display of layers until vector data loaded
-      olMap.addFeatureListener(v[0]);
-    }
-    // add layers to map
-    for (i = 0; i < v[0].length; i++) {
-      map.addLayer(v[0][i]);
-    }
-    if (!options.rasters) {
-      map.setView(views[defaultView]);
-    }
-  }
 
   // if (!options.zoomToExtent) {
   //   if (rasterLayers[0]) {
@@ -176,26 +163,30 @@ window.onload = function() {
   //   }
   // }
   
-  // var mapOptions = {
-  //   layers: rasterLayers.concat(vectorLayers),
-  //   view: views[defaultView]
-  // };
+      // add controls/widgets
+      if (options.widgets) {
+        olMap.addWidgets(options.widgets);
+      }
 
+      if (!options.zoomToExtent) {
+        var status = document.getElementById('status');
+        if (status) {
+          status.style.display = 'none';
+        }
+      }
+      if (!options.noKeyboardPan) {
+        olMap.get().getTarget().focus();
+      }
 
-  // add controls/widgets
-  if (options.widgets) {
-    olMap.addWidgets(options.widgets);
-  }
-
-  if (!options.zoomToExtent) {
-    document.getElementById('status').style.display = 'none';
-  }
-  if (!options.noKeyboardPan) {
-    olMap.get().getTarget().focus();
-  }
-
-  // layerswitcher
-  document.body.appendChild(layersDiv);
-  });
+      // layerswitcher
+      document.body.appendChild(layersDiv);
+      
+      function addLayersDiv(div, layersDiv, name) {
+        var label = document.createElement('div');
+        label.innerHTML = name;
+        layersDiv.appendChild(label);
+        layersDiv.appendChild(div);
+      }
     });
+  });
 };

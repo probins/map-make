@@ -1,7 +1,7 @@
 {
-        "stroke": {
-          "color": "#0000cc",
-          "width": 3,
-          "opacity": 0.7
-        }
+  "stroke": {
+    "color": "#0000cc",
+    "width": 3,
+    "opacity": 0.7
+  }
 }
