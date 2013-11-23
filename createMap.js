@@ -35,14 +35,15 @@
 // wait for scripts to load
 window.onload = function() {
   // literal vars
-	var exampleDir = './examples/',
-      registry = './registry/', // 'github:probins/createmap/registry/
+	var baseDir = window.location.host == 'c9.io' ? './' : 'github:probins/createmap/',
+      exampleDir = baseDir + 'examples/',
+      registry = baseDir + 'registry/',
       sourceDir = registry + 'sources/',
       styleDir = registry + 'styles/';
   // jspm module name map
   var config = {
-    ol: './ol-simple',
-    proj: './projMod'
+    ol: baseDir + 'olMod',
+    proj: baseDir + 'projMod'
   };
   jspm.config({
     map: config
@@ -74,7 +75,7 @@ window.onload = function() {
   // import mapDef and olMap
   // FIXME assumes there is a mapDef in examples dir for this name
   jspm.import([exampleDir + mapDef + '.json!json',
-      './olMap'], function(mapDef, olMap) {
+      baseDir + 'olMap'], function(mapDef, olMap) {
     var options = mapDef || {
       projCode: 'EPSG:4326'
     };

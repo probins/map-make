@@ -1,8 +1,8 @@
-// uses following functions not currently exported:
-// source.getProjection(); vectorLayer.featureCache_.idLookup_ (getFeatures);
+// layerswitcher to different projections uses following functions not currently exported:
+// source.getProjection(); vectorLayer.getFeatures();
 
 var ol = require('ol');
-require('../../../../ol3/build/ol.css!');
+require('./ol.css!');
 
 // 1 view per projection
 var map, views = {};
@@ -100,7 +100,7 @@ module.exports = {
         });
         for (var i = 0; i < vectorLayers.length; i++) {
           // FIXME not in api
-          var features = vectorLayers[i].featureCache_.idLookup_;
+          var features = vectorLayers[i].getFeatures();
           for (var feature in features) {
             features[feature].getGeometry().transform(transformer);
           }
@@ -347,12 +347,9 @@ module.exports = {
                   html += '<br>';
                 }
                 html += 'Id: '	+ features[i].getId();
-                var atts = features[i].getAttributes();
+                var atts = features[i].getAttributes(true);
                 for (var att in atts) {
-                  // FIXME https://github.com/openlayers/ol3/issues/1257
-                  if (att !== 'geometry') {
-                    html += '<br>' + att + ': ' + atts[att];
-                  }
+                  html += '<br>' + att + ': ' + atts[att];
                 }
               }
               var el = overlay.getElement();
