@@ -4,10 +4,10 @@
  */
 var ol = require('ol');
 module.exports = {
-  getLayer: function() {
-    return new ol.layer.Tile({
+  getLayers: function() {
+    return [new ol.layer.Tile({
       source: new ol.source.OSM(),
       id: 'OpenStreetMap'
-    });
+    })];
   }
 };

@@ -1,0 +1,14 @@
+    {
+    	"description": "OpenSpace topo rasters without vectors",
+      "rasters": ["gb"],
+      "widgets": {
+        "scaleline": true,
+        "latlonmouse": true,
+        "projectedmouse": true
+      },
+      "center": {
+        "lon": -1,
+        "lat": 53
+      },
+      "zoom": 3
+    }

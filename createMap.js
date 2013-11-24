@@ -35,6 +35,7 @@
 // wait for scripts to load
 window.onload = function() {
   // literal vars
+  // FIXME tied to c9
 	var baseDir = window.location.host == 'c9.io' ? './' : 'github:probins/createmap/',
       exampleDir = baseDir + 'examples/',
       registry = baseDir + 'registry/',
@@ -42,7 +43,7 @@ window.onload = function() {
       styleDir = registry + 'styles/';
   // jspm module name map
   var config = {
-    ol: baseDir + 'olMod',
+    ol: baseDir + 'olsimpMod',
     proj: baseDir + 'projMod'
   };
   jspm.config({

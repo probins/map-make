@@ -1,6 +1,7 @@
 /** 
  * Catalan Topo WMS
  * EPSG:25831
+ * http://www.icc.cat/eng/Home-ICC/Digital-geoinformation/Online-services-Geoservices/Quick-WMS-WMTS-of-raster-cartography
  */
 
 var ol = require('ol');
@@ -11,9 +12,9 @@ var extent = [258000, 4485000, 536000, 4752000],
     projCode = 'EPSG:25831';
 window.Proj4js.defs[projCode] = '+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs';
 module.exports = {
-  getLayer: function() {
+  getLayers: function() {
     // FIXME id and attribution fixed in English
-    return new ol.layer.Tile({
+    return [new ol.layer.Tile({
       source: new ol.source.TileWMS({
         url: 'http://mapcache.icc.cat/map/bases/service?',
         attributions: [new ol.Attribution({
@@ -28,7 +29,7 @@ module.exports = {
         projection: projCode
       }),
       id: 'Catalan topos'
-    });
+    })];
   },
   extent: extent,
   projCode: projCode,

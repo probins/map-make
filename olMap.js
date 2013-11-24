@@ -122,33 +122,39 @@ module.exports = {
         }
         views[projCode] = createView(options, projCode, raster.extent, raster.resolutions);
       }
-      raster.layer = raster.getLayer();
-      // set layers invisible to start with
-      raster.layer.setVisible(false);
-      if (i === 0) {
-        raster.layer.activeLayer = true;
-      } else {
-        raster.layer.activeLayer = false;
-      }
-      // add layer to map
-      map.addLayer(raster.layer);
+      var layers = raster.getLayers();
+      for (var j = 0; j < layers.length; j++) {
+        var layer = layers[j];
+        // set layers invisible to start with
+        layer.setVisible(false);
+        if (i === 0) {
+          layer.activeLayer = true;
+        } else {
+          layer.activeLayer = false;
+        }
+        // add layer to map
+        map.addLayer(layer);
       
-      // create layerswitcher element
-      var inputElem = document.createElement('input');
-      inputElem.name = 'rasters';
-      inputElem.value = inputElem.id = raster.layer.get('id');
-      inputElem.type = 'radio';
-      if (i === 0) {
-        inputElem.checked = true;
+        // create layerswitcher element
+        var inputElem = document.createElement('input');
+        inputElem.name = 'rasters';
+        inputElem.value = inputElem.id = layer.get('id');
+        inputElem.type = 'radio';
+        if (i === 0) {
+          inputElem.checked = true;
+        }
+        var label = document.createElement('label');
+        label.htmlFor = label.innerHTML = inputElem.value;
+        label.style.verticalAlign = 'bottom';
+        var div = document.createElement('div');
+        div.appendChild(inputElem);
+        div.appendChild(label);
+        div.onclick = switcherClickHandler;
+        rastersDiv.appendChild(div);
       }
-      var label = document.createElement('label');
-      label.htmlFor = label.innerHTML = inputElem.value;
-      label.style.verticalAlign = 'bottom';
-      var div = document.createElement('div');
-      div.appendChild(inputElem);
-      div.appendChild(label);
-      div.onclick = switcherClickHandler;
-      rastersDiv.appendChild(div);
+      if (raster.viewEvent) {
+        views[projCode].on(raster.viewEvent.type, raster.viewEvent.func);
+      }
     }
     // use view for 1st layer/projection
     map.setView(views[defaultView]);

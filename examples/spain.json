@@ -1,14 +1,14 @@
     {
-    	"description": "OpenStreetMap, IGN and Catalan topo rasters without vectors",
-      "rasters": ["catTopo", "e", "osm"],
+    	"description": "IGN topo rasters without vectors",
+      "rasters": ["e"],
       "widgets": {
         "scaleline": true,
         "latlonmouse": true,
         "projectedmouse": true
       },
       "center": {
-        "lon": 2,
-        "lat": 42
+        "lon": -2,
+        "lat": 40
       },
       "zoom": 2
     }
