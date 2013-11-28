@@ -1,8 +1,0 @@
-{
-	"name": "Create OL map",
-    "min": "backbone.marionette",
-    "files": ["registry/", "examples/", "createMap.js", "olMap.js", "olMod.js", "olsimpMod.js", "projMod.js", "ol.css", "test1.js"],
-    "buildConfig": {
-        "traceur": "true"
-    }
-}
