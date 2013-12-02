@@ -13,8 +13,8 @@
       map, please wait ...</div>
   <script src="https://jspm.io/loader.js"></script>
   <script>
-    jspm.local = true;
-    jspm.import('../lib/createMap');
+    jspm.config({baseUrl: './lib/'});
+    jspm.import('./createMap');
   </script>
   <!--<script src="../lib/createMap.js"></script>-->
   <!--<script src="../registry/sources/osm.js"></script>-->

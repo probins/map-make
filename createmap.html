@@ -9,8 +9,8 @@
       map, please wait ...</div>
   <script src="https://jspm.io/loader.js"></script>
   <script>
-    jspm.local = false;
-    jspm.import('github:probins/createmap/lib/createMap');
+    jspm.config({baseUrl: 'https://github.jspm.io/probins/createmap/lib/'});
+    jspm.import('./createMap');
   </script>
 </body>
 </html>

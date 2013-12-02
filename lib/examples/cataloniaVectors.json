@@ -2,13 +2,13 @@
     	"description": "OpenStreetMap and Catalan rasters with 2 vector sources",
       "rasters": ["osm", "catTopo"],
       "vectors": [{
-        "url": "examples/girona.geojson",
+        "url": "https://github.jspm.io/probins/createmap/sampledata/girona.geojson",
         "attribution": "route lines: me",
         "id": "Girona",
         "styles": ["bluelines"]
       },
       {
-        "url": "examples/barcelona.geojson",
+        "url": "https://github.jspm.io/probins/createmap/sampledata/barcelona.geojson",
         "attribution": "route lines: me",
         "id": "Barcelona",
         "styles": ["bluelines"]
