@@ -1,6 +1,6 @@
     {
     	"description": "OpenSpace topo rasters without vectors",
-      "rasters": ["gb"],
+      "rasters": [{"gb": "5A4E80E3BABD59F6E0405F0AF1604498"}],
       "widgets": {
         "scaleline": true,
         "latlonmouse": true,

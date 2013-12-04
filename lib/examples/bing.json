@@ -1,0 +1,17 @@
+    {
+    	"description": "Bing Road and Aerial rasters without vectors",
+      "rasters": [
+        {"bingRoad": "Ar0NqGYN0lECfmYJcKI0JQPmv2gZ_ISK-0y-ti9Wz1jOjtv7hZD3nqLV9j3an-Hi"},
+        {"bingAerialLabels": "Ar0NqGYN0lECfmYJcKI0JQPmv2gZ_ISK-0y-ti9Wz1jOjtv7hZD3nqLV9j3an-Hi"}
+      ],
+      "widgets": {
+        "scaleline": true,
+        "latlonmouse": true,
+        "projectedmouse": true
+      },
+      "center": {
+        "lon": -1,
+        "lat": 53
+      },
+      "zoom": 10
+    }
