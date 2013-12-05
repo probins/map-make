@@ -1,14 +1,14 @@
     {
-    	"description": "OpenStreetMap and Catalan topo rasters without vectors",
-      "rasters": ["catTopo", "osm"],
+    	"description": "Belgian topo rasters without vectors",
+      "rasters": ["bTopo"],
       "widgets": {
         "scaleline": true,
         "latlonmouse": true,
         "projectedmouse": true
       },
       "center": {
-        "lon": 2,
-        "lat": 42
+        "lon": 4.5,
+        "lat": 50.5
       },
       "zoom": 2
     }
