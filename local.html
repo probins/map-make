@@ -13,8 +13,13 @@
       map, please wait ...</div>
   <script src="https://jspm.io/loader.js"></script>
   <script>
-    jspm.config({baseUrl: './lib/'});
-    jspm.import('./createMap');
+    jspm.config({
+      baseURL: './lib/',
+      map: {
+        ol: 'https://github.jspm.io/probins/modular-ol3/dist/olsimpMod.js'
+      }
+    });
+    jspm.import('~/createMap');
   </script>
   <!--<script src="../lib/createMap.js"></script>-->
   <!--<script src="../registry/sources/osm.js"></script>-->

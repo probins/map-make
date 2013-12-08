@@ -9,8 +9,13 @@
       map, please wait ...</div>
   <script src="https://jspm.io/loader.js"></script>
   <script>
-    jspm.config({baseUrl: 'https://github.jspm.io/probins/createmap/lib/'});
-    jspm.import('./createMap');
+    jspm.config({
+      baseURL: 'https://github.jspm.io/probins/createmap/lib/',
+      map: {
+        ol: 'https://github.jspm.io/probins/modular-ol3/dist/olMod.js'
+      }
+    });
+    jspm.import('~/createMap');
   </script>
 </body>
 </html>
