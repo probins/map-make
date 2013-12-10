@@ -1,6 +1,6 @@
     {
     	"description": "IGN topo rasters without vectors",
-      "rasters": ["e"],
+      "rasters": ["eMtn"],
       "widgets": {
         "scaleline": true,
         "latlonmouse": true,

@@ -1,6 +1,6 @@
     {
     	"description": "OpenStreetMap and Catalan rasters with 2 vector sources",
-      "rasters": ["osm", "catTopo"],
+      "rasters": ["osm", "catTopo", "eMtn"],
       "vectors": [{
         "url": "https://github.jspm.io/probins/createmap/sampledata/girona.geojson",
         "attribution": "route lines: me",
