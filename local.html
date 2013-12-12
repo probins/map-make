@@ -16,7 +16,8 @@
     jspm.config({
       baseURL: './lib/',
       map: {
-        ol: 'https://github.jspm.io/probins/modular-ol3/dist/olsimpMod.js'
+        olWrapper: '~/plugins/olWrapper',
+        ol: '~/../../../modular-ol3/dist/ol-simple.js!olWrapper'
       }
     });
     jspm.import('~/createMap');
