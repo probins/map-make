@@ -1,0 +1,9 @@
+<p>Define the map you want.</p>
+<p><b>Required</b></p>
+<p>Rasters: <input type="text" id="rasters"> (one or more separated by commas, in display order; example: eMtn,osm)</p>
+<p><b>Optional</b></p>
+<p>By default, maps without vectors are zoomed out and centred on the mid-point of the area covered by the map; maps with vectors are zoomed to the extent of the vector data.</p>
+<p>To initially centre the map at a given point, enter any valid latitude and longitude number in decimal format, such as '45.6789'; specify west and south values as negative numbers. Note that one of these values without the other will be ignored. Of course, if the map is for a specific country, the values should be within the area of that country, otherwise the map will get confused.
+<br>Initial centre: latitude <input type="text" id="lat"> longitude: <input type="text" id="lon"></p>
+<p>Initial zoom level: <input type="text" id="zoom"> (enter a number from 0 (zoomed out). The number of zoom levels varies depending on the raster concerned: worldwide rasters may have 20 levels, country-specific ones much fewer.)</p>
+<button id="mapDefForm">Submit</button>
