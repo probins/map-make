@@ -1,0 +1,13 @@
+{
+  "name": "createmap",
+  "main": "createMap",
+  "buildConfig": {
+    "traceur": "true",
+    "transpile": "true"
+  },
+  "configFile": "config.js",
+  "directories": {
+    "jspm_packages": "jspm_packages",
+    "lib": "lib"
+  }
+}
