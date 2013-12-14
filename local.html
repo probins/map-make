@@ -11,10 +11,10 @@
   <script src="https://jspm.io/loader.js"></script>
   <script>
     jspm.config({
-      baseURL: './lib/',
-      map: {
-        olWrapper: '~/plugins/olWrapper',
-        ol: '~/../../../modular-ol3/dist/ol-simple.js!olWrapper'
+      'baseURL': 'lib',
+      'map': {
+        'olWrapper': '~/plugins/olWrapper',
+        'ol': '~/../../../modular-ol3/dist/ol-simple.js!olWrapper'
       }
     });
     jspm.import('~/createMap');

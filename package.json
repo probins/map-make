@@ -1,13 +1,8 @@
 {
-  "name": "createmap",
-  "main": "createMap",
-  "buildConfig": {
-    "traceur": "true",
-    "transpile": "true"
-  },
-  "configFile": "config.js",
+  "configFile": "local.html",
   "directories": {
     "jspm_packages": "jspm_packages",
     "lib": "lib"
-  }
+  },
+  "dependencyMap": {}
 }
