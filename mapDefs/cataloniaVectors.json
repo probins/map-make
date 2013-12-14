@@ -1,5 +1,5 @@
     {
-    	"description": "OpenStreetMap and Catalan rasters with 2 vector sources",
+    	"description": "OpenStreetMap, IGN and Catalan rasters with 2 vector sources",
       "rasters": ["osm", "catTopo", "eMtn"],
       "vectors": [{
         "url": "https://github.jspm.io/probins/createmap/sampledata/girona.geojson",

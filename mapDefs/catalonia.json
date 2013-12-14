@@ -1,6 +1,6 @@
     {
     	"description": "OpenStreetMap, IGN and Catalan topo rasters without vectors",
-      "rasters": ["catTopo", "e", "osm"],
+      "rasters": ["catTopo", "eMtn", "osm"],
       "widgets": {
         "scaleline": true,
         "latlonmouse": true,

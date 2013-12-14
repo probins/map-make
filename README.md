@@ -24,7 +24,7 @@ Also helps developers try out different options.
 ## Usage
 
 The map to be displayed is defined in a *map definition* (mapDef), which can be specified in:
-- a json object; this is the most flexible method. See examples/ for some examples. This can be defined in a div tag with the id 'mapDef' `<div id="mapDef">url</div>`, or specified in the query string `?mapDef=url`
+- a json object; this is the most flexible method. See `mapDefs/` for some examples. This can be defined in a div tag with the id 'mapDef' `<div id="mapDef">url</div>` (see `local.html` for an example), or specified in the query string `?mapDef=url`
 - some parameters can be specified as key-value pairs in the query string
 - if there is no mapDef or query string defined, a form will be displayed where the query string values can be entered
 
