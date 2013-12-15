@@ -1,0 +1,1 @@
+{"version":3,"file":"osm.js.map","sources":["osm.src.js"],"names":["ol","require","module","exports","getLayers","layer","Tile","source","OSM","id"],"mappings":";;;;;AAIA,GAAIA,IAAKC,QAAQ,KACjBC,QAAOC,SACLC,UAAW,WACT,OAAQ,GAAIJ,IAAGK,MAAMC,MACnBC,OAAQ,GAAIP,IAAGO,OAAOC,IACtBC,GAAI"}

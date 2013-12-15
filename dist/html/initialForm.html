@@ -1,0 +1,17 @@
+<p>Define the map you want. <b>Either</b> enter a mapDef url here and press enter:</p>
+<input type="text" id="mapDef" size="60">
+<p><b>Or</b> fill in the form below and press 'Submit' button.</p>
+<p><b>Required</b></p>
+<form name="options">
+<p>Rasters: <input type="text" name="rasters"> (one or more separated by commas, in display order; example: eMtn,osm)</p>
+<p><b>Optional</b></p>
+<p>By default, maps without vectors are zoomed out and centred on the mid-point of the area covered by the map; maps with vectors are zoomed to the extent of the vector data.</p>
+<p>To initially centre the map at a given point, enter any valid latitude and longitude number in decimal format, such as '45.6789'; specify west and south values as negative numbers. Note that one of these values without the other will be ignored. Of course, if the map is for a specific country, the values should be within the area of that country, otherwise the map will get confused.
+<br>Initial centre: latitude <input type="text" name="lat"> longitude: <input type="text" name="lon"></p>
+<p>Initial zoom level: <input type="text" name="zoom"> (enter a number from 0 (zoomed out). The number of zoom levels varies depending on the raster concerned: worldwide rasters may have 20 levels, country-specific ones much fewer.)</p>
+<p><b>Widgets</b></p>
+<input type="checkbox" name="widgets" value="scaleline">Scaleline
+<br><input type="checkbox" name="widgets" value="latlonmouse">Mouse position in lat/lons
+<br><input type="checkbox" name="widgets" value="projectedmouse">Mouse position in projected coordinates
+</form>
+<button id="mapDefForm">Submit</button>
