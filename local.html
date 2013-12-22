@@ -17,7 +17,13 @@
         'ol': '~/../../../modular-ol3/dist/ol-simple.js!olWrapper'
       }
     });
-    jspm.import('~/map-make');
+    if (!window.Promise) {
+      jspm.import('npm:es6-promise/main', function() {
+        jspm.import('~/map-make');
+      });
+    } else {
+      jspm.import('~/map-make');
+    }
   </script>
   <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/createmap/mapDefs/cataloniaVectors.json</div>-->
 </body>
