@@ -8,5 +8,9 @@
   "buildConfig": {
     "uglify": true
   },
-  "dependencyMap": {}
+  "dependencyMap": {},
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.8.0"
+  }
 }
