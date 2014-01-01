@@ -61,6 +61,53 @@ goog.exportProperty(
     ol.Feature.prototype,
     'getGeometry',
     ol.Feature.prototype.getGeometry);
+goog.exportProperty(
+    ol.Feature.prototype,
+    'getId',
+    ol.Feature.prototype.getId);
+
+goog.exportSymbol(
+    'ol.geom.LineString',
+    ol.geom.LineString);
+goog.exportProperty(
+    ol.geom.LineString.prototype,
+    'getBounds',
+    ol.geom.LineString.prototype.getBounds);
+goog.exportSymbol(
+    'ol.geom.MultiLineString',
+    ol.geom.MultiLineString);
+goog.exportProperty(
+    ol.geom.MultiLineString.prototype,
+    'getBounds',
+    ol.geom.MultiLineString.prototype.getBounds);
+goog.exportSymbol(
+    'ol.geom.MultiPoint',
+    ol.geom.MultiPoint);
+goog.exportProperty(
+    ol.geom.MultiPoint.prototype,
+    'getBounds',
+    ol.geom.MultiPoint.prototype.getBounds);
+goog.exportSymbol(
+    'ol.geom.MultiPolygon',
+    ol.geom.MultiPolygon);
+goog.exportProperty(
+    ol.geom.MultiPolygon.prototype,
+    'getBounds',
+    ol.geom.MultiPolygon.prototype.getBounds);
+goog.exportSymbol(
+    'ol.geom.Point',
+    ol.geom.Point);
+goog.exportProperty(
+    ol.geom.Point.prototype,
+    'getBounds',
+    ol.geom.Point.prototype.getBounds);
+goog.exportSymbol(
+    'ol.geom.Polygon',
+    ol.geom.Polygon);
+goog.exportProperty(
+    ol.geom.Polygon.prototype,
+    'getBounds',
+    ol.geom.Polygon.prototype.getBounds);
 
 goog.exportSymbol(
     'ol.layer.Layer',
@@ -93,12 +140,34 @@ goog.exportProperty(
     ol.Map.prototype.addOverlay);
 goog.exportProperty(
     ol.Map.prototype,
+    'getFeatures',
+    ol.Map.prototype.getFeatures);
+goog.exportProperty(
+    ol.Map.prototype,
     'getLayers',
     ol.Map.prototype.getLayers);
 goog.exportProperty(
     ol.Map.prototype,
     'getSize',
     ol.Map.prototype.getSize);
+
+goog.exportProperty(
+    ol.MapBrowserEvent.prototype,
+    'getCoordinate',
+    ol.MapBrowserEvent.prototype.getCoordinate);
+goog.exportProperty(
+    ol.MapBrowserEvent.prototype,
+    'getPixel',
+    ol.MapBrowserEvent.prototype.getPixel);
+
+goog.exportProperty(
+    ol.Observable.prototype,
+    'on',
+    ol.Observable.prototype.on);
+goog.exportProperty(
+    ol.Observable.prototype,
+    'once',
+    ol.Observable.prototype.once);
 
 goog.exportSymbol(
     'ol.Overlay',
@@ -152,20 +221,34 @@ goog.exportSymbol(
 goog.exportSymbol(
     'ol.source.TileWMS',
     ol.source.TileWMS);
+goog.exportProperty(
+    ol.source.TileWMS.prototype,
+    'updateParams',
+    ol.source.TileWMS.prototype.updateParams);
 goog.exportSymbol(
     'ol.source.Vector',
     ol.source.Vector);
 goog.exportSymbol(
+    'ol.source.VectorEvent.extents',
+    ol.source.VectorEvent.extents);
+goog.exportSymbol(
     'ol.source.WMTS',
     ol.source.WMTS);
+goog.exportSymbol(
+    'ol.source.WMTSRequestEncoding',
+    ol.source.WMTSRequestEncoding);
+goog.exportProperty(
+    ol.source.WMTSRequestEncoding,
+    'REST',
+    ol.source.WMTSRequestEncoding.REST);
 goog.exportProperty(
     ol.source.Source.prototype,
     'getProjection',
     ol.source.Source.prototype.getProjection);
 goog.exportProperty(
-    ol.source.vector.prototype,
+    ol.source.Vector.prototype,
     'getFeatures',
-    ol.source.vector.prototype.getFeatures);
+    ol.source.Vector.prototype.getFeatures);
 
 goog.exportSymbol(
     'ol.style.Stroke',
