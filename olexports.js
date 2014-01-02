@@ -229,9 +229,6 @@ goog.exportSymbol(
     'ol.source.Vector',
     ol.source.Vector);
 goog.exportSymbol(
-    'ol.source.VectorEvent.extents',
-    ol.source.VectorEvent.extents);
-goog.exportSymbol(
     'ol.source.WMTS',
     ol.source.WMTS);
 goog.exportSymbol(

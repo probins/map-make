@@ -1,0 +1,27 @@
+{
+  "requires": [
+    "ol.Map", 
+    "ol.source.Vector", 
+    "ol.layer.Vector", 
+    "ol.style.Style", 
+    "ol.style.Rule", 
+    "ol.parser.GeoJSON", 
+    "ol.parser.KML", 
+    "ol.parser.GPX", 
+    "ol.style.Stroke", 
+    "ol.coordinate", 
+    "ol.layer.Tile", 
+    "ol.source.OSM", 
+    "ol.RendererHint", 
+    "ol.View2D", 
+    "ol.proj", 
+    "ol.Overlay", 
+    "ol.extent", 
+    "ol.Attribution", 
+    "ol.source.BingMaps", 
+    "ol.source.TileWMS", 
+    "ol.source.WMTS", 
+    "ol.control.MousePosition", 
+    "ol.control.ScaleLine"
+  ]
+}

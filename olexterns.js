@@ -134,6 +134,40 @@ olx.GeolocationOptionsExtern.prototype.trackingOptions;
  * @typedef {{error: (function()|undefined),
  *            layers: (Array.<ol.layer.Layer>|undefined),
  *            pixel: ol.Pixel,
+ *            success: (function(Array.<Array.<string|undefined>>))}}
+ */
+olx.GetFeatureInfoOptions;
+
+
+
+/**
+ * @interface
+ */
+olx.GetFeatureInfoOptionsExtern = function() {};
+
+
+/**
+ * @type {function()|undefined}
+ */
+olx.GetFeatureInfoOptionsExtern.prototype.error;
+
+
+/**
+ * @type {Array.<ol.layer.Layer>|undefined}
+ */
+olx.GetFeatureInfoOptionsExtern.prototype.layers;
+
+
+/**
+ * @type {ol.Pixel}
+ */
+olx.GetFeatureInfoOptionsExtern.prototype.pixel;
+
+
+/**
+ * @typedef {{error: (function()|undefined),
+ *            layers: (Array.<ol.layer.Layer>|undefined),
+ *            pixel: ol.Pixel,
  *            success: (function(Array.<Array.<ol.Feature|undefined>>))}}
  */
 olx.GetFeaturesOptions;
@@ -429,6 +463,166 @@ olx.View2DOptionsExtern.prototype.rotation;
  */
 olx.View2DOptionsExtern.prototype.zoom;
 
+
+
+/**
+ * @typedef {{duration: (number|undefined),
+ *            easing: (function(number):number|undefined),
+ *            resolution: number,
+ *            start: (number|undefined)}}
+ */
+olx.animation.BounceOptions;
+
+
+
+/**
+ * @interface
+ */
+olx.animation.BounceOptionsExtern = function() {};
+
+
+/**
+ * @type {number|undefined}
+ */
+olx.animation.BounceOptionsExtern.prototype.duration;
+
+
+/**
+ * @type {function(number):number|undefined}
+ */
+olx.animation.BounceOptionsExtern.prototype.easing;
+
+
+/**
+ * @type {number}
+ */
+olx.animation.BounceOptionsExtern.prototype.resolution;
+
+
+/**
+ * @type {number|undefined}
+ */
+olx.animation.BounceOptionsExtern.prototype.start;
+
+
+/**
+ * @typedef {{duration: (number|undefined),
+ *            easing: (function(number):number|undefined),
+ *            source: ol.Coordinate,
+ *            start: (number|undefined)}}
+ */
+olx.animation.PanOptions;
+
+
+
+/**
+ * @interface
+ */
+olx.animation.PanOptionsExtern = function() {};
+
+
+/**
+ * @type {number|undefined}
+ */
+olx.animation.PanOptionsExtern.prototype.duration;
+
+
+/**
+ * @type {function(number):number|undefined}
+ */
+olx.animation.PanOptionsExtern.prototype.easing;
+
+
+/**
+ * @type {ol.Coordinate}
+ */
+olx.animation.PanOptionsExtern.prototype.source;
+
+
+/**
+ * @type {number|undefined}
+ */
+olx.animation.PanOptionsExtern.prototype.start;
+
+
+/**
+ * @typedef {{duration: (number|undefined),
+ *            easing: (function(number):number|undefined),
+ *            rotation: number,
+ *            start: (number|undefined)}}
+ */
+olx.animation.RotateOptions;
+
+
+
+/**
+ * @interface
+ */
+olx.animation.RotateOptionsExtern = function() {};
+
+
+/**
+ * @type {number|undefined}
+ */
+olx.animation.RotateOptionsExtern.prototype.duration;
+
+
+/**
+ * @type {function(number):number|undefined}
+ */
+olx.animation.RotateOptionsExtern.prototype.easing;
+
+
+/**
+ * @type {number}
+ */
+olx.animation.RotateOptionsExtern.prototype.rotation;
+
+
+/**
+ * @type {number|undefined}
+ */
+olx.animation.RotateOptionsExtern.prototype.start;
+
+
+/**
+ * @typedef {{duration: (number|undefined),
+ *            easing: (function(number):number|undefined),
+ *            resolution: number,
+ *            start: (number|undefined)}}
+ */
+olx.animation.ZoomOptions;
+
+
+
+/**
+ * @interface
+ */
+olx.animation.ZoomOptionsExtern = function() {};
+
+
+/**
+ * @type {number|undefined}
+ */
+olx.animation.ZoomOptionsExtern.prototype.duration;
+
+
+/**
+ * @type {function(number):number|undefined}
+ */
+olx.animation.ZoomOptionsExtern.prototype.easing;
+
+
+/**
+ * @type {number}
+ */
+olx.animation.ZoomOptionsExtern.prototype.resolution;
+
+
+/**
+ * @type {number|undefined}
+ */
+olx.animation.ZoomOptionsExtern.prototype.start;
 
 
 /**
@@ -1785,6 +1979,32 @@ olx.source.VectorOptionsExtern.prototype.projection;
  * @type {string|undefined}
  */
 olx.source.VectorOptionsExtern.prototype.url;
+
+
+/**
+ * @typedef {{method: (ol.source.WMSGetFeatureInfoMethod|undefined),
+ *            params: (Object.<string,string>|undefined)}}
+ */
+olx.source.WMSGetFeatureInfoOptions;
+
+
+
+/**
+ * @interface
+ */
+olx.source.WMSGetFeatureInfoOptionsExtern = function() {};
+
+
+/**
+ * @type {ol.source.WMSGetFeatureInfoMethod|undefined}
+ */
+olx.source.WMSGetFeatureInfoOptionsExtern.prototype.method;
+
+
+/**
+ * @type {Object.<string,string>|undefined}
+ */
+olx.source.WMSGetFeatureInfoOptionsExtern.prototype.params;
 
 
 /**
