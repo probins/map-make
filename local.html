@@ -6,22 +6,27 @@
 </head>
 <body>
   <!--<div id="map" style="height: 400px"></div>-->
-  <script src="https://jspm.io/loader.js"></script>
+  <script src="../es6-module-loader/lib/es6-module-loader.js"></script>
+  <script src="../systemjs/dist/system.js"></script>
+  <!--<script src="https://jspm.io/system.js"></script>-->
   <script>
-    jspm.config({
-      'baseURL': 'lib',
-      'map': {
-        'ol': '~/../../../modular-ol3/dist/ol-advMod'
+    (function() {
+      System.baseURL = System.baseURL + 'lib/';
+      System.paths['ol'] = '../../modular-ol3/dist/ol-simpMod.js';
+      System.paths['npm:*'] = "https://npm.jspm.io/*.js";
+      function mapMake() {
+        System.fetch({address: 'map-make.js', metadata: {}}).then(function(source){System.module(source);})
+            .catch(function(e) {
+              console.log(e);
+            });
       }
-    });
-    if (!window.Promise) {
-      jspm.import('npm:es6-promise', function() {
-        jspm.import('~/map-make');
-      });
-    } else {
-      jspm.import('~/map-make');
-    }
+      if (!window.Promise) {
+        System.import('npm:es6-promise').then(mapMake());
+      } else {
+        mapMake();
+      }
+    })();
   </script>
-  <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/createmap/mapDefs/cataloniaVectors.json</div>-->
+  <!--<div id="mapDef" style="display:none">github:probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
 </body>
 </html>
