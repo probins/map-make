@@ -2,8 +2,7 @@
   "configFile": "local.html",
   "directories": {
     "jspm_packages": "jspm_packages",
-    "lib": "lib",
-    "dist": "dist"
+    "lib": "lib"
   },
   "buildConfig": {
     "uglify": true

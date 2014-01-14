@@ -5,21 +5,27 @@
   <title>OL3 Map-make</title>
 </head>
 <body>
-  <script src="https://jspm.io/loader.js"></script>
+  <script src="../es6-module-loader/lib/es6-module-loader.js"></script>
+  <script src="../systemjs/dist/system.js"></script>
+  <!--<script src="https://jspm.io/system.js"></script>-->
   <script>
-    jspm.config({
-      baseURL: 'https://github.jspm.io/probins/map-make',
-      map: {
-        ol: 'https://github.jspm.io/probins/modular-ol3/dist/ol-advMod.js'
+    (function() {
+      System.baseURL = 'https://github.jspm.io/probins/map-make/';
+      System.paths['ol'] = 'https://github.jspm.io/probins/modular-ol3/dist/ol-simpMod.js';
+      System.paths['npm:*'] = "https://npm.jspm.io/*.js";
+      System.paths['github:*'] = "https://github.jspm.io/*.js";
+      function mapMake() {
+        System.fetch({address: 'map-make.js', metadata: {}}).then(function(source){System.module(source);})
+            .catch(function(e) {
+              console.log(e);
+            });
       }
-    });
-    if (!window.Promise) {
-      jspm.import('npm:es6-promise', function() {
-        jspm.import('~/map-make');
-      });
-    } else {
-      jspm.import('~/map-make');
-    }
+      if (!window.Promise) {
+        System.import('npm:es6-promise').then(mapMake());
+      } else {
+        mapMake();
+      }
+    })();
   </script>
 </body>
 </html>
