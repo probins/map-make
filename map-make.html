@@ -11,6 +11,7 @@
       System.baseURL = 'https://github.jspm.io/probins/map-make/';
       System.paths['*'] = '*.js';
       System.paths['ol'] = 'https://github.jspm.io/probins/modular-ol3/dist/ol-simpMod.js';
+      System.paths['olcss'] = 'https://github.jspm.io/probins/modular-ol3/dist/olCustom.css.js';
       function mapMake() {
         System.fetch({address: 'map-make.js', metadata: {}})
           .then(function(source){System.module(source);})

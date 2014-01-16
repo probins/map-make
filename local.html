@@ -6,14 +6,15 @@
 </head>
 <body>
   <!--<div id="map" style="height: 400px"></div>-->
-  <!--<script src="../es6-module-loader/lib/es6-module-loader.js"></script>-->
-  <!--<script src="../systemjs/dist/system.js"></script>-->
-  <script src="https://jspm.io/system.js"></script>
+  <script src="../es6-module-loader/lib/es6-module-loader.js"></script>
+  <script src="../systemjs/dist/system-jspm.js"></script>
+  <!--<script src="https://jspm.io/system.js"></script>-->
   <script>
     (function() {
       System.baseURL = System.baseURL + 'lib/';
       System.paths['*'] = '*.js';
       System.paths['ol'] = '../../modular-ol3/dist/ol-simpMod.js';
+      System.paths['olcss'] = '../../modular-ol3/dist/olCustom.css.js';
       function mapMake() {
         System.fetch({address: 'map-make.js', metadata: {}})
           .then(function(source){System.module(source);})
