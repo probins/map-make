@@ -17,10 +17,7 @@
       System.paths['olcss'] = '../../modular-ol3/dist/olCustom.css.js';
       function mapMake() {
         System.fetch({address: 'map-make.js', metadata: {}})
-          .then(function(source){System.module(source);})
-          .catch(function(e) {
-            console.log(e);
-          });
+        .then(function(source){System.module(source);}, function(e) {console.log(e);});
       }
       if (!window.Promise) {
         System.import('npm:es6-promise').then(mapMake());
