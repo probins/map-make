@@ -5,6 +5,7 @@
   <title>OL3 Map-make</title>
   <script>
     if (!window.Promise) {
+      // needed until implementation in es6-module-loader fixed
       document.write(
         '<' + 'script src="promise-0.1.1.min.js">' + '<' + '/script>'
       );
@@ -13,20 +14,26 @@
 </head>
 <body>
   <!--<div id="map" style="height: 400px"></div>-->
+
+  <!-- unmin version loaded for debugging -->
   <script src="../es6-module-loader/lib/es6-module-loader.js"></script>
   <script src="../systemjs/dist/system-jspm.js"></script>
   <!--<script src="https://jspm.io/system.js"></script>-->
+
   <script>
     (function() {
+      // set paths specific to localhost
       System.baseURL = System.baseURL + 'lib/';
       System.paths['*'] = '*.js';
       System.paths['ol'] = '../../modular-ol3/dist/ol-simpMod.js';
       System.paths['olcss'] = '../../modular-ol3/dist/olCustom.css.js';
+
+      // can be changed to module() when spec allows address on that
       System.fetch({address: 'map-make.js', metadata: {}})
       .then(function(source) {
         System.module(source);
-      }, function(e) {
-        console.log(e);
+      }, function(err) {
+        console.log(err);
         alert('Error reading map-make.js');
         return;
       });

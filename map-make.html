@@ -15,15 +15,18 @@
   <script src="https://jspm.io/system.js"></script>
   <script>
     (function() {
+      // set paths for prod
       System.baseURL = 'https://github.jspm.io/probins/map-make/';
       System.paths['*'] = '*.js';
-      System.paths['ol'] = 'https://github.jspm.io/probins/modular-ol3/dist/ol-simpMod.js';
+      System.paths['ol'] = 'https://github.jspm.io/probins/modular-ol3/dist/ol-advMod.js';
       System.paths['olcss'] = 'https://github.jspm.io/probins/modular-ol3/dist/olCustom.css.js';
+
+      // can be changed to module() when spec allows address on that
       System.fetch({address: 'map-make.js', metadata: {}})
       .then(function(source) {
         System.module(source);
-      }, function(e) {
-        console.log(e);
+      }, function(err) {
+        console.log(err);
         alert('Error reading map-make.js');
         return;
       });
