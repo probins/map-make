@@ -3,6 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <title>OL3 Map-make</title>
+  <script>
+    if (!window.Promise) {
+      document.write(
+        '<' + 'script src="http://s3.amazonaws.com/es6-promises/promise-0.1.1.min.js">' + '<' + '/script>'
+      );
+    }
+  </script>
 </head>
 <body>
   <script src="https://jspm.io/system.js"></script>
@@ -12,15 +19,14 @@
       System.paths['*'] = '*.js';
       System.paths['ol'] = 'https://github.jspm.io/probins/modular-ol3/dist/ol-simpMod.js';
       System.paths['olcss'] = 'https://github.jspm.io/probins/modular-ol3/dist/olCustom.css.js';
-      function mapMake() {
-        System.fetch({address: 'map-make.js', metadata: {}})
-        .then(function(source){System.module(source);}, function(e) {console.log(e);});
-      }
-      if (!window.Promise) {
-        System.import('npm:es6-promise').then(mapMake());
-      } else {
-        mapMake();
-      }
+      System.fetch({address: 'map-make.js', metadata: {}})
+      .then(function(source) {
+        System.module(source);
+      }, function(e) {
+        console.log(e);
+        alert('Error reading map-make.js');
+        return;
+      });
     })();
   </script>
 </body>
