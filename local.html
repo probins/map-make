@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>OL3 Map-make</title>
+  <link rel="stylesheet" href="../modular-ol3/dist/olCustom.css">
   <script>
     if (!window.Promise) {
       // needed until implementation in es6-module-loader fixed
@@ -26,7 +27,6 @@
       System.baseURL = System.baseURL + 'lib/';
       System.paths['*'] = '*.js';
       System.paths['ol'] = '../../modular-ol3/dist/ol-simpMod.js';
-      System.paths['olcss'] = '../../modular-ol3/dist/olCustom.css.js';
 
       // can be changed to module() when spec allows address on that
       System.fetch({address: 'map-make.js', metadata: {}})
