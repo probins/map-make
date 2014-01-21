@@ -6,7 +6,9 @@
   <link rel="stylesheet" href="../modular-ol3/dist/olCustom.css">
   <script>
     if (!window.Promise) {
+      // load Promise polyfill if not native
       // needed until implementation in es6-module-loader fixed
+      // (or native in browsers)
       document.write(
         '<' + 'script src="promise-0.1.1.min.js">' + '<' + '/script>'
       );
@@ -16,6 +18,7 @@
 <body>
   <!--<div id="map" style="height: 400px"></div>-->
 
+  <!--load module loader polyfill and system.js extensions-->
   <!-- unmin version loaded for debugging -->
   <script src="../es6-module-loader/lib/es6-module-loader.js"></script>
   <script src="../systemjs/dist/system-jspm.js"></script>
