@@ -12,9 +12,10 @@
     "ol.source.WMTS",
 
     "ol.layer.Vector",
-    "ol.parser.GeoJSON",
-    "ol.parser.GPX",
-    "ol.parser.KML"
+    "ol.source.GeoJSON",
+    "ol.source.GPX",
+    "ol.source.KML"
+    "ol.render.FeaturesOverlay"
   ],
   
   "othersUsed": [
@@ -26,7 +27,7 @@
     "ol.Attribution",
     
     "ol.source.Vector",
-    "ol.style.Rule",
+    "ol.style.Fill",
     "ol.style.Stroke",
     "ol.style.Style"
   ]
