@@ -4,16 +4,14 @@
   <meta charset="utf-8" />
   <title>OL3 Map-make</title>
   <link rel="stylesheet" href="../modular-ol3/dist/olCustom.css">
-  <script>
-    if (!window.Promise) {
+  <!--script>
+    // if (!window.Promise) {
       // load Promise polyfill if not native
-      // needed until implementation in es6-module-loader fixed
-      // (or native in browsers)
-      document.write(
-        '<' + 'script src="promise-0.1.1.min.js">' + '<' + '/script>'
-      );
-    }
-  </script>
+      // document.write(
+      //   '<' + 'script src="promise-0.1.1.min.js">' + '<' + '/script>'
+      // );
+    // }
+  </script>-->
 </head>
 <body>
   <!--<div id="map" style="height: 400px"></div>-->
@@ -21,7 +19,7 @@
   <!--load module loader polyfill and system.js extensions-->
   <!-- unmin version loaded for debugging -->
   <script src="../es6-module-loader/lib/es6-module-loader.js"></script>
-  <script src="../systemjs/dist/system-jspm.js"></script>
+  <script src="../systemjs/dist/system.js"></script>
   <!--<script src="https://jspm.io/system.js"></script>-->
 
   <script>
@@ -29,7 +27,8 @@
       // set paths specific to localhost
       System.baseURL = System.baseURL + 'lib/';
       System.paths['*'] = '*.js';
-      System.paths['ol'] = '../../modular-ol3/dist/ol-simpleMod.js';
+      System.paths.github = 'https://github.jspm.io/*.js'; // not needed with jspm system.js
+      System.paths.ol = '../../modular-ol3/dist/ol-simpleMod.js';
 
       // can be changed to module() when spec allows address on that
       System.fetch({address: 'map-make.js', metadata: {}})
