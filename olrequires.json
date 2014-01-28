@@ -1,22 +1,33 @@
 {
-  "requires": [
-    "ol.Map",
-    "ol.Overlay",
-    "ol.control.MousePosition",
-    "ol.control.ScaleLine",
+  "requires": {
+    "base": [
+      "ol.Map",
+      "ol.control.ScaleLine"
+    ],
+    
+    "mouse": [
+      "ol.control.MousePosition"
+    ],
 
-    "ol.layer.Tile",
-    "ol.source.BingMaps",
-    "ol.source.OSM",
-    "ol.source.TileWMS",
-    "ol.source.WMTS",
+    "rasters": [
+      "ol.layer.Tile",
+      "ol.source.BingMaps",
+      "ol.source.OSM",
+      "ol.source.TileWMS",
+      "ol.source.WMTS",
+      "ol.renderer.canvas.TileLayer"
+    ],
 
-    "ol.layer.Vector",
-    "ol.source.GeoJSON",
-    "ol.source.GPX",
-    "ol.source.KML"
-    "ol.render.FeaturesOverlay"
-  ],
+    "vectors": [
+      "ol.layer.Vector",
+      "ol.source.GeoJSON",
+      "ol.source.GPX",
+      "ol.source.KML",
+      "ol.Overlay",
+      "ol.renderer.canvas.VectorLayer",
+      "ol.render.FeaturesOverlay"
+    ]
+  },
   
   "othersUsed": [
     "ol.View2D",
