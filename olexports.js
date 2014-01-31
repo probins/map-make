@@ -7,6 +7,10 @@ goog.exportSymbol(
     ol.Collection);
 goog.exportProperty(
     ol.Collection.prototype,
+    'clear',
+    ol.Collection.prototype.clear);
+goog.exportProperty(
+    ol.Collection.prototype,
     'getArray',
     ol.Collection.prototype.getArray);
 goog.exportProperty(
@@ -55,10 +59,6 @@ goog.exportSymbol(
     ol.Feature);
 goog.exportProperty(
     ol.Feature.prototype,
-    'getAttributes',
-    ol.Feature.prototype.getAttributes);
-goog.exportProperty(
-    ol.Feature.prototype,
     'getGeometry',
     ol.Feature.prototype.getGeometry);
 goog.exportProperty(
@@ -66,48 +66,18 @@ goog.exportProperty(
     'getId',
     ol.Feature.prototype.getId);
 
+// goog.exportSymbol(
+//     'ol.format',
+//     ol.format);
 goog.exportSymbol(
-    'ol.geom.LineString',
-    ol.geom.LineString);
-goog.exportProperty(
-    ol.geom.LineString.prototype,
-    'getBounds',
-    ol.geom.LineString.prototype.getBounds);
+    'ol.format.GeoJSON',
+    ol.format.GeoJSON);
 goog.exportSymbol(
-    'ol.geom.MultiLineString',
-    ol.geom.MultiLineString);
-goog.exportProperty(
-    ol.geom.MultiLineString.prototype,
-    'getBounds',
-    ol.geom.MultiLineString.prototype.getBounds);
+    'ol.format.GPX',
+    ol.format.GPX);
 goog.exportSymbol(
-    'ol.geom.MultiPoint',
-    ol.geom.MultiPoint);
-goog.exportProperty(
-    ol.geom.MultiPoint.prototype,
-    'getBounds',
-    ol.geom.MultiPoint.prototype.getBounds);
-goog.exportSymbol(
-    'ol.geom.MultiPolygon',
-    ol.geom.MultiPolygon);
-goog.exportProperty(
-    ol.geom.MultiPolygon.prototype,
-    'getBounds',
-    ol.geom.MultiPolygon.prototype.getBounds);
-goog.exportSymbol(
-    'ol.geom.Point',
-    ol.geom.Point);
-goog.exportProperty(
-    ol.geom.Point.prototype,
-    'getBounds',
-    ol.geom.Point.prototype.getBounds);
-goog.exportSymbol(
-    'ol.geom.Polygon',
-    ol.geom.Polygon);
-goog.exportProperty(
-    ol.geom.Polygon.prototype,
-    'getBounds',
-    ol.geom.Polygon.prototype.getBounds);
+    'ol.format.KML',
+    ol.format.KML);
 
 goog.exportSymbol(
     'ol.layer.Layer',
@@ -140,8 +110,12 @@ goog.exportProperty(
     ol.Map.prototype.addOverlay);
 goog.exportProperty(
     ol.Map.prototype,
-    'getFeatures',
-    ol.Map.prototype.getFeatures);
+    'forEachFeatureAtPixel',
+    ol.Map.prototype.forEachFeatureAtPixel);
+goog.exportProperty(
+    ol.Map.prototype,
+    'getEventPixel',
+    ol.Map.prototype.getEventPixel);
 goog.exportProperty(
     ol.Map.prototype,
     'getLayers',
@@ -152,13 +126,9 @@ goog.exportProperty(
     ol.Map.prototype.getSize);
 
 goog.exportProperty(
-    ol.MapBrowserEvent.prototype,
-    'getCoordinate',
-    ol.MapBrowserEvent.prototype.getCoordinate);
-goog.exportProperty(
-    ol.MapBrowserEvent.prototype,
-    'getPixel',
-    ol.MapBrowserEvent.prototype.getPixel);
+    ol.Object.prototype,
+    'getProperties',
+    ol.Object.prototype.getProperties);
 
 goog.exportProperty(
     ol.Observable.prototype,
@@ -181,16 +151,6 @@ goog.exportProperty(
     ol.OverlayPositioning.BOTTOM_CENTER);
 
 goog.exportSymbol(
-    'ol.parser.GeoJSON',
-    ol.parser.GeoJSON);
-goog.exportSymbol(
-    'ol.parser.GPX',
-    ol.parser.GPX);
-goog.exportSymbol(
-    'ol.parser.KML',
-    ol.parser.KML);
-
-goog.exportSymbol(
     'ol.proj.getTransform',
     ol.proj.getTransform);
 goog.exportSymbol(
@@ -205,16 +165,41 @@ goog.exportProperty(
     ol.proj.Projection.prototype.getCode);
 
 goog.exportSymbol(
-    'ol.RendererHint',
-    ol.RendererHint);
+    'ol.render.FeaturesOverlay',
+    ol.render.FeaturesOverlay);
 goog.exportProperty(
-    ol.RendererHint,
-    'CANVAS',
-    ol.RendererHint.CANVAS);
+    ol.render.FeaturesOverlay.prototype,
+    'addFeature',
+    ol.render.FeaturesOverlay.prototype.addFeature);
+goog.exportProperty(
+    ol.render.FeaturesOverlay.prototype,
+    'getFeatures',
+    ol.render.FeaturesOverlay.prototype.getFeatures);
+goog.exportProperty(
+    ol.render.FeaturesOverlay.prototype,
+    'removeFeature',
+    ol.render.FeaturesOverlay.prototype.removeFeature);
+
+// goog.exportSymbol(
+//     'ol.RendererHint',
+//     ol.RendererHint);
+// goog.exportProperty(
+//     ol.RendererHint,
+//     'CANVAS',
+//     ol.RendererHint.CANVAS);
 
 goog.exportSymbol(
     'ol.source.BingMaps',
     ol.source.BingMaps);
+goog.exportSymbol(
+    'ol.source.GeoJSON',
+    ol.source.GeoJSON);
+goog.exportSymbol(
+    'ol.source.GPX',
+    ol.source.GPX);
+goog.exportSymbol(
+    'ol.source.KML',
+    ol.source.KML);
 goog.exportSymbol(
     'ol.source.OSM',
     ol.source.OSM);
@@ -244,9 +229,16 @@ goog.exportProperty(
     ol.source.Source.prototype.getProjection);
 goog.exportProperty(
     ol.source.Vector.prototype,
-    'getFeatures',
-    ol.source.Vector.prototype.getFeatures);
+    'getAllFeatures',
+    ol.source.Vector.prototype.getAllFeatures);
+goog.exportProperty(
+    ol.source.Vector.prototype,
+    'getExtent',
+    ol.source.Vector.prototype.getExtent);
 
+goog.exportSymbol(
+    'ol.style.Fill',
+    ol.style.Fill);
 goog.exportSymbol(
     'ol.style.Stroke',
     ol.style.Stroke);

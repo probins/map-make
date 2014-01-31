@@ -2,6 +2,7 @@
   "requires": {
     "base": [
       "ol.Map",
+      "ol.renderer.canvas.Map",
       "ol.control.ScaleLine"
     ],
     
