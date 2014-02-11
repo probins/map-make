@@ -115,47 +115,12 @@ olx.DeviceOrientationOptionsExtern.prototype.tracking;
 
 
 /**
- * @typedef {{projection: ol.proj.ProjectionLike,
- *            tracking: (boolean|undefined),
- *            trackingOptions: (GeolocationPositionOptions|undefined)}}
- */
-olx.GeolocationOptions;
-
-
-
-/**
- * @interface
- */
-olx.GeolocationOptionsExtern = function() {};
-
-
-/**
- * @type {ol.proj.ProjectionLike}
- */
-olx.GeolocationOptionsExtern.prototype.projection;
-
-
-/**
- * @type {boolean|undefined}
- */
-olx.GeolocationOptionsExtern.prototype.tracking;
-
-
-/**
- * @type {GeolocationPositionOptions|undefined}
- */
-olx.GeolocationOptionsExtern.prototype.trackingOptions;
-
-
-/**
  * @typedef {{controls: (ol.Collection|Array.<ol.control.Control>|undefined),
  *            interactions: (ol.Collection|Array.<ol.interaction.Interaction>|undefined),
  *            layers: (Array.<ol.layer.Base>|ol.Collection|undefined),
  *            ol3Logo: (boolean|undefined),
  *            overlays: (ol.Collection|Array.<ol.Overlay>|undefined),
  *            pixelRatio: (number|undefined),
- *            renderer: (ol.RendererHint|undefined),
- *            renderers: (Array.<ol.RendererHint>|undefined),
  *            target: (Element|string|undefined),
  *            view: (ol.IView|undefined)}}
  */
@@ -203,18 +168,6 @@ olx.MapOptionsExtern.prototype.overlays;
  * @type {number|undefined}
  */
 olx.MapOptionsExtern.prototype.pixelRatio;
-
-
-/**
- * @type {ol.RendererHint|undefined}
- */
-olx.MapOptionsExtern.prototype.renderer;
-
-
-/**
- * @type {Array.<ol.RendererHint>|undefined}
- */
-olx.MapOptionsExtern.prototype.renderers;
 
 
 /**
@@ -720,39 +673,6 @@ olx.control.DefaultsOptionsExtern.prototype.zoomOptions;
 
 /**
  * @typedef {{className: (string|undefined),
- *            keys: (boolean|undefined),
- *            target: (Element|undefined)}}
- */
-olx.control.FullScreenOptions;
-
-
-
-/**
- * @interface
- */
-olx.control.FullScreenOptionsExtern = function() {};
-
-
-/**
- * @type {string|undefined}
- */
-olx.control.FullScreenOptionsExtern.prototype.className;
-
-
-/**
- * @type {boolean|undefined}
- */
-olx.control.FullScreenOptionsExtern.prototype.keys;
-
-
-/**
- * @type {Element|undefined}
- */
-olx.control.FullScreenOptionsExtern.prototype.target;
-
-
-/**
- * @typedef {{className: (string|undefined),
  *            target: (Element|undefined)}}
  */
 olx.control.LogoOptions;
@@ -938,39 +858,6 @@ olx.control.ZoomSliderOptionsExtern.prototype.minResolution;
 
 
 /**
- * @typedef {{className: (string|undefined),
- *            extent: (ol.Extent|undefined),
- *            target: (Element|undefined)}}
- */
-olx.control.ZoomToExtentOptions;
-
-
-
-/**
- * @interface
- */
-olx.control.ZoomToExtentOptionsExtern = function() {};
-
-
-/**
- * @type {string|undefined}
- */
-olx.control.ZoomToExtentOptionsExtern.prototype.className;
-
-
-/**
- * @type {ol.Extent|undefined}
- */
-olx.control.ZoomToExtentOptionsExtern.prototype.extent;
-
-
-/**
- * @type {Element|undefined}
- */
-olx.control.ZoomToExtentOptionsExtern.prototype.target;
-
-
-/**
  * @typedef {{defaultProjection: ol.proj.ProjectionLike}}
  */
 olx.format.GeoJSONOptions;
@@ -1006,25 +893,6 @@ olx.format.KMLOptionsExtern = function() {};
  * @type {Array.<ol.style.Style>|undefined}
  */
 olx.format.KMLOptionsExtern.prototype.defaultStyle;
-
-
-/**
- * @typedef {{defaultProjection: ol.proj.ProjectionLike}}
- */
-olx.format.TopoJSONOptions;
-
-
-
-/**
- * @interface
- */
-olx.format.TopoJSONOptionsExtern = function() {};
-
-
-/**
- * @type {ol.proj.ProjectionLike}
- */
-olx.format.TopoJSONOptionsExtern.prototype.defaultProjection;
 
 
 /**
