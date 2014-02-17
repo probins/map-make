@@ -28,7 +28,10 @@
       System.baseURL = System.baseURL + 'lib/';
       System.paths['*'] = '*.js';
       System.paths.github = 'https://github.jspm.io/*.js'; // not needed with jspm system.js
-      System.paths.ol = '../../modular-ol3/dist/ol-advanced-amd.js';
+      System.paths.ol = '../../modular-ol3/dist/ol.js';
+      // System.paths.oltiles = '../../modular-ol3/dist/ol_advanced_tiles_global.js';
+      // System.paths.olvectors = '../../modular-ol3/dist/ol_simple_vectors_global.js';
+      // System.paths.olmouse = '../../modular-ol3/dist/ol_simple_mouse_global.js';
 
       // can be changed to module() when spec allows address on that
       System.fetch({address: 'map-make.js', metadata: {}})
