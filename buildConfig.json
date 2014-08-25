@@ -1,21 +1,13 @@
 {
-  "requires": {
-    "base": [
+  "requires": [
       "ol.Attribution",
       "ol.Map",
       "ol.View2D",
       "ol.control.ScaleLine",
       "ol.coordinate",
       "ol.extent",
-      "ol.proj",
-      "ol.renderer.canvas.Map"
-    ],
-    
-    "mouse": [
-      "ol.control.MousePosition"
-    ],
-
-    "tiles": [
+      "ol.renderer.canvas.Map",
+      "ol.control.MousePosition",
       "ol.layer.Tile",
       "ol.source.BingMaps",
       "ol.source.OSM",
@@ -23,13 +15,10 @@
       "ol.source.WMTS",
       "ol.tilegrid.TileGrid",
       "ol.tilegrid.WMTS",
-      "ol.renderer.canvas.TileLayer"
-    ],
-
-    "vectors": [
+      "ol.renderer.canvas.TileLayer",
       "ol.layer.Vector",
       "ol.Overlay",
-      "ol.render.FeaturesOverlay",
+      "ol.FeatureOverlay",
       "ol.source.GeoJSON",
       "ol.source.GPX",
       "ol.source.KML",
@@ -38,37 +27,22 @@
       "ol.style.Stroke",
       "ol.style.Style",
       "ol.renderer.canvas.VectorLayer"
-    ]
-  },
+  ],
   
-  "symbols": {
-    "base": [
+  "symbols": [
       "ol.extent.getCenter",
       "ol.extent.transform",
       "ol.proj.getTransform",
-      "ol.proj.transform"
-    ],
-    
-    "mouse": [
+      "ol.proj.transform",
       "ol.coordinate.format",
       "ol.coordinate.toStringHDMS",
-      "ol.coordinate.toStringXY"
-    ],
-    
-    "tiles": [
-      "ol.source.WMTSRequestEncoding.REST",
-      "ol.extent.getTopLeft"
-    ],
-    
-    "vectors": [
-      "ol.OverlayPositioning.BOTTOM_CENTER",
+      "ol.coordinate.toStringXY",
+      "ol.extent.getTopLeft",
       "ol.extent.createEmpty",
       "ol.extent.extend"
-    ]
-  },
+  ],
   
-  "properties": {
-    "base": [
+  "properties": [
       "ol.Collection.prototype.getArray",
       "ol.Map.prototype.addControl",
       "ol.Map.prototype.addLayer",
@@ -80,14 +54,8 @@
       "ol.View2D.prototype.fitExtent",
       "ol.layer.Layer.prototype.getSource",
       "ol.proj.Projection.prototype.getCode",
-      "ol.source.Source.prototype.getProjection"
-    ],
-    
-    "tiles": [
-      "ol.source.TileWMS.prototype.updateParams"
-    ],
-    
-    "vectors": [
+      "ol.source.Source.prototype.getProjection",
+      "ol.source.TileWMS.prototype.updateParams",
       "ol.Collection.prototype.clear",
       "ol.Feature.prototype.getGeometry",
       "ol.Feature.prototype.getId",
@@ -95,11 +63,10 @@
       "ol.Map.prototype.forEachFeatureAtPixel",
       "ol.Object.prototype.getProperties",
       "ol.geom.SimpleGeometry.prototype.transform",
-      "ol.render.FeaturesOverlay.prototype.addFeature",
-      "ol.render.FeaturesOverlay.prototype.getFeatures",
-      "ol.render.FeaturesOverlay.prototype.removeFeature",
+      "ol.FeatureOverlay.prototype.addFeature",
+      "ol.FeatureOverlay.prototype.getFeatures",
+      "ol.FeatureOverlay.prototype.removeFeature",
       "ol.source.Vector.prototype.getAllFeatures",
       "ol.source.Vector.prototype.getExtent"
-    ]
-  }
+  ]
 }

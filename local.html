@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <title>OL3 Map-make</title>
-  <link rel="stylesheet" href="../modular-ol3/dist/olCustom.css">
+  <link rel="stylesheet" href="../ol3/build/ol.css">
+  <!--<link rel="stylesheet" href="../modular-ol3/dist/olCustom.css">-->
   <!--script>
     // if (!window.Promise) {
       // load Promise polyfill if not native
@@ -28,10 +29,7 @@
       System.baseURL = System.baseURL + 'lib/';
       System.paths['*'] = '*.js';
       System.paths.github = 'https://github.jspm.io/*.js'; // not needed with jspm system.js
-      System.paths.ol = '../../modular-ol3/dist/ol.js';
-      // System.paths.oltiles = '../../modular-ol3/dist/ol_advanced_tiles_global.js';
-      // System.paths.olvectors = '../../modular-ol3/dist/ol_simple_vectors_global.js';
-      // System.paths.olmouse = '../../modular-ol3/dist/ol_simple_mouse_global.js';
+      System.paths.ol = '../../gulpclosure/build/ol.js';
 
       // can be changed to module() when spec allows address on that
       System.fetch({address: 'map-make.js', metadata: {}})
