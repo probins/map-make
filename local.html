@@ -27,15 +27,15 @@
       System.paths.github = 'https://github.jspm.io/*.js';
       System.paths.ol = '../../ol3/build/ol.min.js';//../../gulpclosure/build/ol.js';
 
-      // can be changed to module() when spec allows address on that
-      System.fetch({address: 'map-make.js', metadata: {}})
-      .then(function(source) {
-        System.module(source);
-      }, function(err) {
-        console.log(err);
-        alert('Error reading map-make.js');
-        return;
-      });
+      System.import('map-make');
+      // System.fetch({address: 'map-make.js', metadata: {}})
+      // .then(function(source) {
+      //   System.module(source);
+      // }, function(err) {
+      //   console.log(err);
+      //   alert('Error reading map-make.js');
+      //   return;
+      // });
     })();
   </script>
   <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
