@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <title>OL3 Map-make</title>
-  <link rel="stylesheet" href="https://github.jspm.io/probins/modular-ol3/dist/olCustom.css">
-  <!--<script>-->
-  <!--  if (!window.Promise) {-->
-  <!--    document.write(-->
-  <!--      '<' + 'script src="http://s3.amazonaws.com/es6-promises/promise-0.1.1.min.js">' + '<' + '/script>'-->
-  <!--    );-->
-  <!--  }-->
-  <!--</script>-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.css">
+  <script>
+    if (!window.Promise) {
+      document.write(
+        '<' + 'script src="https://es6-promises.s3.amazonaws.com/es6-promise-2.0.1.min.js"><\/script>'
+      );
+    }
+  </script>
 </head>
 <body>
   <script src="https://jspm.io/system.js"></script>
@@ -19,13 +19,13 @@
       // set paths for prod
       System.baseURL = 'https://github.jspm.io/probins/map-make/';
       System.paths['*'] = '*.js';
-      System.paths.ol = 'https://github.jspm.io/probins/modular-ol3/dist/ol-simpleMod.js';
+      System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';
+      System.meta.ol = {
+        format: 'global',
+        exports: 'ol'
+      };
 
-      // can be changed to module() when spec allows address on that
-      System.fetch({address: 'map-make.js', metadata: {}})
-      .then(function(source) {
-        System.module(source);
-      }, function(err) {
+      System.import('map-make').catch(function(err) {
         console.log(err);
         alert('Error reading map-make.js');
         return;

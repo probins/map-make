@@ -6,14 +6,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.css">
   <!--<link rel="stylesheet" href="../modular-ol3/dist/olCustom.css">-->
   <script>
-    // load module loader polyfill and system.js extensions
-    var src = window.Promise ?
-        "../es6test/es6-module-loader/dist/es6-module-loader-sans-promises.js" :
-        "../es6test/es6-module-loader/dist/es6-module-loader.js";
-    var txt = '<'+'script src="'+src+'">'+'<'+'/script>';
-    document.write(txt);
+    // load Promises polyfill if not natively supported
+    if (!window.Promise) {
+      document.write(
+        '<' + 'script src="https://es6-promises.s3.amazonaws.com/es6-promise-2.0.1.min.js"><\/script>'
+      );
+    }
   </script>
-  <script src="../es6test/systemjs/dist/system.js"></script>
+  <!--load module loader polyfill and system.js extensions-->
+  <script src="https://jspm.io/system.js"></script>
 </head>
 <body>
   <!--<div id="map" style="height: 400px"></div>-->
@@ -25,7 +26,11 @@
       System.paths['*'] = '*.js';
       System.paths.jspm = "https://registry.jspm.io/*.js";
       System.paths.github = 'https://github.jspm.io/*.js';
-      System.paths.ol = '../../ol3/build/ol.min.js';//../../gulpclosure/build/ol.js';
+      System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';//../../gulpclosure/build/ol.js';
+      System.meta.ol = {
+        format: 'global',
+        exports: 'ol'
+      };
 
       System.import('map-make').catch(function(err) {
         console.log(err);
