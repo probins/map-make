@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>OL3 Map-make</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.css">
   <!--<link rel="stylesheet" href="../modular-ol3/dist/olCustom.css">-->
   <script>
@@ -24,8 +25,9 @@
       // set paths specific to localhost
       System.baseURL = System.baseURL + 'lib/';
       System.paths['*'] = '*.js';
-      System.paths.jspm = "https://registry.jspm.io/*.js";
-      System.paths.github = 'https://github.jspm.io/*.js';
+      // only needed for fetching plugins
+      // System.paths.jspm = "https://registry.jspm.io/*.js";
+      // System.paths.github = 'https://github.jspm.io/*.js';
       System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';//../../gulpclosure/build/ol.js';
       System.meta.ol = {
         format: 'global',
