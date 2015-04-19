@@ -24,8 +24,9 @@
     (function() {
       // set paths specific to localhost
       System.baseURL = System.baseURL + 'lib/';
+      // override setting in jspm's system.js
       System.paths['*'] = '*.js';
-      // only needed for fetching plugins
+      // only needed for fetching plugins; included in jspm's system.js
       // System.paths.jspm = "https://registry.jspm.io/*.js";
       // System.paths.github = 'https://github.jspm.io/*.js';
       System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';//../../gulpclosure/build/ol.js';
@@ -38,5 +39,39 @@
     })();
   </script>
   <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
+  <div id="toolbar">
+    <div id="layerswitcher">
+      <div>Layer Switcher</div>
+    </div>
+    <div id="rasters">
+      <div>Add a raster layer:</div>
+    </div>
+    <div id="vectors">
+      Add vector file<br>
+      Name/identifier <input type="text" size="10" id="vectorname">
+      Url <input type="text" size="50" id="vectorfile">
+      MongoDB? <input type="checkbox" id="mongodb" value="mongodb">
+      <button id="addvector">Add</button>
+    </div>
+    <div id="widgets">
+      <div>Add widgets:</div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('addvector').addEventListener('click', function(){
+      var olMap = System.get('olMap').default;
+      var url = document.getElementById('vectorfile').value;
+      var option = {
+        url: url,
+        id: document.getElementById('vectorname').value || url
+      };
+      if (document.getElementById('mongodb').checked === true) {
+        option.type = 'mongodb';
+      }
+      olMap.addVectors([option]);
+  // FIXME only if not already present
+      olMap.addFeaturesListener();
+    });
+  </script>
 </body>
 </html>
