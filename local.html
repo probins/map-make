@@ -29,7 +29,8 @@
       // only needed for fetching plugins; included in jspm's system.js
       // System.paths.jspm = "https://registry.jspm.io/*.js";
       // System.paths.github = 'https://github.jspm.io/*.js';
-      System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';//../../gulpclosure/build/ol.js';
+      System.paths.ol = '../../ol3/build/ol.js';
+      // System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';//../../gulpclosure/build/ol.js';
 
       System.import('map-make').catch(function(err) {
         console.log(err);
@@ -57,6 +58,7 @@
     </div>
     <div id="widgets">
       <div>Add widgets:</div>
+      <button id="adddraw">Draw</button>
     </div>
   </div>
   <script>
@@ -81,6 +83,28 @@
   // FIXME only if not already present
       olMap.addFeaturesListener();
     });
+    var fo;
+    document.getElementById('adddraw').addEventListener('click', function(){
+      var map = System.get('olMap').default.get();
+ fo=new ol.FeatureOverlay();
+fo.setMap(map);
+var draw; // global so we can remove it later
+// function addInteraction() {
+  var value = 'LineString';
+  if (value !== 'None') {
+    draw = new ol.interaction.Draw({
+      features: fo.getFeatures(),
+      type: value
+    });
+    map.addInteraction(draw);
+  }
+// }
+    });
+    var serialise = function() {
+      var map = System.get('olMap').default.get();
+      var gj=new ol.format.GeoJSON();
+      console.log(gj.writeFeatures(fo.getFeatures().getArray(),{featureProjection:'EPSG:3857'}));
+    };
   </script>
 </body>
 </html>
