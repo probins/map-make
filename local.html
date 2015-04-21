@@ -60,16 +60,20 @@
       <div>Add widgets:</div>
       <button id="adddraw">Draw</button>
     </div>
+    <div id="serial" style="display: none">
+      <button id="serialise">Serialise drawn features</button>
+      <textarea name="Text1" cols="40" rows="5" id="serialOP"></textarea>
+    </div>
   </div>
   <script>
-    document.getElementById('addraster').addEventListener('click', function(){
+    document.getElementById('addraster').addEventListener('click', function() {
       var olMap = System.get('olMap').default;
       System.import('registry/sources/' + document.getElementById('rastercode').value)
       .then(function(m) {
         olMap.addRasters([m]);
       });
     });
-    document.getElementById('addvector').addEventListener('click', function(){
+    document.getElementById('addvector').addEventListener('click', function() {
       var olMap = System.get('olMap').default;
       var url = document.getElementById('vectorfile').value;
       var option = {
@@ -84,27 +88,29 @@
       olMap.addFeaturesListener();
     });
     var fo;
-    document.getElementById('adddraw').addEventListener('click', function(){
+    document.getElementById('adddraw').addEventListener('click', function() {
       var map = System.get('olMap').default.get();
- fo=new ol.FeatureOverlay();
-fo.setMap(map);
-var draw; // global so we can remove it later
-// function addInteraction() {
-  var value = 'LineString';
-  if (value !== 'None') {
-    draw = new ol.interaction.Draw({
-      features: fo.getFeatures(),
-      type: value
-    });
-    map.addInteraction(draw);
-  }
+      fo = new ol.FeatureOverlay();
+      fo.setMap(map);
+      var draw; // global so we can remove it later
+      // function addInteraction() {
+      var value = 'LineString';
+      if (value !== 'None') {
+        draw = new ol.interaction.Draw({
+          features: fo.getFeatures(),
+          type: value
+        });
+        map.addInteraction(draw);
+      }
+      document.getElementById('serial').style.display = 'block';
 // }
     });
-    var serialise = function() {
+    document.getElementById('serialise').addEventListener('click', function() {
       var map = System.get('olMap').default.get();
-      var gj=new ol.format.GeoJSON();
-      console.log(gj.writeFeatures(fo.getFeatures().getArray(),{featureProjection:'EPSG:3857'}));
-    };
+      var gj = new ol.format.GeoJSON();
+      document.getElementById('serialOP').value =
+          gj.writeFeatures(fo.getFeatures().getArray(),{featureProjection:'EPSG:3857'});
+    });
   </script>
 </body>
 </html>
