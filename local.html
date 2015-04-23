@@ -90,8 +90,7 @@
     var fo;
     document.getElementById('adddraw').addEventListener('click', function() {
       var map = System.get('olMap').default.get();
-      fo = new ol.FeatureOverlay();
-      fo.setMap(map);
+      fo = new ol.FeatureOverlay({map: map});
       var draw; // global so we can remove it later
       // function addInteraction() {
       var value = 'LineString';
