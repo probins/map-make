@@ -1,0 +1,52 @@
+<template id="drawtemplate">
+  <div id="drawtools">
+    <label>Geometry type &nbsp;</label>
+    <select id="type">
+      <option value="None">None</option>
+      <option value="Point">Point</option>
+      <option value="LineString">LineString</option>
+      <option value="Polygon">Polygon</option>
+    </select>
+    <button id="serialise">Serialise drawn features</button>
+    <textarea cols="40" rows="5" id="serialOP"></textarea>
+    <button id="clear">Clear features</button>
+  </div>
+</template>
+
+<script type="module">
+  var ol = require('ol');
+  var map = require('olMap').get();
+  var tpl = document.querySelector('link[rel="import"]').import.getElementById('drawtemplate').content;
+  var fo = new ol.FeatureOverlay({map: map});
+  var typeSelect = tpl.getElementById('type');
+  var draw;
+  function addInteraction() {
+    var value = typeSelect.value;
+    if (value !== 'None') {
+      draw = new ol.interaction.Draw({
+        features: fo.getFeatures(),
+        type: (value)
+      });
+      draw.on('drawend', function(e){
+        e.feature.set('title', 'newfie');
+      });
+      map.addInteraction(draw);
+    }
+  }
+  typeSelect.onchange = function(e) {
+    map.removeInteraction(draw);
+    addInteraction();
+  };
+  addInteraction();
+  document.getElementById('adddraw').style.display = 'none';
+  var op = tpl.getElementById('serialOP');
+  tpl.getElementById('serialise').addEventListener('click', function() {
+    var gj = new ol.format.GeoJSON();
+    op.value =
+        gj.writeFeatures(fo.getFeatures().getArray(), {featureProjection:'EPSG:3857'});
+  });
+  tpl.getElementById('clear').addEventListener('click', function() {
+    fo.getFeatures().clear();
+  });
+  document.getElementById('toolbar').appendChild(tpl);
+</script>

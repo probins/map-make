@@ -61,12 +61,29 @@
       <div>Add widgets:</div>
       <button id="adddraw">Draw</button>
     </div>
-    <div id="serial" style="display: none">
-      <button id="serialise">Serialise drawn features</button>
-      <textarea name="Text1" cols="40" rows="5" id="serialOP"></textarea>
-    </div>
   </div>
   <script>
+    var componentCallback = function() {
+      var scripts = this.import.getElementsByTagName('script');
+      for (var i = 0; i < scripts.length; i++) {
+        var script = scripts[i];
+        if (script.type == 'module') {
+          var source = script.innerHTML.substr(1);
+          System.module(source)['catch'](function(err) { setTimeout(function() { throw err; }); });
+        }
+      }
+    };
+    function importComponent(element, href) {
+      document.getElementById(element).addEventListener('click', function() {
+        var frag = document.createDocumentFragment();
+        var link = document.createElement('link');
+        link.rel = 'import';
+        link.href = href;
+        link.addEventListener('load', componentCallback);
+        frag.appendChild(link);
+        document.head.appendChild(frag);
+      });
+    }
     document.getElementById('addraster').addEventListener('click', function() {
       var olMap = System.get('olMap').default;
       System.import('registry/sources/' + document.getElementById('rastercode').value)
@@ -88,29 +105,7 @@
   // FIXME only if not already present
       olMap.addFeaturesListener();
     });
-    var fo;
-    document.getElementById('adddraw').addEventListener('click', function() {
-      var map = System.get('olMap').default.get();
-      fo = new ol.FeatureOverlay({map: map});
-      var draw; // global so we can remove it later
-      // function addInteraction() {
-      var value = 'LineString';
-      if (value !== 'None') {
-        draw = new ol.interaction.Draw({
-          features: fo.getFeatures(),
-          type: value
-        });
-        map.addInteraction(draw);
-      }
-      document.getElementById('serial').style.display = 'block';
-// }
-    });
-    document.getElementById('serialise').addEventListener('click', function() {
-      var map = System.get('olMap').default.get();
-      var gj = new ol.format.GeoJSON();
-      document.getElementById('serialOP').value =
-          gj.writeFeatures(fo.getFeatures().getArray(),{featureProjection:'EPSG:3857'});
-    });
+    importComponent('adddraw', 'lib/registry/widgets/draw.html');
   </script>
 </body>
 </html>
