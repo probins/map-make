@@ -1,4 +1,11 @@
-var ls = document.importNode(document.getElementById('layerswitcher').content, true);
+<template id="layerswitchertemplate">
+  <div>Layer Switcher</div>
+  <div id="layerswitch"></div>
+</template>
+
+<script type="module" id="layerswitcher">
+var ls = document.getElementById('layerswitcherlink').import
+    .getElementById('layerswitchertemplate').content;
 // create layer switcher divs
 var layersDiv = ls.getElementById('layerswitch');
 var rastersDiv = document.createElement('div');
@@ -66,3 +73,4 @@ module.exports = {
     return firstV;
   }
 };
+</script>

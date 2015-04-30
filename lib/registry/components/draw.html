@@ -13,10 +13,10 @@
   </div>
 </template>
 
-<script type="module">
+<script type="module" id="draw">
   var ol = require('ol');
   var map = require('olMap').get();
-  var tpl = document.querySelector('link[rel="import"]').import.getElementById('drawtemplate').content;
+  var tpl = document.getElementById('adddrawlink').import.getElementById('drawtemplate').content;
   var fo = new ol.FeatureOverlay({map: map});
   var typeSelect = tpl.getElementById('type');
   var draw;
