@@ -3,9 +3,9 @@
   <div id="layerswitch"></div>
 </template>
 
-<script type="module" id="layerswitcher">
-var ls = document.getElementById('layerswitcherlink').import
-    .getElementById('layerswitchertemplate').content;
+<script type="module" id="layerswitchermodule">
+var ls = document.importNode(document.getElementById('layerswitcherlink').import
+    .getElementById('layerswitchertemplate').content, true);
 // create layer switcher divs
 var layersDiv = ls.getElementById('layerswitch');
 var rastersDiv = document.createElement('div');

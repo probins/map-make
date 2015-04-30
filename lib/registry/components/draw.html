@@ -13,12 +13,15 @@
   </div>
 </template>
 
-<script type="module" id="draw">
+<script type="module" id="drawmodule">
   var ol = require('ol');
   var map = require('olMap').get();
-  var tpl = document.getElementById('adddrawlink').import.getElementById('drawtemplate').content;
+  function $(s) { return document.getElementById(s) };
+  $('toolbar')
+      .appendChild(document.importNode(document.getElementById('adddrawlink')
+      .import.getElementById('drawtemplate').content, true));
   var fo = new ol.FeatureOverlay({map: map});
-  var typeSelect = tpl.getElementById('type');
+  var typeSelect = $('type');
   var draw;
   function addInteraction() {
     var value = typeSelect.value;
@@ -38,15 +41,14 @@
     addInteraction();
   };
   addInteraction();
-  document.getElementById('adddraw').style.display = 'none';
-  var op = tpl.getElementById('serialOP');
-  tpl.getElementById('serialise').addEventListener('click', function() {
+  $('adddraw').style.display = 'none';
+  var op = $('serialOP');
+  $('serialise').addEventListener('click', function() {
     var gj = new ol.format.GeoJSON();
     op.value =
         gj.writeFeatures(fo.getFeatures().getArray(), {featureProjection:'EPSG:3857'});
   });
-  tpl.getElementById('clear').addEventListener('click', function() {
+  $('clear').addEventListener('click', function() {
     fo.getFeatures().clear();
   });
-  document.getElementById('toolbar').appendChild(tpl);
 </script>
