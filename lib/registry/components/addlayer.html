@@ -31,13 +31,12 @@
     var url = $('vectorfile').value;
     var option = {
       url: url,
-      id: $('vectorname').value || url
+      id: $('vectorname').value || url,
+      add: true
     };
     if ($('mongodb').checked === true) {
       option.type = 'mongodb';
     }
     olMap.addVectors([option]);
-  // FIXME only if not already present
-    olMap.addFeaturesListener();
   });
 </script>
