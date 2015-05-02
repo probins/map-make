@@ -31,7 +31,19 @@
         }
       }
     };
+    function importComponent(element, href) {
+      var frag = document.createDocumentFragment();
+      var link = document.createElement('link');
+      link.rel = 'import';
+      link.href = href;
+      link.id = element + 'link';
+      link.addEventListener('load', System.componentCallback);
+      frag.appendChild(link);
+      document.head.appendChild(frag);
+    }
   </script>
+  <link rel="import" href="lib/registry/components/toolbar.html" id="toolbarlink"
+      onload="System.componentCallback(event)"></link>
   <link rel="import" href="lib/registry/components/layerswitcher.html" id="layerswitcherlink"
       onload="System.componentCallback(event)"></link>
 </head>
@@ -58,31 +70,5 @@
     })();
   </script>
   <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
-  <div id="toolbar">
-    <button id="addlayer">Add a layer</button>
-    <div id="widgets">
-      <div>Add widgets:</div>
-      <button id="adddraw">Draw</button>
-    </div>
-  </div>
-  <script>
-    function importComponent(element, href) {
-      var frag = document.createDocumentFragment();
-      var link = document.createElement('link');
-      link.rel = 'import';
-      link.href = href;
-      link.id = element + 'link';
-      link.addEventListener('load', System.componentCallback);
-      frag.appendChild(link);
-      document.head.appendChild(frag);
-    }
-    function addImportListener(element, href) {
-      document.getElementById(element).addEventListener('click', function() {
-        importComponent(element, href);
-      });
-    }
-    addImportListener('addlayer', 'lib/registry/components/addlayer.html');
-    addImportListener('adddraw', 'lib/registry/components/draw.html');
-  </script>
 </body>
 </html>

@@ -1,0 +1,20 @@
+<template id="toolbartemplate">
+  <div id="toolbar">
+    <button id="addlayer">Add a layer</button>
+    <div id="widgets">
+      <div>Add widgets:</div>
+      <button id="adddraw">Draw</button>
+    </div>
+  </div>
+</template>
+
+<script type="module">
+  document.body.appendChild(document.importNode(document.getElementById('toolbarlink').import
+      .getElementById('toolbartemplate').content, true));
+  document.getElementById('addlayer').addEventListener('click', function() {
+    importComponent('addlayer', 'lib/registry/components/addlayer.html');
+  });
+  document.getElementById('adddraw').addEventListener('click', function() {
+    importComponent('adddraw', 'lib/registry/components/draw.html');
+  });
+</script>
