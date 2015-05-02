@@ -37,6 +37,6 @@
     if ($('mongodb').checked === true) {
       option.type = 'mongodb';
     }
-    olMap.addVectors([option]);
+    olMap.addVectors({vectors: [option]});
   });
 </script>
