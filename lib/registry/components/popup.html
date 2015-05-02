@@ -1,3 +1,11 @@
+<template id="popuptemplate">
+  <div id="popup" style="background-color: white"></div>
+</template>
+
+<script type="module" id="popupmodule">
+document.getElementById('toolbar')
+    .appendChild(document.importNode(document.getElementById('popuplink').import
+    .getElementById('popuptemplate').content, true));
 var ol = require('ol');
 var olMap = require('olMap');
 var map = olMap.get();
@@ -5,12 +13,8 @@ var map = olMap.get();
 // create sphere for Haversine distance calculation below
 var wgs84Sphere = new ol.Sphere(6378137);
 
-var popup = document.createElement('div');
-popup.id = 'popup';
-popup.style.backgroundColor = 'white';
-document.body.appendChild(popup);
 var overlay = new ol.Overlay({
-  element: popup,
+  element: document.getElementById('popup'),
   positioning: 'bottom-center',
   stopEvent: true
 });
@@ -72,3 +76,4 @@ map.on('singleclick', function(evt) {
   }
 });
 map.addOverlay(overlay);
+</script>

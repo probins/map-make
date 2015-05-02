@@ -1,13 +1,14 @@
+<template id="tooltiptemplate">
+  <div id="tooltip" style="background-color: white; position: absolute; z-index: 20000"></div>
+</template>
+
+<script type="module" id="tooltipmodule">
+document.getElementById('toolbar')
+    .appendChild(document.importNode(document.getElementById('tooltiplink').import
+    .getElementById('tooltiptemplate').content, true));
 var ol = require('ol');
 var olMap = require('olMap');
 var map = olMap.get();
-
-var tooltip = document.createElement('div');
-tooltip.id = 'tooltip';
-tooltip.style.position = 'absolute';
-tooltip.style.zIndex = '20000';
-tooltip.style.backgroundColor = 'white';
-document.body.appendChild(tooltip);
 
 // add featureOverlay if not present
 olMap.addHighlightOverlay();
@@ -54,3 +55,4 @@ map.getViewport().onmousemove = function(evt) {
     highlightedFeature = feature;
   }
 };
+</script>
