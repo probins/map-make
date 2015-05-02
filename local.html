@@ -67,19 +67,22 @@
   </div>
   <script>
     function importComponent(element, href) {
+      var frag = document.createDocumentFragment();
+      var link = document.createElement('link');
+      link.rel = 'import';
+      link.href = href;
+      link.id = element + 'link';
+      link.addEventListener('load', System.componentCallback);
+      frag.appendChild(link);
+      document.head.appendChild(frag);
+    }
+    function addImportListener(element, href) {
       document.getElementById(element).addEventListener('click', function() {
-        var frag = document.createDocumentFragment();
-        var link = document.createElement('link');
-        link.rel = 'import';
-        link.href = href;
-        link.id = element + 'link';
-        link.addEventListener('load', System.componentCallback);
-        frag.appendChild(link);
-        document.head.appendChild(frag);
+        importComponent(element, href);
       });
     }
-    importComponent('addlayer', 'lib/registry/components/addlayer.html');
-    importComponent('adddraw', 'lib/registry/components/draw.html');
+    addImportListener('addlayer', 'lib/registry/components/addlayer.html');
+    addImportListener('adddraw', 'lib/registry/components/draw.html');
   </script>
 </body>
 </html>
