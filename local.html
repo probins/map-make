@@ -24,9 +24,11 @@
         if (script.type == 'module') {
           var source = script.innerHTML.substr(1);
           if (script.id) {
-            System.define(script.id, source)['catch'](function(err) { setTimeout(function() { throw err; }); });
+            System.define(script.id, source)
+            .catch(function(err) { setTimeout(function() { throw err; }); });
           } else {
-            System.module(source)['catch'](function(err) { setTimeout(function() { throw err; }); });
+            System.module(source)
+            .catch(function(err) { setTimeout(function() { throw err; }); });
           }
         }
       }
