@@ -25,6 +25,9 @@
     System.import('registry/sources/' + $('rastercode').value)
     .then(function(m) {
       olMap.addRasters([m]);
+      olMap.switcherRasterHandler({
+        target: {value: m.getLayers()[0].getProperties().id}
+      });
     });
   });
   $('addvector').addEventListener('click', function() {
