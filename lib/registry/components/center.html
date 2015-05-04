@@ -1,23 +1,30 @@
-<template id="centretemplate">
+<template id="centertemplate">
   <div id="centre">
-    <div>To centre the map at a given point, enter any valid latitude and longitude number in decimal format, such as '45.6789'; specify west and south values as negative numbers. Note that one of these values without the other will be ignored. Of course, if the map is for a specific country, the values should be within the area of that country, otherwise the map will get confused.
-    <br>Initial centre: latitude <input type="text" id="lat"> longitude: <input type="text" id="lon">
-    <button id="setLatLon">Go to</button></div>
-    <div>Initial zoom level: <input type="text" id="zoomlevel"> (enter a number from 0 (zoomed out). The number of zoom levels varies depending on the raster concerned: worldwide rasters may have 20 levels, country-specific ones much fewer.)
-    <button id="zoom">Zoom</button></div>
+    <div><button id="setLatLon">Go to</button> latitude <input type="text" size="5" id="lat"> longitude: <input type="text" size="5" id="lon">
+     any valid latitude and longitude number in decimal format, such as '45.6789'; specify west and south values as negative numbers</div>
+    <div><button id="zoom">Zoom level</button> (number from 0 (zoomed out)): <input type="text" size="5" id="zoomlevel"> (number of zoom levels depends on the raster currently displayed: worldwide rasters may have 20 levels, country-specific ones far fewer.)
+    </div>
   </div>
 </template>
 
 <script type="module">
+  document.getElementById('addgoto').style.display = 'none';
+  document.getElementById('toolbar').appendChild(document
+      .importNode(document.getElementById('centerlink').import
+      .getElementById('centertemplate').content, true));
   var ol = require('ol');
   var map = require('olMap').get();
-    document.getElementById('setLatLon').addEventListener('click', function() {
-      var coord = [parseFloat(document.getElementById('lon').value),
-          parseFloat(document.getElementById('lat').value)];
-      coord = ol.proj.transform(coord, 'EPSG:4326', map.getView().getProjection());
+  document.getElementById('setLatLon').addEventListener('click', function() {
+    var coord = [parseFloat(document.getElementById('lon').value),
+        parseFloat(document.getElementById('lat').value)];
+    coord = ol.proj.transform(coord, 'EPSG:4326', map.getView().getProjection());
+    if (!ol.extent.containsCoordinate(map.getView().extent, coord)) {
+      alert('Coordinate outside map extent'); //FIXME English
+    } else {
       map.getView().setCenter(coord);
-    });
-    document.getElementById('zoom').addEventListener('click', function() {
-      map.getView().setZoom(document.getElementById('zoomlevel').value);
-    });
+    }
+  });
+  document.getElementById('zoom').addEventListener('click', function() {
+    map.getView().setZoom(document.getElementById('zoomlevel').value);
+  });
 </script>

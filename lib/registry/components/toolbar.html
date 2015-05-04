@@ -1,13 +1,9 @@
 <template id="toolbartemplate">
   <div id="toolbar">
-    <div>To centre the map at a given point, enter any valid latitude and longitude number in decimal format, such as '45.6789'; specify west and south values as negative numbers. Note that one of these values without the other will be ignored. Of course, if the map is for a specific country, the values should be within the area of that country, otherwise the map will get confused.
-    <br>Initial centre: latitude <input type="text" id="lat"> longitude: <input type="text" id="lon">
-    <button id="setLatLon">Go to</button></div>
-    <div>Initial zoom level: <input type="text" id="zoomlevel"> (enter a number from 0 (zoomed out). The number of zoom levels varies depending on the raster concerned: worldwide rasters may have 20 levels, country-specific ones much fewer.)
-    <button id="zoom">Zoom</button></div>
     <button id="addlayer">Add a layer</button>
     <div id="widgets">
       <div>Add widgets:</div>
+      <button id="addgoto">Add zoom/center</button>
       <button id="adddraw">Draw</button>
     </div>
   </div>
@@ -18,6 +14,9 @@
       .getElementById('toolbartemplate').content, true));
   document.getElementById('addlayer').addEventListener('click', function() {
     importComponent('addlayer', 'lib/registry/components/addlayer.html');
+  });
+  document.getElementById('addgoto').addEventListener('click', function() {
+    importComponent('center', 'lib/registry/components/center.html');
   });
   document.getElementById('adddraw').addEventListener('click', function() {
     importComponent('adddraw', 'lib/registry/components/draw.html');
