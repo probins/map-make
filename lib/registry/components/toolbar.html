@@ -10,7 +10,7 @@
 </template>
 
 <script type="module">
-  var $ = require('utils').$;
+  function $(s) { return document.getElementById(s) }
   document.body.appendChild(document.importNode($('toolbarlink').import
       .getElementById('toolbartemplate').content, true));
   $('addlayer').addEventListener('click', function() {
