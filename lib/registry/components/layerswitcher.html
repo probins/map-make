@@ -5,7 +5,8 @@
 </template>
 
 <script type="module">
-  document.getElementById('toolbar').appendChild(document
-      .importNode(document.getElementById('layerswitcherlink').import
+  var $ = require('utils').$;
+  $('toolbar').appendChild(document
+      .importNode($('layerswitcherlink').import
       .getElementById('layerswitchertemplate').content, true));
 </script>

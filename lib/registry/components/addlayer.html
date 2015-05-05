@@ -16,7 +16,7 @@
 </template>
 
 <script type="module">
-  function $(s) { return document.getElementById(s) };
+  var $ = require('utils').$;
   var olMap = require('olMap');
   $('addlayer').style.display = 'none';
   $('toolbar').appendChild(document.importNode($('addlayerlink').import

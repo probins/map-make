@@ -38,6 +38,22 @@
       frag.appendChild(link);
       document.head.appendChild(frag);
     }
+    // set paths specific to localhost
+    // has to be done before importing toolbar component
+    System.baseURL = System.baseURL + 'lib/';
+    // override setting in jspm's system.js
+    System.paths['*'] = '*.js';
+    // only needed for fetching plugins; included in jspm's system.js
+    // System.paths.jspm = "https://registry.jspm.io/*.js";
+    // System.paths.github = 'https://github.jspm.io/*.js';
+    System.paths.ol = '../../ol3/build/ol.js';
+    // System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';//../../gulpclosure/build/ol.js';
+
+    System.import('map-make').catch(function(err) {
+      console.log(err);
+      alert('Error reading map-make.js');
+      return;
+    });
   </script>
   <link rel="import" href="lib/registry/components/toolbar.html" id="toolbarlink"
       onload="System.componentCallback(event)"></link>
@@ -46,26 +62,6 @@
 </head>
 <body>
   <!--<div id="map" style="height: 400px"></div>-->
-
-  <script>
-    (function() {
-      // set paths specific to localhost
-      System.baseURL = System.baseURL + 'lib/';
-      // override setting in jspm's system.js
-      System.paths['*'] = '*.js';
-      // only needed for fetching plugins; included in jspm's system.js
-      // System.paths.jspm = "https://registry.jspm.io/*.js";
-      // System.paths.github = 'https://github.jspm.io/*.js';
-      System.paths.ol = '../../ol3/build/ol.js';
-      // System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';//../../gulpclosure/build/ol.js';
-
-      System.import('map-make').catch(function(err) {
-        console.log(err);
-        alert('Error reading map-make.js');
-        return;
-      });
-    })();
-  </script>
   <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
 </body>
 </html>

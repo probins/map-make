@@ -10,15 +10,16 @@
 </template>
 
 <script type="module">
-  document.body.appendChild(document.importNode(document.getElementById('toolbarlink').import
+  var $ = require('utils').$;
+  document.body.appendChild(document.importNode($('toolbarlink').import
       .getElementById('toolbartemplate').content, true));
-  document.getElementById('addlayer').addEventListener('click', function() {
+  $('addlayer').addEventListener('click', function() {
     importComponent('addlayer', 'lib/registry/components/addlayer.html');
   });
-  document.getElementById('addgoto').addEventListener('click', function() {
+  $('addgoto').addEventListener('click', function() {
     importComponent('center', 'lib/registry/components/center.html');
   });
-  document.getElementById('adddraw').addEventListener('click', function() {
+  $('adddraw').addEventListener('click', function() {
     importComponent('adddraw', 'lib/registry/components/draw.html');
   });
 </script>

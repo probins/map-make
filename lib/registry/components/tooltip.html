@@ -3,8 +3,9 @@
 </template>
 
 <script type="module">
-document.getElementById('toolbar')
-    .appendChild(document.importNode(document.getElementById('tooltiplink').import
+  var $ = require('utils').$;
+  $('toolbar')
+    .appendChild(document.importNode($('tooltiplink').import
     .getElementById('tooltiptemplate').content, true));
 var ol = require('ol');
 var olMap = require('olMap');
@@ -29,7 +30,7 @@ map.getViewport().onmousemove = function(evt) {
     // use only vector layers
     return ol.layer.Vector && l instanceof ol.layer.Vector;
   });
-  var tooltip = document.getElementById('tooltip');
+  var tooltip = $('tooltip');
   var html;
   if (feature) {
     html = feature.getProperties().name || feature.getProperties().title;

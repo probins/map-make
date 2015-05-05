@@ -8,15 +8,16 @@
 </template>
 
 <script type="module">
-  document.getElementById('addgoto').style.display = 'none';
-  document.getElementById('toolbar').appendChild(document
+  var $ = require('utils').$;
+  $('addgoto').style.display = 'none';
+  $('toolbar').appendChild(document
       .importNode(document.getElementById('centerlink').import
       .getElementById('centertemplate').content, true));
   var ol = require('ol');
   var map = require('olMap').get();
-  document.getElementById('setLatLon').addEventListener('click', function() {
-    var coord = [parseFloat(document.getElementById('lon').value),
-        parseFloat(document.getElementById('lat').value)];
+  $('setLatLon').addEventListener('click', function() {
+    var coord = [parseFloat($('lon').value),
+        parseFloat($('lat').value)];
     coord = ol.proj.transform(coord, 'EPSG:4326', map.getView().getProjection());
     if (!ol.extent.containsCoordinate(map.getView().extent, coord)) {
       alert('Coordinate outside map extent'); //FIXME English
@@ -24,7 +25,7 @@
       map.getView().setCenter(coord);
     }
   });
-  document.getElementById('zoom').addEventListener('click', function() {
-    map.getView().setZoom(document.getElementById('zoomlevel').value);
+  $('zoom').addEventListener('click', function() {
+    map.getView().setZoom($('zoomlevel').value);
   });
 </script>

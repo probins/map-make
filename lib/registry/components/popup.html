@@ -3,8 +3,9 @@
 </template>
 
 <script type="module">
-document.getElementById('toolbar')
-    .appendChild(document.importNode(document.getElementById('popuplink').import
+  var $ = require('utils').$;
+  $('toolbar')
+    .appendChild(document.importNode($('popuplink').import
     .getElementById('popuptemplate').content, true));
 var ol = require('ol');
 var olMap = require('olMap');
@@ -14,7 +15,7 @@ var map = olMap.get();
 var wgs84Sphere = new ol.Sphere(6378137);
 
 var overlay = new ol.Overlay({
-  element: document.getElementById('popup'),
+  element: $('popup'),
   positioning: 'bottom-center',
   stopEvent: true
 });

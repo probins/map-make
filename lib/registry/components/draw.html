@@ -16,9 +16,9 @@
 <script type="module">
   var ol = require('ol');
   var map = require('olMap').get();
-  function $(s) { return document.getElementById(s) };
+  var $ = require('utils').$;
   $('toolbar')
-      .appendChild(document.importNode(document.getElementById('adddrawlink')
+      .appendChild(document.importNode($('adddrawlink')
       .import.getElementById('drawtemplate').content, true));
   var fo = new ol.FeatureOverlay({map: map});
   var typeSelect = $('type');
