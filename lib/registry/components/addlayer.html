@@ -16,11 +16,11 @@
 </template>
 
 <script type="module">
-  var $ = require('utils').$;
+  var utils = require('utils');
+  var $ = utils.$;
   var olMap = require('olMap');
   $('addlayer').style.display = 'none';
-  $('toolbar').appendChild(document.importNode($('addlayerlink').import
-      .getElementById('addlayertemplate').content, true));
+  utils.addComponentToToolbar('addlayer');
   $('addraster').addEventListener('click', function() {
     System.import('registry/sources/' + $('rastercode').value)
     .then(function(m) {

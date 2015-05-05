@@ -3,10 +3,9 @@
 </template>
 
 <script type="module">
-  var $ = require('utils').$;
-  $('toolbar')
-    .appendChild(document.importNode($('tooltiplink').import
-    .getElementById('tooltiptemplate').content, true));
+  var utils = require('utils');
+  var $ = utils.$;
+  utils.addComponentToToolbar('tooltip');
 var ol = require('ol');
 var olMap = require('olMap');
 var map = olMap.get();

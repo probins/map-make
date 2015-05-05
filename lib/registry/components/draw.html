@@ -1,4 +1,4 @@
-<template id="drawtemplate">
+<template id="adddrawtemplate">
   <div id="drawtools">
     <label>Geometry type &nbsp;</label>
     <select id="type">
@@ -16,10 +16,9 @@
 <script type="module">
   var ol = require('ol');
   var map = require('olMap').get();
-  var $ = require('utils').$;
-  $('toolbar')
-      .appendChild(document.importNode($('adddrawlink')
-      .import.getElementById('drawtemplate').content, true));
+  var utils = require('utils');
+  var $ = utils.$;
+  utils.addComponentToToolbar('adddraw');
   var fo = new ol.FeatureOverlay({map: map});
   var typeSelect = $('type');
   var draw;

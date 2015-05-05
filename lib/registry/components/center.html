@@ -8,11 +8,10 @@
 </template>
 
 <script type="module">
-  var $ = require('utils').$;
+  var utils = require('utils');
+  var $ = utils.$;
   $('addgoto').style.display = 'none';
-  $('toolbar').appendChild(document
-      .importNode(document.getElementById('centerlink').import
-      .getElementById('centertemplate').content, true));
+  utils.addComponentToToolbar('center');
   var ol = require('ol');
   var map = require('olMap').get();
   $('setLatLon').addEventListener('click', function() {
