@@ -18,7 +18,11 @@
   var map = require('olMap').get();
   var utils = require('utils');
   var $ = utils.$;
-  utils.addComponentToToolbar('adddraw');
+  // make sure toolbar initialised
+  var toolbar = require('registry/components/toolbar');
+  // add adddrawtemplate to toolbar
+  toolbar.appendChild(document.importNode($('adddrawlink').import
+      .getElementById('adddrawtemplate').content, true));
   var fo = new ol.FeatureOverlay({map: map});
   var typeSelect = $('type');
   var draw;

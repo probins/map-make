@@ -5,7 +5,11 @@
 <script type="module">
   var utils = require('utils');
   var $ = utils.$;
-  utils.addComponentToToolbar('tooltip');
+  // make sure toolbar initialised
+  var toolbar = require('registry/components/toolbar');
+  // add tooltiptemplate to toolbar
+  toolbar.appendChild(document.importNode($('tooltiplink').import
+      .getElementById('tooltiptemplate').content, true));
 var ol = require('ol');
 var olMap = require('olMap');
 var map = olMap.get();

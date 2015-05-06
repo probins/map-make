@@ -5,7 +5,11 @@
 <script type="module">
   var utils = require('utils');
   var $ = utils.$;
-  utils.addComponentToToolbar('popup');
+  // make sure toolbar initialised
+  var toolbar = require('registry/components/toolbar');
+  // add popuptemplate to toolbar
+  toolbar.appendChild(document.importNode($('popuplink').import
+      .getElementById('popuptemplate').content, true));
 var ol = require('ol');
 var olMap = require('olMap');
 var map = olMap.get();

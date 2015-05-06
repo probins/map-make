@@ -20,7 +20,11 @@
   var $ = utils.$;
   var olMap = require('olMap');
   $('addlayer').style.display = 'none';
-  utils.addComponentToToolbar('addlayer');
+  // make sure toolbar initialised
+  var toolbar = require('registry/components/toolbar');
+  // add addlayertemplate to toolbar
+  toolbar.appendChild(document.importNode($('addlayerlink').import
+      .getElementById('addlayertemplate').content, true));
   $('addraster').addEventListener('click', function() {
     System.import('registry/sources/' + $('rastercode').value)
     .then(function(m) {
