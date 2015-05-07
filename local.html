@@ -17,27 +17,6 @@
   <!--load module loader polyfill and system.js extensions-->
   <script src="https://jspm.io/system.js"></script>
   <script>
-    System.componentCallback = function(e) {
-      var scripts = e.target.import.getElementsByTagName('script');
-      for (var i = 0; i < scripts.length; i++) {
-        var script = scripts[i];
-        if (script.type == 'module') {
-          var source = script.innerHTML.substr(1);
-          System.module(source)
-          .catch(function(err) { setTimeout(function() { throw err; }); });
-        }
-      }
-    };
-    function importComponent(element, href) {
-      var frag = document.createDocumentFragment();
-      var link = document.createElement('link');
-      link.rel = 'import';
-      link.href = href;
-      link.id = element + 'link';
-      link.addEventListener('load', System.componentCallback);
-      frag.appendChild(link);
-      document.head.appendChild(frag);
-    }
     // set paths specific to localhost
     // has to be done before importing toolbar component
     System.baseURL = System.baseURL + 'lib/';
