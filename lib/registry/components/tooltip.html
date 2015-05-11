@@ -6,7 +6,7 @@
   var utils = require('utils');
   var $ = utils.$;
   // make sure toolbar initialised
-  var toolbar = require('registry/components/toolbar');
+  var toolbar = require('toolbar');
   // add tooltiptemplate to toolbar
   toolbar.appendChild(document.importNode($('tooltiplink').import
       .getElementById('tooltiptemplate').content, true));

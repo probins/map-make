@@ -21,7 +21,7 @@
   var olMap = require('olMap');
   $('addlayer').style.display = 'none';
   // make sure toolbar initialised
-  var toolbar = require('registry/components/toolbar');
+  var toolbar = require('toolbar');
   // add addlayertemplate to toolbar
   toolbar.appendChild(document.importNode($('addlayerlink').import
       .getElementById('addlayertemplate').content, true));

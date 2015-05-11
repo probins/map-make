@@ -19,7 +19,7 @@
   var utils = require('utils');
   var $ = utils.$;
   // make sure toolbar initialised
-  var toolbar = require('registry/components/toolbar');
+  var toolbar = require('toolbar');
   // add adddrawtemplate to toolbar
   toolbar.appendChild(document.importNode($('adddrawlink').import
       .getElementById('adddrawtemplate').content, true));
