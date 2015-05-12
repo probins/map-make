@@ -24,10 +24,14 @@
   var toolbar = require('components/toolbar');
   // add addlayertemplate to toolbar
   toolbar.appendChild(utils.importTemplate('addlayer'));
+  var mapDef = require('mapDef').getMapDef();
   $('addraster').addEventListener('click', function() {
-    System.import('sources/' + $('rastercode').value)
+    var code = $('rastercode').value;
+    System.import('sources/' + code)
     .then(function(m) {
       olMap.addRasters([m]);
+      mapDef.rasters = mapDef.rasters || [];
+      mapDef.rasters.push(code);
       // $ doesn't work here
       document.getElementById(m.getLayers()[0].getProperties().id).click();
     });
@@ -43,5 +47,8 @@
       option.type = 'mongodb';
     }
     olMap.addVectors({vectors: [option]});
+    delete(option.add);
+    mapDef.vectors = mapDef.vectors || [];
+    mapDef.vectors.push(option);
   });
 </script>

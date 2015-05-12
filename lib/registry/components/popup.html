@@ -79,4 +79,8 @@ map.on('singleclick', function(evt) {
   }
 });
 map.addOverlay(overlay);
+
+var mapDef = require('mapDef').getMapDef();
+mapDef.components = mapDef.components || {};
+mapDef.components.popup = true;
 </script>

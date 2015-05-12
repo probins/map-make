@@ -53,4 +53,8 @@
   $('clear').addEventListener('click', function() {
     fo.getFeatures().clear();
   });
+
+  var mapDef = require('mapDef').getMapDef();
+  mapDef.components = mapDef.components || {};
+  mapDef.components.draw = true;
 </script>
