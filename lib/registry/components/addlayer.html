@@ -21,12 +21,12 @@
   var olMap = require('olMap');
   $('addlayer').style.display = 'none';
   // make sure toolbar initialised
-  var toolbar = require('toolbar');
+  var toolbar = require('components/toolbar');
   // add addlayertemplate to toolbar
   toolbar.appendChild(document.importNode($('addlayerlink').import
       .getElementById('addlayertemplate').content, true));
   $('addraster').addEventListener('click', function() {
-    System.import(utils.sourceDir + $('rastercode').value)
+    System.import('sources/' + $('rastercode').value)
     .then(function(m) {
       olMap.addRasters([m]);
       // $ doesn't work here
