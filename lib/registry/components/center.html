@@ -14,8 +14,7 @@
   // make sure toolbar initialised
   var toolbar = require('components/toolbar');
   // add centertemplate to toolbar
-  toolbar.appendChild(document.importNode($('centerlink').import
-      .getElementById('centertemplate').content, true));
+  toolbar.appendChild(utils.importTemplate('center'));
   var ol = require('ol');
   var map = require('olMap').get();
   $('setLatLon').addEventListener('click', function() {

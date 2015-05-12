@@ -23,8 +23,7 @@
   // make sure toolbar initialised
   var toolbar = require('components/toolbar');
   // add addlayertemplate to toolbar
-  toolbar.appendChild(document.importNode($('addlayerlink').import
-      .getElementById('addlayertemplate').content, true));
+  toolbar.appendChild(utils.importTemplate('addlayer'));
   $('addraster').addEventListener('click', function() {
     System.import('sources/' + $('rastercode').value)
     .then(function(m) {

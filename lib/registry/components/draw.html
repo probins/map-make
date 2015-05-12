@@ -21,8 +21,7 @@
   // make sure toolbar initialised
   var toolbar = require('components/toolbar');
   // add adddrawtemplate to toolbar
-  toolbar.appendChild(document.importNode($('drawlink').import
-      .getElementById('drawtemplate').content, true));
+  toolbar.appendChild(utils.importTemplate('draw'));
   var fo = new ol.FeatureOverlay({map: map});
   var typeSelect = $('type');
   var draw;

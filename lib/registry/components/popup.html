@@ -8,8 +8,7 @@
   // make sure toolbar initialised
   var toolbar = require('components/toolbar');
   // add popuptemplate to toolbar
-  toolbar.appendChild(document.importNode($('popuplink').import
-      .getElementById('popuptemplate').content, true));
+  toolbar.appendChild(utils.importTemplate('popup'));
 var ol = require('ol');
 var olMap = require('olMap');
 var map = olMap.get();
