@@ -1,0 +1,32 @@
+<template id="mapdeftemplate">
+  <div>A map definition is a file containing the options needed to recreate a map. Click on the Create MapDef button and save as a file. You can then enter the url for that file below to recreate the same map without entering the options individually.
+    <input type="text" id="mapdefurl" size="60">
+  </div>
+  <button id="createMapDef">Create MapDef</button>
+  <textarea cols="40" rows="5" id="mapDefOP"></textarea>
+</template>
+
+<script type="module">
+  var utils = require('utils');
+  var $ = utils.$;
+  $('addmapDef').style.display = 'none';
+  // make sure toolbar initialised
+  var toolbar = require('components/toolbar');
+  // add mapDeftemplate to toolbar
+  toolbar.appendChild(utils.importTemplate('mapdef'));
+  var mapDef = require('mapDef');
+  var ol = require('ol');
+  var map = require('olMap').get();
+
+  $('mapdefurl').addEventListener('change', function() {
+    window.location.search = 'mapDef=' + this.value;
+  });
+  $('createMapDef').addEventListener('click', function() {
+    var op = mapDef.getMapDef();
+    var view = map.getView();
+    var center = ol.proj.transform(view.getCenter(), view.getProjection(), 'EPSG:4326');
+    op.center = {lat: center[1], lon: center[0]};
+    op.zoom = view.getZoom();
+    $('mapDefOP').value = JSON.stringify(op);
+  });
+</script>
