@@ -24,7 +24,7 @@
   var toolbar = require('components/toolbar');
   // add addlayertemplate to toolbar
   toolbar.appendChild(utils.importTemplate('addlayer'));
-  var mapDef = require('mapDef').getMapDef();
+  var mapDef = require('mapDef').get();
   $('addraster').addEventListener('click', function() {
     var code = $('rastercode').value;
     System.import('sources/' + code)

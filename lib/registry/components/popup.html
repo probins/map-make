@@ -80,7 +80,7 @@ map.on('singleclick', function(evt) {
 });
 map.addOverlay(overlay);
 
-var mapDef = require('mapDef').getMapDef();
+var mapDef = require('mapDef').get();
 mapDef.components = mapDef.components || {};
 mapDef.components.popup = true;
 </script>
