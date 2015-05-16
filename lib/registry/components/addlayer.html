@@ -25,6 +25,7 @@
   // add addlayertemplate to toolbar
   toolbar.appendChild(utils.importTemplate('addlayer'));
   var mapDef = require('mapDef').get();
+
   $('addraster').addEventListener('click', function() {
     var code = $('rastercode').value;
     System.import('sources/' + code)
@@ -35,6 +36,7 @@
       olMap.changeRasterLayer(m.getLayers()[0].getProperties().id);
     });
   });
+
   $('addvector').addEventListener('click', function() {
     var url = $('vectorfile').value;
     var option = {
@@ -46,6 +48,7 @@
       option.type = 'mongodb';
     }
     olMap.addVectors({vectors: [option]});
+    olMap.use4326View();
     delete(option.add);
     mapDef.vectors = mapDef.vectors || [];
     mapDef.vectors.push(option);
