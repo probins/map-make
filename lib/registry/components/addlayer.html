@@ -1,8 +1,9 @@
 <template id="addlayertemplate">
   <div>
   <div id="rasters">
-    <div>Add a raster layer:</div>
+    <div>Add a raster layer (with API key if needed):</div>
     Code <input type="text" size="10" id="rastercode">
+    API <input type="text" size="10" id="api">
     <button id="addraster">Add</button>
   </div>
   <div id="vectors">
@@ -30,7 +31,15 @@
     var code = $('rastercode').value;
     System.import('sources/' + code)
     .then(function(m) {
-      olMap.addRasters([m]);
+      var options;
+      // use apikey if entered
+      if ($('api').value) {
+        options = {rasters: []};
+        var raster = {};
+        raster[code] = $('api').value;
+        options.rasters.push(raster);
+      }
+      olMap.addRasters([m], options);
       mapDef.rasters = mapDef.rasters || [];
       mapDef.rasters.push(code);
       olMap.changeRasterLayer(m.getLayers()[0].getProperties().id);
