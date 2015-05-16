@@ -32,8 +32,7 @@
       olMap.addRasters([m]);
       mapDef.rasters = mapDef.rasters || [];
       mapDef.rasters.push(code);
-      // $ doesn't work here
-      document.getElementById(m.getLayers()[0].getProperties().id).click();
+      olMap.changeRasterLayer(m.getLayers()[0].getProperties().id);
     });
   });
   $('addvector').addEventListener('click', function() {
