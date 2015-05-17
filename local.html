@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.css">
   <!--<link rel="stylesheet" href="../modular-ol3/dist/olCustom.css">-->
+  <link rel="import" href="lib/registry/components/toolbar.html" id="toolbarlink"></link>
+  <link rel="import" href="lib/registry/components/layerswitcher.html" id="layerswitcherlink"></link>
   <script>
     // load Promises polyfill if not natively supported
     if (!window.Promise) {
@@ -16,9 +18,12 @@
   </script>
   <!--load module loader polyfill and system.js extensions-->
   <script src="https://jspm.io/system.js"></script>
-  <script>
+</head>
+<body>
+  <!--<div id="map" style="height: 400px"></div>-->
+  <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
+  <script type="module">
     // set paths specific to localhost
-    // has to be done before importing toolbar component
     System.baseURL = System.baseURL + 'lib/';
     // override setting in jspm's system.js
     System.paths['*'] = '*.js';
@@ -27,19 +32,6 @@
     // System.paths.github = 'https://github.jspm.io/*.js';
     System.paths.ol = '../../ol3/build/ol.js';
     // System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';//../../gulpclosure/build/ol.js';
-    System.paths['components/*'] = 'registry/components/*.js';
-    System.meta.ol = {
-      format: 'global',
-      exports: 'ol'
-    };
-  </script>
-  <link rel="import" href="lib/registry/components/toolbar.html" id="toolbarlink"></link>
-  <link rel="import" href="lib/registry/components/layerswitcher.html" id="layerswitcherlink"></link>
-</head>
-<body>
-  <!--<div id="map" style="height: 400px"></div>-->
-  <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
-  <script type="module">
     System.import('map-make').catch(function(err) {
       console.log(err);
       alert('Error reading map-make.js');

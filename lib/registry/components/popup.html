@@ -10,8 +10,8 @@
   // add popuptemplate to toolbar
   toolbar.appendChild(utils.importTemplate('popup'));
 var ol = require('ol');
-var olMap = require('olMap');
-var map = olMap.get();
+var map = require('olMap').get();
+var vectors = require('vectors');
 
 // create sphere for Haversine distance calculation below
 var wgs84Sphere = new ol.Sphere(6378137);
@@ -23,7 +23,7 @@ var overlay = new ol.Overlay({
 });
 
 // add featureOverlay if not present
-olMap.addHighlightOverlay();
+vectors.addHighlightOverlay();
 
 // click on feature displays attributes in overlay
 map.on('singleclick', function(evt) {

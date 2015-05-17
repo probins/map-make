@@ -10,11 +10,11 @@
   // add tooltiptemplate to toolbar
   toolbar.appendChild(utils.importTemplate('tooltip'));
 var ol = require('ol');
-var olMap = require('olMap');
-var map = olMap.get();
+var map = require('olMap').get();
+var vectors = require('vectors');
 
 // add featureOverlay if not present
-olMap.addHighlightOverlay();
+vectors.addHighlightOverlay();
 
 var highlightedFeature;
 
