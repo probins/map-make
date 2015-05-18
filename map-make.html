@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <title>OL3 Map-make</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.5.0/ol.min.css">
+  <link rel="import" href="https://github.jspm.io/probins/map-make/registry/components/toolbar.html" id="toolbarlink"></link>
+  <link rel="import" href="https://github.jspm.io/probins/map-make/registry/components/layerswitcher.html" id="layerswitcherlink"></link>
   <script>
     if (!window.Promise) {
       document.write(
@@ -11,22 +14,15 @@
       );
     }
   </script>
+  <script src="https://jspm.io/system.js"></script>
 </head>
 <body>
-  <script src="https://jspm.io/system.js"></script>
-  <script>
-    (function() {
-      // set paths for prod
-      System.baseURL = 'https://github.jspm.io/probins/map-make/';
-      System.paths['*'] = '*.js';
-      System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';
-
-      System.import('map-make').catch(function(err) {
-        console.log(err);
-        alert('Error reading map-make.js');
-        return;
-      });
-    })();
+  <script type="module">
+    // set paths for prod
+    System.baseURL = 'https://github.jspm.io/probins/map-make/';
+    System.paths['*'] = '*.js';
+    System.paths.ol = 'http://probins.github.io/ol.js';
+    System.import('map-make');
   </script>
 </body>
 </html>

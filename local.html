@@ -4,8 +4,9 @@
   <meta charset="utf-8" />
   <title>OL3 Map-make</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.5.0/ol.min.css">
   <!--<link rel="stylesheet" href="../modular-ol3/dist/olCustom.css">-->
+  <!-- static components (template only)-->
   <link rel="import" href="lib/registry/components/toolbar.html" id="toolbarlink"></link>
   <link rel="import" href="lib/registry/components/layerswitcher.html" id="layerswitcherlink"></link>
   <script>
@@ -31,7 +32,8 @@
     // System.paths.jspm = "https://registry.jspm.io/*.js";
     // System.paths.github = 'https://github.jspm.io/*.js';
     System.paths.ol = '../../ol3/build/ol.js';
-    // System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.4.0/ol.min.js';//../../gulpclosure/build/ol.js';
+    // System.paths.ol = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.5.0/ol.min.js';//../../gulpclosure/build/ol.js';
+    // bootstrap
     System.import('map-make').catch(function(err) {
       console.log(err);
       alert('Error reading map-make.js');
