@@ -7,6 +7,7 @@
       <option value="ls">Draw lineString</option>
       <option value="poly">Draw polygon</option>
       <option value="modify">Modify</option>
+      <option value="deleet">Delete</option>
     </select>
     <button id="serialise">Serialise drawn/modified features</button>
     <textarea cols="40" rows="5" id="serialOP"></textarea>
@@ -33,6 +34,7 @@
   // create and add draw/modify interactions
   var select = new ol.interaction.Select();
   map.addInteraction(select);
+  var features = select.getFeatures();
   var interactions = {
     point: new ol.interaction.Draw({
       source: source,
@@ -47,7 +49,7 @@
       type: 'Polygon'
     }),
     modify: new ol.interaction.Modify({
-      features: select.getFeatures()
+      features: features
     })
   };
   // FIXME create attributes properly
@@ -67,6 +69,7 @@
     interactions[i].setActive(false);
   }
 
+  var wasDelete = false, evtKey;
   $('type').onchange = function(e) {
     // set any previously active interactions inactive
     for (i in interactions) {
@@ -75,6 +78,17 @@
     // ... and clicked one active
     if (interactions[e.target.value]) {
       interactions[e.target.value].setActive(true);
+    }
+    // if delete, add listener to delete from source and select when selected
+    if (e.target.value == 'deleet') {
+      evtKey = features.on('add', function(e) {
+        source.removeFeature(e.element);
+        features.clear();
+      });
+      wasDelete = true;
+    } else if (wasDelete) {
+      ol.Observable.unByKey(evtKey);
+      wasDelete = false;
     }
   };
 
