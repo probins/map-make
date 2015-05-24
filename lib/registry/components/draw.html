@@ -1,13 +1,14 @@
 <template id="drawtemplate">
   <div id="drawtools">
-    <label>Geometry type &nbsp;</label>
+    <label>Draw/modify &nbsp;</label>
     <select id="type">
-      <option value="None">None</option>
-      <option value="Point">Point</option>
-      <option value="LineString">LineString</option>
-      <option value="Polygon">Polygon</option>
+      <option value="navigate">Navigate</option>
+      <option value="point">Draw point</option>
+      <option value="ls">Draw lineString</option>
+      <option value="poly">Draw polygon</option>
+      <option value="modify">Modify</option>
     </select>
-    <button id="serialise">Serialise drawn features</button>
+    <button id="serialise">Serialise drawn/modified features</button>
     <textarea cols="40" rows="5" id="serialOP"></textarea>
     <button id="clear">Clear features</button>
   </div>
@@ -22,28 +23,52 @@
   var toolbar = require('components/toolbar');
   // add adddrawtemplate to toolbar
   toolbar.appendChild(utils.importTemplate('draw'));
+
   var fo = new ol.FeatureOverlay({map: map});
-  var typeSelect = $('type');
-  var draw;
-  function addInteraction() {
-    var value = typeSelect.value;
-    if (value !== 'None') {
-      draw = new ol.interaction.Draw({
-        features: fo.getFeatures(),
-        type: (value)
-      });
-      draw.on('drawend', function(e){
-        e.feature.set('title', 'newfie');
-      });
-      map.addInteraction(draw);
-    }
-  }
-  typeSelect.onchange = function(e) {
-    map.removeInteraction(draw);
-    addInteraction();
+
+  var interactions = {
+    point: new ol.interaction.Draw({
+      features: fo.getFeatures(),
+      type: 'Point'
+    }),
+    ls: new ol.interaction.Draw({
+      features: fo.getFeatures(),
+      type: 'LineString'
+    }),
+    poly: new ol.interaction.Draw({
+      features: fo.getFeatures(),
+      type: 'Polygon'
+    }),
+    modify: new ol.interaction.Modify({
+      features: fo.getFeatures()
+    })
   };
-  addInteraction();
+  interactions.point.on('drawend', function(e){
+    e.feature.set('title', 'newpoint');
+  });
+  interactions.ls.on('drawend', function(e){
+    e.feature.set('title', 'newls');
+  });
+  interactions.poly.on('drawend', function(e){
+    e.feature.set('title', 'newpoly');
+  });
+  var i;
+  for (i in interactions) {
+    map.addInteraction(interactions[i]);
+    interactions[i].setActive(false);
+  }
+
+  $('type').onchange = function(e) {
+    for (i in interactions) {
+      interactions[i].setActive(false);
+    }
+    if (interactions[e.target.value]) {
+      interactions[e.target.value].setActive(true);
+    }
+  };
+
   $('adddraw').style.display = 'none';
+
   var op = $('serialOP');
   $('serialise').addEventListener('click', function() {
     var gj = new ol.format.GeoJSON();
