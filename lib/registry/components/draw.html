@@ -84,7 +84,9 @@
   $('serialise').addEventListener('click', function() {
     var gj = new ol.format.GeoJSON();
     op.value =
-        gj.writeFeatures(source.getFeatures(), {featureProjection:'EPSG:3857'});
+        gj.writeFeatures(source.getFeatures(), {
+          featureProjection: map.getView().getProjection()
+        });
   });
   $('clear').addEventListener('click', function() {
     source.clear();
