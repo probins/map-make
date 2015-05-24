@@ -23,26 +23,34 @@
   var toolbar = require('components/toolbar');
   // add adddrawtemplate to toolbar
   toolbar.appendChild(utils.importTemplate('draw'));
+  var vectors = require('vectors');
 
-  var fo = new ol.FeatureOverlay({map: map});
+  // add a vector layer/source
+  vectors.add({vectors: [{id: 'Drawn'}]}); // FIXME English
+  var source = vectors.getLayers().item(vectors.getLayers().getLength()-1)
+      .getSource();
 
+  // create and add draw/modify interactions
+  var select = new ol.interaction.Select();
+  map.addInteraction(select);
   var interactions = {
     point: new ol.interaction.Draw({
-      features: fo.getFeatures(),
+      source: source,
       type: 'Point'
     }),
     ls: new ol.interaction.Draw({
-      features: fo.getFeatures(),
+      source: source,
       type: 'LineString'
     }),
     poly: new ol.interaction.Draw({
-      features: fo.getFeatures(),
+      source: source,
       type: 'Polygon'
     }),
     modify: new ol.interaction.Modify({
-      features: fo.getFeatures()
+      features: select.getFeatures()
     })
   };
+  // FIXME create attributes properly
   interactions.point.on('drawend', function(e){
     e.feature.set('title', 'newpoint');
   });
@@ -53,15 +61,18 @@
     e.feature.set('title', 'newpoly');
   });
   var i;
+  // interactions inactive until clicked
   for (i in interactions) {
     map.addInteraction(interactions[i]);
     interactions[i].setActive(false);
   }
 
   $('type').onchange = function(e) {
+    // set any previously active interactions inactive
     for (i in interactions) {
       interactions[i].setActive(false);
     }
+    // ... and clicked one active
     if (interactions[e.target.value]) {
       interactions[e.target.value].setActive(true);
     }
@@ -73,10 +84,10 @@
   $('serialise').addEventListener('click', function() {
     var gj = new ol.format.GeoJSON();
     op.value =
-        gj.writeFeatures(fo.getFeatures().getArray(), {featureProjection:'EPSG:3857'});
+        gj.writeFeatures(source.getFeatures(), {featureProjection:'EPSG:3857'});
   });
   $('clear').addEventListener('click', function() {
-    fo.getFeatures().clear();
+    source.clear();
   });
 
   var mapDef = require('mapDef').get();
