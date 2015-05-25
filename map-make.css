@@ -1,0 +1,45 @@
+body {
+  height: 100%;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.slideout-menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  width: 256px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: none;
+}
+
+.slideout-panel {
+  position:relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border: 0px;
+  padding: 0px;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+  overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+  display: block;
+}
+
+.toggle-button {
+  position: fixed;
+  top: 15px;
+  left: 60px;
+  z-index: 1000;
+}

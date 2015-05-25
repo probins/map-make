@@ -4,7 +4,9 @@
   <meta charset="utf-8" />
   <title>OL3 Map-make</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.5.0/ol.min.css">
+  <link rel="stylesheet" href="map-make.css">
   <!--<link rel="stylesheet" href="../modular-ol3/dist/olCustom.css">-->
   <!-- static components (template only)-->
   <link rel="import" href="lib/registry/components/toolbar.html" id="toolbarlink"></link>
@@ -21,7 +23,9 @@
   <script src="https://jspm.io/system.js"></script>
 </head>
 <body>
-  <!--<div id="map" style="height: 400px"></div>-->
+  <div id="map" style="height: 100%">
+    <button class="toggle-button">☰</button>
+  </div>
   <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
   <script type="module">
     // set paths specific to localhost
