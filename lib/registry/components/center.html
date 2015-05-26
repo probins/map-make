@@ -9,18 +9,18 @@
 <script type="module">
   var utils = require('utils');
   var $ = utils.$;
-  $('addgoto').style.display = 'none';
+  $('#addgoto').style.display = 'none';
   // make sure toolbar initialised
   require('components/toolbar');
 
   // add centertemplate to toolbar
-  $('widgets-content').appendChild(utils.importTemplate('center'));
+  $('#widgets-content').appendChild(utils.importTemplate('center'));
 
   var ol = require('ol');
   var map = require('olMap').get();
-  $('setLatLon').addEventListener('click', function() {
-    var coord = [parseFloat($('lon').value),
-        parseFloat($('lat').value)];
+  $('#setLatLon').addEventListener('click', function() {
+    var coord = [parseFloat($('#lon').value),
+        parseFloat($('#lat').value)];
     coord = ol.proj.transform(coord, 'EPSG:4326', map.getView().getProjection());
     if (!ol.extent.containsCoordinate(map.getView().extent, coord)) {
       alert('Coordinate outside map extent'); //FIXME English

@@ -24,7 +24,7 @@
   require('components/toolbar');
 
   // add adddrawtemplate to toolbar
-  $('widgets-content').appendChild(utils.importTemplate('draw'));
+  $('#widgets-content').appendChild(utils.importTemplate('draw'));
 
   var vectors = require('vectors');
 
@@ -72,7 +72,7 @@
   }
 
   var wasDelete = false, evtKey;
-  $('type').onchange = function(e) {
+  $('#type').onchange = function(e) {
     // set any previously active interactions inactive
     for (i in interactions) {
       interactions[i].setActive(false);
@@ -94,17 +94,17 @@
     }
   };
 
-  $('adddraw').style.display = 'none';
+  $('#adddraw').style.display = 'none';
 
-  var op = $('serialOP');
-  $('serialise').addEventListener('click', function() {
+  var op = $('#serialOP');
+  $('#serialise').addEventListener('click', function() {
     var gj = new ol.format.GeoJSON();
     op.value =
         gj.writeFeatures(source.getFeatures(), {
           featureProjection: map.getView().getProjection()
         });
   });
-  $('clear').addEventListener('click', function() {
+  $('#clear').addEventListener('click', function() {
     source.clear();
   });
 

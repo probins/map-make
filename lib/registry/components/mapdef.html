@@ -9,26 +9,26 @@
 <script type="module">
   var utils = require('utils');
   var $ = utils.$;
-  $('addmapDef').style.display = 'none';
+  $('#addmapDef').style.display = 'none';
   // make sure toolbar initialised
   require('components/toolbar');
 
   // add mapDeftemplate to toolbar
-  $('mapDef-content').appendChild(utils.importTemplate('mapdef'));
+  $('#mapDef-content').appendChild(utils.importTemplate('mapdef'));
 
   var mapDef = require('mapDef');
   var ol = require('ol');
   var map = require('olMap').get();
 
-  $('mapdefurl').addEventListener('change', function() {
+  $('#mapdefurl').addEventListener('change', function() {
     window.location.search = 'mapDef=' + this.value;
   });
-  $('createMapDef').addEventListener('click', function() {
+  $('#createMapDef').addEventListener('click', function() {
     var op = mapDef.get();
     var view = map.getView();
     var center = ol.proj.transform(view.getCenter(), view.getProjection(), 'EPSG:4326');
     op.center = {lat: center[1], lon: center[0]};
     op.zoom = view.getZoom();
-    $('mapDefOP').value = JSON.stringify(op);
+    $('#mapDefOP').value = JSON.stringify(op);
   });
 </script>

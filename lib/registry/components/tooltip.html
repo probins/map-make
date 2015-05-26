@@ -32,7 +32,7 @@ map.getViewport().onmousemove = function(evt) {
     // use only vector layers
     return ol.layer.Vector && l instanceof ol.layer.Vector;
   });
-  var tooltip = $('tooltip');
+  var tooltip = $('#tooltip');
   var html;
   if (feature) {
     html = feature.getProperties().name || feature.getProperties().title;

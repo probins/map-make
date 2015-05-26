@@ -27,27 +27,27 @@
   var $ = utils.$;
   var olMap = require('olMap');
   var map = olMap.get();
-  $('addlayer').style.display = 'none';
+  $('#addlayer').style.display = 'none';
   // make sure toolbar initialised
   require('components/toolbar');
 
   // add addlayertemplate to toolbar
-  $('layers-content').appendChild(utils.importTemplate('addlayer'));
+  $('#layers-content').appendChild(utils.importTemplate('addlayer'));
 
   var mapDef = require('mapDef').get();
   var rasters = require('rasters');
   var vectors = require('vectors');
 
-  $('addraster').addEventListener('click', function() {
-    var code = $('rastercode').value;
+  $('#addraster').addEventListener('click', function() {
+    var code = $('#rastercode').value;
     System.import('sources/' + code)
     .then(function(m) {
       var options;
       // use apikey if entered
-      if ($('api').value) {
+      if ($('#api').value) {
         options = {rasters: []};
         var raster = {};
-        raster[code] = $('api').value;
+        raster[code] = $('#api').value;
         options.rasters.push(raster);
       }
       rasters.add([m], options);
@@ -58,14 +58,14 @@
     });
   });
 
-  $('addvector').addEventListener('click', function() {
-    var url = $('vectorfile').value;
+  $('#addvector').addEventListener('click', function() {
+    var url = $('#vectorfile').value;
     var option = {
       url: url,
-      id: $('vectorname').value || url,
+      id: $('#vectorname').value || url,
       add: true
     };
-    if ($('mongodb').checked === true) {
+    if ($('#mongodb').checked === true) {
       option.type = 'mongodb';
     }
     vectors.add({vectors: [option]});
