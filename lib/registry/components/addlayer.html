@@ -2,19 +2,25 @@
   <div>
   <div id="rasters">
     <div>Add a raster layer (with API key if needed):</div>
-    Code <input type="text" size="10" id="rastercode">
-    API <input type="text" size="10" id="api">
+    <div>Code <input type="text" size="10" id="rastercode"></div>
+    <div>API <input type="text" size="10" id="api"></div>
     <button id="addraster">Add</button>
   </div>
   <div id="vectors">
     Add vector file<br>
-    Name/identifier <input type="text" size="10" id="vectorname">
-    Url <input type="text" size="50" id="vectorfile">
-    MongoDB? <input type="checkbox" id="mongodb" value="mongodb">
+    <div>Name/identifier <input type="text" size="10" id="vectorname"></div>
+    <div>Url <input type="text" size="30" id="vectorfile"></div>
+    <div>MongoDB? <input type="checkbox" id="mongodb" value="mongodb"></div>
     <button id="addvector">Add</button>
   </div>
   </div>
 </template>
+
+<style>
+  #rasters, #vectors {
+    border:1px solid #D2D8DE;
+  }
+</style>
 
 <script type="module">
   var utils = require('utils');
@@ -23,9 +29,11 @@
   var map = olMap.get();
   $('addlayer').style.display = 'none';
   // make sure toolbar initialised
-  var toolbar = require('components/toolbar');
+  require('components/toolbar');
+
   // add addlayertemplate to toolbar
-  toolbar.appendChild(utils.importTemplate('addlayer'));
+  $('layers-content').appendChild(utils.importTemplate('addlayer'));
+
   var mapDef = require('mapDef').get();
   var rasters = require('rasters');
   var vectors = require('vectors');

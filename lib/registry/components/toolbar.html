@@ -1,11 +1,40 @@
 <template id="toolbartemplate">
   <div id="toolbar">
-    <button id="addlayer">Add a layer</button>
-    <div id="widgets">
-      <div>Add widgets:</div>
-      <button id="addgoto">Go to</button>
-      <button id="adddraw">Draw</button>
-    </div>
-    <button id="addmapDef">Map definition</button>
+    <section>
+      <div id="layers-title" class="toolbartitle">Layers</div>
+      <div id="layers-content" class="toolbarcontent">
+        <div id="layers-text"><i>Layers are raster or vector map data</i></div>
+        <button id="addlayer">Add a layer</button>
+      </div>
+    </section>
+    <section>
+      <div id="widgets-title" class="toolbartitle">Widgets</div>
+      <div id="widgets-content" class="toolbarcontent">
+        <div><i>Add widgets:</i></div>
+        <button id="addgoto">Go to</button>
+        <button id="adddraw">Draw</button>
+      </div>
+    </section>
+    <section>
+      <div id="mapDef-title" class="toolbartitle">Map definition</div>
+      <div id="mapDef-content" class="toolbarcontent">
+        <button id="addmapDef">Use map definition</button>
+      </div>
+    </section>
   </div>
 </template>
+
+<style>
+  section {
+    border:1px solid #D2D8DE;
+  }
+  .toolbartitle {
+    background-color: #6fc;
+    cursor: pointer;
+    text-align: center;
+  }
+  .toolbarcontent {
+    background-color: #cff;
+    display: none;
+  }
+</style>

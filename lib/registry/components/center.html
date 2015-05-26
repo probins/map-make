@@ -11,9 +11,11 @@
   var $ = utils.$;
   $('addgoto').style.display = 'none';
   // make sure toolbar initialised
-  var toolbar = require('components/toolbar');
+  require('components/toolbar');
+
   // add centertemplate to toolbar
-  toolbar.appendChild(utils.importTemplate('center'));
+  $('widgets-content').appendChild(utils.importTemplate('center'));
+
   var ol = require('ol');
   var map = require('olMap').get();
   $('setLatLon').addEventListener('click', function() {

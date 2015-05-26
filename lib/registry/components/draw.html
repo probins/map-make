@@ -21,9 +21,11 @@
   var utils = require('utils');
   var $ = utils.$;
   // make sure toolbar initialised
-  var toolbar = require('components/toolbar');
+  require('components/toolbar');
+
   // add adddrawtemplate to toolbar
-  toolbar.appendChild(utils.importTemplate('draw'));
+  $('widgets-content').appendChild(utils.importTemplate('draw'));
+
   var vectors = require('vectors');
 
   // add a vector layer/source

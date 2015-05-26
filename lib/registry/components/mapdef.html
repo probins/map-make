@@ -11,9 +11,11 @@
   var $ = utils.$;
   $('addmapDef').style.display = 'none';
   // make sure toolbar initialised
-  var toolbar = require('components/toolbar');
+  require('components/toolbar');
+
   // add mapDeftemplate to toolbar
-  toolbar.appendChild(utils.importTemplate('mapdef'));
+  $('mapDef-content').appendChild(utils.importTemplate('mapdef'));
+
   var mapDef = require('mapDef');
   var ol = require('ol');
   var map = require('olMap').get();
