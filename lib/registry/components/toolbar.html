@@ -24,6 +24,10 @@
   </div>
 </template>
 
+<template id="toggletemplate">
+  <button id="slide-toggle" title="Toggle options menu">☰</button>
+</template>
+
 <style>
   section {
     border:1px solid #D2D8DE;
@@ -36,5 +40,11 @@
   .toolbarcontent {
     background-color: #cff;
     display: none;
+  }
+  #slide-toggle {
+    position: absolute;
+    top: 15px;
+    left: 60px;
+    z-index: 1000;
   }
 </style>
