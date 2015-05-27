@@ -10,28 +10,20 @@ var map = require('olMap').get();
 map.getViewport().appendChild(utils.importTemplate('tooltip'));
 var vectors = require('vectors');
 
-// add featureOverlay if not present
-vectors.addHighlightOverlay();
+var select = new ol.interaction.Select({
+  condition: ol.events.condition.pointerMove,
+  layers: vectors.getLayers().getArray()
+});
 
-var highlightedFeature;
+map.addInteraction(select);
 
-/**
- * with canvas, vectors have no separate identity, so have to use mousemove
- * with map.forEachFeatureAtPixel() to establish whether there is a feature at the
- * new mouse position. If so, make the tooltip div visible with title attribute
- */
-map.getViewport().onmousemove = function(evt) {
-  var pixel = map.getEventPixel(evt);
-  // if >1 feature at same pixel, e.g. points on top of polygon, uses last
-  var feature = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-    return feature;
-  }, null, function(l) {
-    // use only vector layers
-    return ol.layer.Vector && l instanceof ol.layer.Vector;
-  });
+select.on('select', function(e) {
+  var html, pixel;
   var tooltip = $('#tooltip');
-  var html;
-  if (feature) {
+  if (e.selected.length > 0) {
+    var feature = e.selected[0];
+    // FIXME change to pixel from event when available from ol
+    pixel = map.getPixelFromCoordinate(feature.getGeometry().getFirstCoordinate());
     html = feature.getProperties().name || feature.getProperties().title;
   }
   if (html) {
@@ -45,16 +37,7 @@ map.getViewport().onmousemove = function(evt) {
     tooltip.style.display = 'none';
     map.getTarget().style.cursor = '';
   }
-  if (feature !== highlightedFeature) {
-    if (highlightedFeature) {
-      map.highlightOverlay.removeFeature(highlightedFeature);
-    }
-    if (feature) {
-      map.highlightOverlay.addFeature(feature);
-    }
-    highlightedFeature = feature;
-  }
-};
+});
 
 var mapDef = require('mapDef').get();
 mapDef.components = mapDef.components || {};

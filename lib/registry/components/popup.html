@@ -22,15 +22,19 @@ var overlay = new ol.Overlay({
   stopEvent: true
 });
 
-// add featureOverlay if not present
-vectors.addHighlightOverlay();
+var vectors = require('vectors');
 
+var select = new ol.interaction.Select({
+  layers: vectors.getLayers().getArray()
+});
+
+map.addInteraction(select);
+
+select.on('select', function(e) {
 // click on feature displays attributes in overlay
-map.on('singleclick', function(evt) {
-  // uses overlay and highlightOverlay as closure
-  map.highlightOverlay.getFeatures().clear();
+  // uses overlay as closure
   var html = '', savedFeature;
-  map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
+  e.selected.forEach(function(feature) {
     if (feature != savedFeature) {
     if (html !== '') {
       // if >1 feature, displays all in one box
@@ -49,6 +53,7 @@ map.on('singleclick', function(evt) {
       var projCode = map.getView().getProjection().getCode();
       if (projCode != 'EPSG:4326' && projCode != 'EPSG:3857') {
         // no point in projected plane length for these projections
+        // FIXME English
         html += '<br>length (projected plane): ' + Math.round(geom.getLength() * 0.1) / 100 + 'km';
       }
       // Haversine calculation needs 4326 coords
@@ -58,26 +63,25 @@ map.on('singleclick', function(evt) {
       for (var i = 1; i < coords.length; i++) {
         length += wgs84Sphere.haversineDistance(coords[i-1], coords[i]);
       }
+      // FIXME English
       html += '<br>length (Haversine): ' + Math.round(length * 0.1) / 100 + 'km';
     }
-    map.highlightOverlay.addFeature(feature);
     savedFeature = feature;
     }
-  }, null, function(l) {
-    // use only vector layers
-    return ol.layer.Vector && l instanceof ol.layer.Vector;
   });
 
   var el = overlay.getElement();
   if (html !== '') {
     el.innerHTML = html;
     el.style.display = 'block';
-    overlay.setPosition(evt.coordinate);
+    // FIXME change to pixel from event when available from ol
+    overlay.setPosition(savedFeature.getGeometry().getFirstCoordinate());
   } else {
     el.innerHTML = '';
     el.style.display = 'none';
   }
 });
+
 map.addOverlay(overlay);
 
 var mapDef = require('mapDef').get();
