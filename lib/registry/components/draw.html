@@ -34,7 +34,10 @@
       .getSource();
 
   // create and add draw/modify interactions
-  var select = new ol.interaction.Select();
+  // select restricted to vector layers
+  var select = new ol.interaction.Select({
+    layers: vectors.getLayers().getArray()
+  });
   map.addInteraction(select);
   var features = select.getFeatures();
   var interactions = {
