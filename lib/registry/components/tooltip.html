@@ -5,12 +5,9 @@
 <script type="module">
   var utils = require('utils');
   var $ = utils.$;
-  // make sure toolbar initialised
-  var toolbar = require('components/toolbar');
-  // add tooltiptemplate to toolbar
-  toolbar.appendChild(utils.importTemplate('tooltip'));
 var ol = require('ol');
 var map = require('olMap').get();
+map.getViewport().appendChild(utils.importTemplate('tooltip'));
 var vectors = require('vectors');
 
 // add featureOverlay if not present
