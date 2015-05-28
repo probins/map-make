@@ -1,7 +1,7 @@
 <template id="drawtemplate">
   <div id="drawtools">
     <label>Draw/modify &nbsp;</label>
-    <select id="type">
+    <select id="drawtype">
       <option value="navigate">Navigate</option>
       <option value="point">Draw point</option>
       <option value="ls">Draw lineString</option>
@@ -9,11 +9,27 @@
       <option value="modify">Modify</option>
       <option value="deleet">Delete</option>
     </select>
-    <button id="serialise">Serialise drawn/modified features</button>
+    <button id="serialise">Serialise drawn features</button>
     <textarea cols="40" rows="5" id="serialOP"></textarea>
     <button id="clear">Clear drawn features</button>
   </div>
 </template>
+
+<template id="popuptemplate">
+  <div id="featureform">
+  <label>Id</label><input type="text" size="5" id="featureid">
+  <label>Title</label><input type="text" size="5" id="featuretitle">
+  <button id="featurebutton">Write</button>
+  </div>
+</template>
+
+<style>
+  #featureform {
+    background-color: white;
+    padding: 1px;
+    border: solid black;
+  }
+</style>
 
 <script type="module">
   var ol = require('ol');
@@ -21,7 +37,7 @@
   var utils = require('utils');
   var $ = utils.$;
   // make sure toolbar initialised
-  require('components/toolbar');
+  var toolbar = require('components/toolbar');
 
   // add adddrawtemplate to toolbar
   $('#widgets-content').appendChild(utils.importTemplate('draw'));
@@ -57,16 +73,32 @@
       features: features
     })
   };
-  // FIXME create attributes properly
-  interactions.point.on('drawend', function(e){
-    e.feature.set('title', 'newpoint');
+
+  toolbar.appendChild(utils.importTemplate('draw', 'popup'));
+  var overlay = new ol.Overlay({
+    element: $('#featureform'),
+    positioning: 'bottom-center',
+    stopEvent: true
   });
-  interactions.ls.on('drawend', function(e){
-    e.feature.set('title', 'newls');
-  });
-  interactions.poly.on('drawend', function(e){
-    e.feature.set('title', 'newpoly');
-  });
+  map.addOverlay(overlay);
+
+  var endCallback = function(e) {
+    var el = overlay.getElement();
+    el.style.display = 'block';
+    // FIXME change to pixel from event when available from ol
+    overlay.setPosition(e.feature.getGeometry().getFirstCoordinate());
+    $('#featurebutton').addEventListener('click', function() {
+      // FIXME create attributes properly
+      e.feature.set('id', $('#featureid').value);
+      e.feature.set('title', $('#featuretitle').value);
+      el.style.display = 'none';
+    });
+  };
+
+  interactions.point.on('drawend', endCallback);
+  interactions.ls.on('drawend', endCallback);
+  interactions.poly.on('drawend', endCallback);
+
   var i;
   // interactions inactive until clicked
   for (i in interactions) {
@@ -75,7 +107,7 @@
   }
 
   var wasDelete = false, evtKey;
-  $('#type').onchange = function(e) {
+  $('#drawtype').onchange = function(e) {
     // set any previously active interactions inactive
     for (i in interactions) {
       interactions[i].setActive(false);
