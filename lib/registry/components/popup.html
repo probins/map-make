@@ -22,8 +22,6 @@ var overlay = new ol.Overlay({
   stopEvent: true
 });
 
-var vectors = require('vectors');
-
 var select = new ol.interaction.Select({
   layers: vectors.getLayers().getArray()
 });
@@ -40,7 +38,7 @@ select.on('select', function(e) {
       // if >1 feature, displays all in one box
       html += '<br>';
     }
-    html += 'Id: '	+ feature.getId();
+    html += 'Id: ' + feature.getId();
     var atts = feature.getProperties();
     for (var att in atts) {
       if (att != 'geometry') {
