@@ -11,7 +11,7 @@
     </select>
     <button id="serialise">Serialise drawn/modified features</button>
     <textarea cols="40" rows="5" id="serialOP"></textarea>
-    <button id="clear">Clear features</button>
+    <button id="clear">Clear drawn features</button>
   </div>
 </template>
 
@@ -34,7 +34,7 @@
       .getSource();
 
   // create and add draw/modify interactions
-  // select restricted to vector layers
+  // select restricted to vector layers; used by modify and delete
   var select = new ol.interaction.Select({
     layers: vectors.getLayers().getArray()
   });
@@ -87,7 +87,20 @@
     // if delete, add listener to delete from source and select when selected
     if (e.target.value == 'deleet') {
       evtKey = features.on('add', function(e) {
-        source.removeFeature(e.element);
+        vectors.getLayers().forEach(function(l) {
+          var srce = l.getSource();
+          if (e.element.getId()) {
+            if (srce.getFeatureById(e.element.getId())) {
+              srce.removeFeature(e.element);
+            }
+          } else {
+            srce.getFeatures().some(function(f) {
+              if (f == e.element) {
+                srce.removeFeature(e.element);
+              }
+            });
+          }
+        });
         features.clear();
       });
       wasDelete = true;
