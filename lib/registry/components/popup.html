@@ -1,5 +1,20 @@
 <template id="popuptemplate">
-  <div id="popup"></div>
+  <div id="popup">
+  </div>
+</template>
+<template id="featuretemplate">
+  <div class="featureDisplay">
+    <div class="featureId"></div>
+    <div class="featureAtts"></div>
+    <div class="featurePrjctd">length (projected plane): <span class="featureLen"></span> km</div>
+    <div class="featureHav">length (Haversine): <span class="featureLenHav"></span> km</div>
+  </div>
+  <div class="featureAtt"></div>
+  <div id="featureEdit">
+    <label>Id </label><input type="text" size="5" id="featureEditId">
+    <div class="featureEditAtts"></div>
+  </div>
+  <label class="featureEditLabel"></label><input type="text" size="10" id="featureEditAtt">
 </template>
 
 <style>
@@ -15,6 +30,7 @@
   var toolbar = require('components/toolbar');
   // add popuptemplate to toolbar
   toolbar.appendChild(utils.importTemplate('popup'));
+  var featureTemplate = utils.importTemplate('popup', 'feature');
 var ol = require('ol');
 var map = require('olMap').get();
 var vectors = require('vectors');
@@ -37,51 +53,63 @@ map.addInteraction(select);
 select.on('select', function(e) {
 // click on feature displays attributes in overlay
   // uses overlay as closure
-  var html = '', savedFeature;
+  var savedFeature;
+  var child = document.createElement('div');
+  // FIXME forEach only needed when multi true, which isn't by default
   e.selected.forEach(function(feature) {
     if (feature != savedFeature) {
-    if (html !== '') {
-      // if >1 feature, displays all in one box
-      html += '<br>';
-    }
-    html += 'Id: ' + feature.getId();
-    var atts = feature.getProperties();
-    for (var att in atts) {
-      if (att != 'geometry') {
-        html += '<br>' + att + ': ' + atts[att];
+      var featureDisplay = featureTemplate.querySelector('.featureDisplay').cloneNode(true);
+      featureDisplay.querySelector('.featureId').innerHTML = feature.getId();
+      var atts = feature.getProperties();
+      for (var att in atts) {
+        if (att != 'geometry') {
+          var attNode = featureTemplate.querySelector('.featureAtt').cloneNode(true);
+          attNode.innerHTML = att + ': ' + atts[att];
+          featureDisplay.querySelector('.featureAtts').appendChild(attNode);
+        }
       }
-    }
-    var geom = feature.getGeometry().clone();
-    if (geom.getLength) {
-      // get length for linestrings
-      var projCode = map.getView().getProjection().getCode();
-      if (projCode != 'EPSG:4326' && projCode != 'EPSG:3857') {
-        // no point in projected plane length for these projections
-        // FIXME English
-        html += '<br>length (projected plane): ' + Math.round(geom.getLength() * 0.1) / 100 + 'km';
+      var geom = feature.getGeometry().clone();
+      if (geom.getLength) {
+        // get length for linestrings
+        var projCode = map.getView().getProjection().getCode();
+        if (projCode != 'EPSG:4326' && projCode != 'EPSG:3857') {
+          // no point in projected plane length for these projections
+          featureDisplay.querySelector('.featureLen').innerHTML =
+              Math.round(geom.getLength() * 0.1) / 100;
+        } else {
+          featureDisplay.querySelector('.featurePrjctd').style.display = 'none';
+        }
+        // Haversine calculation needs 4326 coords
+        geom.transform(projCode, 'EPSG:4326');
+        var coords = geom.getCoordinates();
+        var length = 0.0;
+        for (var i = 1; i < coords.length; i++) {
+          length += wgs84Sphere.haversineDistance(coords[i-1], coords[i]);
+        }
+        featureDisplay.querySelector('.featureLenHav').innerHTML =
+            Math.round(length * 0.1) / 100;
+      } else {
+        featureDisplay.querySelector('.featurePrjctd').style.display = 'none';
+        featureDisplay.querySelector('.featureHav').style.display = 'none';
       }
-      // Haversine calculation needs 4326 coords
-      geom.transform(projCode, 'EPSG:4326');
-      var coords = geom.getCoordinates();
-      var length = 0.0;
-      for (var i = 1; i < coords.length; i++) {
-        length += wgs84Sphere.haversineDistance(coords[i-1], coords[i]);
-      }
-      // FIXME English
-      html += '<br>length (Haversine): ' + Math.round(length * 0.1) / 100 + 'km';
-    }
-    savedFeature = feature;
+      savedFeature = feature;
+      child.appendChild(featureDisplay);
     }
   });
 
   var el = overlay.getElement();
-  if (html !== '') {
-    el.innerHTML = html;
+  if (child.childElementCount > 0) {
+    if (el.firstChild) {
+      el.removeChild(el.firstChild);
+    }
+    el.appendChild(child);
     el.style.display = 'block';
     // FIXME change to pixel from event when available from ol
     overlay.setPosition(savedFeature.getGeometry().getFirstCoordinate());
   } else {
-    el.innerHTML = '';
+    if (el.firstChild) {
+      el.removeChild(el.firstChild);
+    }
     el.style.display = 'none';
   }
 });
