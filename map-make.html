@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://github.jspm.io/probins/map-make/css/map-make.css">
   <link rel="import" href="https://github.jspm.io/probins/map-make/registry/components/toolbar.html" id="toolbarlink"></link>
   <link rel="import" href="https://github.jspm.io/probins/map-make/registry/components/layerswitcher.html" id="layerswitcherlink"></link>
+  <link rel="import" href="https://github.jspm.io/probins/map-make/registry/components/zoom.html" id="zoomlink"></link>
   <script>
     if (!window.Promise) {
       document.write(
@@ -18,10 +19,14 @@
 </head>
 <body>
   <script type="module">
+    System.defaultJSExtensions = true;
     // set paths for prod
-    System.baseURL = 'https://github.jspm.io/probins/map-make/';
-    System.paths['*'] = '*.js';
-    System.paths.ol = 'http://probins.github.io/ol.js';
+    System.config({
+      baseURL: 'https://github.jspm.io/probins/map-make/',
+      paths: {
+        '*': '*.js',
+        ol: 'http://probins.github.io/ol.js'
+      }});
     System.import('map-make');
   </script>
 </body>
