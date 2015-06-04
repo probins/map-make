@@ -16,6 +16,13 @@
 </template>
 
 <template id="featureformtemplate">
+  <style>
+    #featureform {
+      background-color: white;
+      padding: 1px;
+      border: solid black;
+    }
+  </style>
   <div id="featureform">
     <label>Id</label><input type="text" size="5" id="featureformid">
     <div>Attributes</div>
@@ -31,14 +38,6 @@
     <button id="featurebutton">Write</button>
   </div>
 </template>
-
-<style>
-  #featureform {
-    background-color: white;
-    padding: 1px;
-    border: solid black;
-  }
-</style>
 
 <script>
   System.import('components/draw');

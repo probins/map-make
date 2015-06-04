@@ -1,4 +1,9 @@
 <template id="addlayertemplate">
+  <style>
+    #rasters, #vectors {
+      border:1px solid #D2D8DE;
+    }
+  </style>
   <div>
   <div id="rasters">
     <div>Add a raster layer (with API key if needed):</div>
@@ -15,12 +20,6 @@
   </div>
   </div>
 </template>
-
-<style>
-  #rasters, #vectors {
-    border:1px solid #D2D8DE;
-  }
-</style>
 
 <script>
   System.import('components/addlayer');

@@ -1,4 +1,18 @@
 <template id="toolbartemplate">
+  <style>
+    section {
+      border:1px solid #D2D8DE;
+    }
+      .toolbartitle {
+      background-color: #6fc;
+      cursor: pointer;
+      text-align: center;
+    }
+    .toolbarcontent {
+      background-color: #cff;
+      display: none;
+    }
+  </style>
   <div id="toolbar">
     <section>
       <div id="layers-title" class="toolbartitle">Layers</div>
@@ -25,26 +39,13 @@
 </template>
 
 <template id="toggletemplate">
+  <style>
+    #slide-toggle {
+      position: absolute;
+      top: 15px;
+      left: 60px;
+      z-index: 1000;
+    }
+  </style>
   <button id="slide-toggle" title="Toggle options menu">☰</button>
 </template>
-
-<style>
-  section {
-    border:1px solid #D2D8DE;
-  }
-  .toolbartitle {
-    background-color: #6fc;
-    cursor: pointer;
-    text-align: center;
-  }
-  .toolbarcontent {
-    background-color: #cff;
-    display: none;
-  }
-  #slide-toggle {
-    position: absolute;
-    top: 15px;
-    left: 60px;
-    z-index: 1000;
-  }
-</style>
