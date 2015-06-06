@@ -13,6 +13,12 @@
         '<' + 'script src="https://es6-promises.s3.amazonaws.com/es6-promise-2.0.1.min.js"><\/script>'
       );
     }
+    // load fetch polyfill if not natively supported
+    if (!window.fetch) {
+      document.write(
+        '<' + 'script src="lib/fetch.min.js"><\/script>'
+      );
+    }
   </script>
   <!--load module loader polyfill and system.js extensions-->
   <script src="https://jspm.io/system.js"></script>
