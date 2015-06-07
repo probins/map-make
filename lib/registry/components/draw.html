@@ -1,18 +1,24 @@
 <template id="drawtemplate">
+  <style>
+    .fa-select {
+      font-family: sans-serif, 'FontAwesome';
+      font-size: larger;
+    }
+  </style>
   <div id="drawtools">
     <label>Draw/modify &nbsp;</label>
-    <select id="drawtype">
-      <option value="navigate">Navigate</option>
-      <option value="point">Draw point</option>
-      <option value="ls">Draw lineString</option>
-      <option value="poly">Draw polygon</option>
-      <option value="modify">Modify geometry</option>
-      <option value="modAtts">Modify attributes</option>
-      <option value="deleet">Delete</option>
+    <select id="drawtype" class="fa-select">
+      <option value="navigate" title="navigate">&#xf0ac;</option>
+      <option value="point" title="draw point">&#xf192;</option>
+      <option value="ls" title="draw linestring">&#xf07e;</option>
+      <option value="poly" title="draw polygon">&#11040;</option>
+      <option value="modify" title="modify geometry">&#xf14b;</option>
+      <option value="modAtts" title="modify attributes">&#xf044;</option>
+      <option value="deleet">&#xf1f8;</option>
     </select>
-    <button id="serialise">Serialise drawn features</button>
+    <button id="serialise" title="serialise drawn features" class="fa fa-save"></button>
     <textarea cols="40" rows="5" id="serialOP"></textarea>
-    <button id="clear">Clear drawn features</button>
+    <button id="clear" title="clear drawn features" class="fa fa-eraser"></button>
   </div>
 </template>
 
@@ -36,6 +42,6 @@
       </template>
       <button id="plusbutton">+</button>
     </div>
-    <button id="featurebutton">&#x2713;</button>
+    <button id="featurebutton" class="fa fa-check-square-o"></button>
   </div>
 </template>
