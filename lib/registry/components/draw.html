@@ -4,22 +4,29 @@
       font-family: sans-serif, 'FontAwesome';
       font-size: larger;
     }
+    #drawtype {
+      position: absolute;
+      top: 120px;
+      left: 10px
+    }
   </style>
   <div id="drawtools">
-    <label>Draw/modify &nbsp;</label>
-    <select id="drawtype" class="fa-select">
-      <option value="navigate" title="navigate">&#xf0ac;</option>
-      <option value="point" title="draw point">&#xf192;</option>
-      <option value="ls" title="draw linestring">&#xf07e;</option>
-      <option value="poly" title="draw polygon">&#11040;</option>
-      <option value="modify" title="modify geometry">&#xf14b;</option>
-      <option value="modAtts" title="modify attributes">&#xf044;</option>
-      <option value="deleet">&#xf1f8;</option>
+    <select id="drawtype" class="fa-select" title="Select edit tool">
+      <option value="navigate">&#xf0ac; navigate</option>
+      <option value="point">&#xf192; point</option>
+      <option value="ls">&#xf07e; line</option>
+      <option value="poly">&#11040; polygon</option>
+      <option value="modify">&#xf14b; move</option>
+      <option value="modAtts">&#xf044; edit</option>
+      <option value="deleet">&#xf1f8; delete</option>
+      <option value="save">&#xf0c7; save</option>
+      <option value="clear">&#xf12d; clear</option>
     </select>
-    <button id="serialise" title="serialise drawn features" class="fa fa-save"></button>
-    <textarea cols="40" rows="5" id="serialOP"></textarea>
-    <button id="clear" title="clear drawn features" class="fa fa-eraser"></button>
   </div>
+</template>
+
+<template id="serialisetemplate">
+  <textarea cols="40" rows="5" id="serialOP"></textarea>
 </template>
 
 <template id="featureformtemplate">
