@@ -30,13 +30,10 @@
     System.defaultJSExtensions = true;
     // set paths specific to localhost
     System.config({
-      baseURL: System.baseURL + 'lib/',
+      // baseURL: System.baseURL + 'lib/',
     // override setting in jspm's system.js
       paths: {
-        '*': '*.js',
-    // only needed for fetching plugins; included in jspm's system.js
-    // System.paths.jspm = "https://registry.jspm.io/*.js";
-    // System.paths.github = 'https://github.jspm.io/*.js';
+        '*': 'lib/*.js',
         ol: 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol.min.js'//../../gulpclosure/build/ol.js'
         // ol: '../../ol3/build/ol.js'
       }});
