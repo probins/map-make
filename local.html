@@ -22,21 +22,22 @@
     }
   </script>
   <!--load module loader polyfill and system.js extensions-->
-  <script src="https://jspm.io/system.js"></script>
+  <!--<script src="https://jspm.io/system.js"></script>-->
+  <script src="../es6test/systemjs/dist/system.js"></script>
 </head>
 <body>
   <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
-  <script type="module">
-    System.defaultJSExtensions = true;
+  <script>
     // set paths specific to localhost
     System.config({
-      // baseURL: System.baseURL + 'lib/',
-    // override setting in jspm's system.js
-      paths: {
-        '*': 'lib/*.js',
+      map: {
         ol: 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol.min.js'//../../gulpclosure/build/ol.js'
         // ol: '../../ol3/build/ol.js'
-      }});
+      },
+      paths: {
+        '*': 'lib/*.js'
+      }
+    });
     // bootstrap
     System.import('map-make').catch(function(err) {
       console.log(err);
