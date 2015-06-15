@@ -40,12 +40,6 @@ body {
 
 
 /* ol */
-.ol-mouse-position {
-  top: 8px;
-  right: 8px;
-  position: absolute;
-}
-
 .ol-scale-line {
   background: #95b9e6;
   background: rgba(0,60,136,0.3);
