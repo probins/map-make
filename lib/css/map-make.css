@@ -1,5 +1,5 @@
 /* slideout */
-body {
+html, body, .map {
   height: 100%;
   border: 0px;
   margin: 0px;
