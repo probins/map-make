@@ -39,6 +39,15 @@ html, body, .map {
 }
 
 
+#status {
+  text-align: center;
+  position: relative;
+  top: 50%;
+  z-index: 1000;
+  transform: translateY(-50%);
+}
+
+
 /* ol */
 .ol-scale-line {
   background: #95b9e6;

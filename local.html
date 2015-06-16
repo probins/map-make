@@ -28,6 +28,9 @@
 </head>
 <body>
   <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
+  <div id="status">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
   <script>
     // set paths specific to localhost
     System.config({
@@ -37,7 +40,7 @@
         // ol: '../../ol3/build/ol.js'
       },
       depCache: {
-        'map-make': ['utils', 'status', 'mapDef']
+        'map-make': ['utils', 'mapDef']
       }
     });
     // bootstrap
