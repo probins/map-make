@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <title>OL3 Map-make</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <base href="https://github.jspm.io/probins/map-make/map-make.html">
   <link rel="stylesheet" href="https://github.jspm.io/probins/map-make/css/map-make.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js"></script>
@@ -21,17 +20,23 @@
       );
     }
   </script>
-  <script src="https://jspm.io/system.js"></script>
+  <script src="https://github.jspm.io/systemjs/systemjs@0.18.3/dist/system.js"></script>
 </head>
 <body>
+  <div id="status">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
   <script>
-    System.defaultJSExtensions = true;
+    // System.defaultJSExtensions = true;
     // set paths for prod
     System.config({
-      baseURL: 'https://github.jspm.io/probins/map-make/',
+      baseURL: 'https://github.jspm.io/probins/map-make@master/',
       paths: {
         '*': '*.js',
-        ol: 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol.min.js'
+        "github:*":"https://github.jspm.io/*.js"
+      },
+      depCache: {
+        'map-make': ['utils', 'mapDef']
       }});
     System.import('map-make');
   </script>
