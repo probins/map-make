@@ -27,18 +27,22 @@
   <script src="../es6test/systemjs/dist/system.js"></script>
 </head>
 <body>
-  <!--<div id="mapDef" style="display:none">https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json</div>-->
   <div id="status">
     <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
+  <!--<mapdef>-->
+  <!--  <rasters>osm</rasters>-->
+  <!--  <zoom>5</zoom>-->
+  <!--</mapdef>-->
+
   <script>
     // set paths specific to localhost
     System.config({
       baseURL: 'lib/',
       paths: {
         '*': '*.js'//,
-        // ol: 'mapmakeol.js'
-        // ol: 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol.min.js'//../../gulpclosure/build/ol.js'
+        // ol: 'https://ol3-probins.c9.io/build/mapmakeol.js'
+        // ol: 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.7.0/ol.min.js'//../../gulpclosure/build/ol.js'
         // ol: '../../ol3/build/ol.js'
       },
       depCache: {

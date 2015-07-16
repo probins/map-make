@@ -47,6 +47,9 @@ html, body, #map {
   z-index: 1000;
   transform: translateY(-50%);
 }
+mapdef {
+  display: none;
+}
 
 
 /* ol */
