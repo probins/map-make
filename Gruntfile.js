@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     // pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      all: ['Gruntfile.js', 'lib/**/*.js']
+      all: ['Gruntfile.js', 'lib/**/*.js', '!lib/ol.js', '!lib/fetch.min.js', '!lib/plugins/text.js']
     }
   });
 
