@@ -26,6 +26,7 @@
       "ol.source.TileWMS",
       "ol.source.Vector",
       "ol.source.WMTS",
+      "ol.source.XYZ",
       "ol.style.Circle",
       "ol.style.Fill",
       "ol.style.Image",
