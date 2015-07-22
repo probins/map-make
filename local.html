@@ -31,8 +31,13 @@
     <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
   <!--<mapdef>-->
-  <!--  <rasters>osm</rasters>-->
-  <!--  <zoom>5</zoom>-->
+  <!--  <rasters>osm/osm</rasters>-->
+  <!--  <vectors>-->
+  <!--    [-->
+  <!--      "../pilgrimdb/simp.geojson",-->
+  <!--      {"url":"http://pilgrimdb.github.io/unmapped.geojson","style":{"stroke":{"color":"rgba(160,125,0,0.6)","width":3,"lineDash":[5]}}}-->
+  <!--    ]-->
+  <!--  </vectors>-->
   <!--</mapdef>-->
 
   <script>
@@ -42,7 +47,7 @@
       paths: {
         '*': '*.js'//,
         // ol: 'https://ol3-probins.c9.io/build/mapmakeol.js'
-        // ol: 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.7.0/ol.min.js'//../../gulpclosure/build/ol.js'
+        // ol: 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.7.0/ol-debug.min.js'//../../gulpclosure/build/ol.js'
         // ol: '../../ol3/build/ol.js'
       },
       depCache: {
