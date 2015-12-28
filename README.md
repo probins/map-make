@@ -1,8 +1,6 @@
-# createmap
+# map-make
 
-A script and code registry to create simple maps using OpenLayers 3 by simply filling in a form or defining a json object.
-
-*Warning: this is at the moment a proof of concept demo, liable to change at any moment without notice. Use at your own peril.*
+A script and code registry to create simple maps using [OpenLayers 3](http://www.openlayers.org) by simply filling in a form or defining a json object.
 
 ## Objective
 
@@ -20,29 +18,37 @@ Also helps developers try out different options.
 - the layerswitcher will automatically reproject vector features when the projection of the underlying raster source changes
 - uses the default OL3 zoom control, to which other widgets such as scaleline, mouse position display, tooltips and feature info popups can be added
 - custom feature styles can be specified for each vector source
+- vector date/features can be drawn and moved/edited; this includes splitting and joining of linestrings
 
 ## Usage
 
-The map to be displayed is defined in a *map definition* (mapDef), which can be specified in:
-- a json object; this is the most flexible method. See `mapDefs/` for some examples. This can be defined in a div tag with the id 'mapDef' `<div id="mapDef">url</div>` (see `local.html` for an example), or specified in the query string `?mapDef=url`
-- some parameters can be specified as key-value pairs in the query string
-- if there is no mapDef or query string defined, a form will be displayed where the query string values can be entered
+The main html file `map-make.html` is all that needs to be installed. When loaded in the browser, this will display the main menu which enables you to define which sources and tools you wish to use.
+
+This is fine for one-off maps, but is unwieldy for reusable maps, so the *map definition* (mapDef) can be saved for future use.
+
+This is a JSON object which can be:
+- loaded as a file from a url specified in the querystring: `?mapDef=url`
+- included in a mapDef element `<mapDef>...</mapDef>` in the html file (there is a commented-out example in the html file)
+
+There are some examples of such files in `https://github.com/probins/map-make-samples`.
+
+In addition, some parameters can be specified as key-value pairs in the query string.
+
+See [Usage file](usage.md) for more detailed instructions and examples.
 
 ## Technical details
 
 The code is modularised, and runs entirely in the browser, using [jspm](http://jspm.io/) to load the appropriate modules.
 
+Unfortunately, at the moment the OL3 code is not compatible with modular loading, so it's not possible to load the relevant OL3 code with each module. This should change as OL3 moves away from the Closure library, which should speed up the initial load.
+
 raster sources:
 - export a `getLayers` function, which returns the appropriate layer/source, along with the `projCode`, `extent` and `resolutions` properties if these are not the default worldwide EPSG:3857 values
 - have an ```id``` property, used in the layer switcher
 - See Bing and OSM for examples of EPSG:3857, and others for other projections.
+- some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files.
 
 ## Limitations
-
-The script cannot be finalised until the OL3 api is finalised. In particular, at present, uses 2 functions that are not in the current OL3 api. For this reason, has to use custom build or build with simple optimizations:
-
-1. source.getProjection()
-2. vectorLayer.getFeatures()
 
 Only 1 raster layer can be active/visible at a time.
 
