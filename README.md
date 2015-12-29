@@ -19,6 +19,7 @@ Also helps developers try out different options.
 - uses the default OL3 zoom control, to which other widgets such as scaleline, mouse position display, tooltips and feature info popups can be added; these widgets are also stored in a registry
 - custom feature styles can be specified for each vector source
 - vector data/features can be drawn and moved/edited; this includes splitting and joining of linestrings
+- map div uses 100% of screen viewport so keyboard arrows can pan map
 - should be usable on both mouse/keyboard (desktop/laptop) and touch-screen (mobile) devices
 
 ## Usage
