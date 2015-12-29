@@ -1,9 +1,0 @@
-
-/** 
- * OS OpenSpace WMS
- * EPSG:27700
- * Needs 2 layers, one for each tilegrid
- * FIXME id and attribution fixed in English
- */
-var ol=require("ol"),proj=require("../projections/27700"),extent=[0,0,8e5,13e5],sourceOptions={url:"http://openspace.ordnancesurvey.co.uk/osmapapi/ts",params:{VERSION:"1.1.1",LAYERS:"2500",KEY:"",URL:document.URL},attributions:[new ol.Attribution({html:"Topo maps &copy; Crown copyright and database rights "+(new Date).getFullYear()+' <span style="white-space: nowrap;">Ordnance Survey.</span>'+'&nbsp;&nbsp;<span style="white-space: nowrap;">'+'<a href="http://openspace.ordnancesurvey.co.uk/openspace/developeragreement.html#enduserlicense"'+'target="_blank">End User License Agreement</a></span>'})],logo:"http://openspace.ordnancesurvey.co.uk/osmapapi/img_versions/img_4.0.0/OS/poweredby_free.png",extent:extent,projection:proj.projCode};sourceOptions.tileGrid=new ol.tilegrid.TileGrid({resolutions:[2500,1e3,500,200,100,50,25,10,5],origin:[0,0],tileSize:[200,200]});var l200=new ol.layer.Tile({source:new ol.source.TileWMS(sourceOptions),minResolution:5,id:"OpenSpace"});sourceOptions.tileGrid=new ol.tilegrid.TileGrid({resolutions:[2,1],origin:[0,0],tileSize:[250,250]});var l250=new ol.layer.Tile({source:new ol.source.TileWMS(sourceOptions),maxResolution:5,id:"OpenSpace"}),resolutions=[2500,1e3,500,200,100,50,25,10,5,2,1];module.exports={getLayers:function(e){if(e){if(e.zoom){var o=resolutions[e.zoom];o>2?l200.getSource().updateParams({LAYERS:o}):l250.getSource().updateParams({LAYERS:o})}e.apikey&&(l200.getSource().updateParams({KEY:e.apikey}),l250.getSource().updateParams({KEY:e.apikey}))}return[l200,l250]},extent:extent,projCode:proj.projCode,resolutions:resolutions,viewEvent:{type:"change:resolution",func:function(e){var o=e.target.getResolution();o>2?l200.getSource().updateParams({LAYERS:o}):l250.getSource().updateParams({LAYERS:o})}}};
-//# sourceMappingURL=dist/registry/sources/gb.js.map
