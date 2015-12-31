@@ -38,13 +38,10 @@ See [Usage file](usage.md) for more detailed instructions and examples.
 
 The code is modularised, and runs entirely in the browser, using [jspm](http://jspm.io/) to load the appropriate modules.
 
-Unfortunately, at the moment the OL3 code is not compatible with modular loading, so it's not possible to load the relevant OL3 code with each module. This should change as OL3 moves away from the Closure library, which should speed up the initial load. At the moment, a custom build of OL3 is used and this is loaded regardless of whether all components are needed for a specific map.
+Unfortunately, at the moment the OL3 code is not compatible with modular loading, so it's not possible to load the relevant OL3 code with each module. This should change as OL3 moves away from the Closure library, which should speed up the initial load. At the moment, a custom build of all the OL3 code used is loaded; no account is taken of which components are needed for a specific map.
 
-raster sources:
-- export a `getLayers` function, which returns the appropriate layer/source, along with the `projCode`, `extent` and `resolutions` properties if these are not the default worldwide EPSG:3857 values
-- have an `id` property, used in the layer switcher
-- See Bing and OSM for examples of EPSG:3857, and others for other projections.
-- some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files.
+## Raster sources:
+Some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files, and should be provided at runtime in the map definition.
 
 ## Limitations
 

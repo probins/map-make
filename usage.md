@@ -19,7 +19,7 @@
 As stated in the Readme, there are some sample mapDefs in [`map-make-samples`](https://github.com/probins/map-make-samples). For example, entering `https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json` will load a map with 3 raster layers (Catalonia, Spain and OSM) and 2 vector files.
 
 #### Defining the map in the querystring
-Most of the map definition stored in a mapDef can also be defined using the querystring. For example, instead of entering a mapDef URL in the `Map definition` section of the menu, you can load the HTML file with a `mapDef` parameter. For example, `map-make.html?mapDef=https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json` will load the same mapDef used above. Entering `map-make.html?rasters=osm/osm,osm/opentopo&components=mouseposition,center` will load the OSM and OpenTopo maps with the mouseposition and center (Go to) components.
+Most of the map definition stored in a mapDef can also be defined using the querystring. For example, instead of entering a mapDef URL in the `Map definition` section of the menu, you can load the HTML file with a `mapDef` parameter. For example, `map-make.html?mapDef=https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json` will load the same mapDef used above. Entering `map-make.html?rasters=osm/osm,osm/opentopo&components=mouseposition,center` will load the OSM and OpenTopo maps with the mouseposition and center (Go to) components. The keys can be abbreviated: `rasters` -> `r`, `vectors` -> `v`, `components` -> `c`, `zoom` -> `z`.
 
 As entering these parameters is rather laborious, this feature is probably more useful for one-off tests than for maps that are frequently used.
 
