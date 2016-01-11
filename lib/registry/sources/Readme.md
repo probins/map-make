@@ -4,3 +4,5 @@ If the projection is not one of those natively supported by OL3, the source modu
 See Bing and OSM for examples of EPSG:3857, and others for other projections.
 
 Some sources require an API key. If this is the case, it should be in the options object passed to the `getLayers` function.
+
+`list.json` is a JSON array of entries in this registry, used by autocomplete on `add layer`. Entries added to the registry should be added to this list if they are to appear in the autocomplete list.

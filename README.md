@@ -45,7 +45,7 @@ For more info on registry entries, see the Readme in the appropriate section of 
 `map-make.html` loads `initloader.js` as the initial bootstrap. By default, this loads from JSPM, but a custom version can be created and used instead, for example, for testing on localhost.
 
 ### External libraries
-Besides OL3, [Proj4js](http://proj4js.org/) and [slideout.js](https://mango.github.io/slideout/) are used. Polyfills for `Promise` and `fetch()` are loaded if not natively supported. The [Font Awesome webfont](http://fontawesome.io/) is also used.
+Besides OL3, [Proj4js](http://proj4js.org/) and [slideout.js](https://mango.github.io/slideout/) are used. Polyfills for `Promise` and `fetch()` are loaded if not natively supported. The [Font Awesome webfont](http://fontawesome.io/) is also used, and the `add layer` module uses [Awesomplete](https://leaverou.github.io/awesomplete/) for autocompletion.
 
 ## Raster sources
 Some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files, and should be provided at runtime in the map definition.
