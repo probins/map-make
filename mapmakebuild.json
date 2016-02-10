@@ -84,6 +84,7 @@
       "ol.Observable#once",
       "ol.Overlay#getElement",
       "ol.Overlay#setPosition",
+      "ol.Sphere#geodesicArea",
       "ol.Sphere#haversineDistance",
       "ol.View#calculateExtent",
       "ol.View#fit",
@@ -101,8 +102,12 @@
       "ol.geom.Point#clone",
       "ol.geom.Polygon#clone",
       "ol.geom.LineString#getCoordinates",
+      "ol.geom.LinearRing#getCoordinates",
       "ol.geom.Point#getCoordinates",
       "ol.geom.Polygon#getCoordinates",
+      "ol.geom.LineString#getLastCoordinate",
+      "ol.geom.Polygon#getInteriorPoint",
+      "ol.geom.Polygon#getLinearRing",
       "ol.geom.Geometry#transform",
       "ol.interaction.Interaction#setActive",
       "ol.interaction.Select#getFeatures",
@@ -134,7 +139,6 @@
       "externs/proj4js.js"
     ],
     "define": [
-      "goog.array.ASSUME_NATIVE_FUNCTIONS=true",
       "goog.dom.ASSUME_STANDARDS_MODE=true",
       "goog.json.USE_NATIVE_JSON=true",
       "goog.DEBUG=false",
