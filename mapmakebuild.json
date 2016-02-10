@@ -111,6 +111,7 @@
       "ol.geom.Geometry#transform",
       "ol.interaction.Interaction#setActive",
       "ol.interaction.Select#getFeatures",
+      "ol.interaction.Select#getLayer",
       "ol.layer.Group#getLayers",
       "ol.layer.Layer#getSource",
       "ol.layer.Layer#setVisible",
