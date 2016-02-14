@@ -94,6 +94,9 @@
       "ol.View#getZoom",
       "ol.View#setCenter",
       "ol.View#setZoom",
+      "ol.format.GeoJSON#readFeatures",
+      "ol.format.GPX#readFeatures",
+      "ol.format.KML#readFeatures",
       "ol.format.GeoJSON#writeFeatures",
       "ol.format.GPX#writeFeatures",
       "ol.format.KML#writeFeatures",
@@ -108,6 +111,7 @@
       "ol.geom.LineString#getLastCoordinate",
       "ol.geom.Polygon#getInteriorPoint",
       "ol.geom.Polygon#getLinearRing",
+      "ol.geom.Geometry#simplify",
       "ol.geom.Geometry#transform",
       "ol.interaction.Interaction#setActive",
       "ol.interaction.Select#getFeatures",
@@ -152,7 +156,6 @@
     ],
     "jscomp_off": [
       "useOfGoogBase",
-      "unnecessaryCasts",
       "lintChecks"
     ],
     "extra_annotation_name": [
