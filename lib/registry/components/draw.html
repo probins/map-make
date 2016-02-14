@@ -30,6 +30,15 @@
 </template>
 
 <template id="serialisetemplate">
+  <div><i>Saved features:</i></div>
+  <select id="opformat" title="Output format">
+    <option value="GeoJSON" selected>GeoJSON</option>
+    <option value="KML">KML</option>
+    <option value="GPX">GPX</option>
+  </select>
+  <div>
+    <button id="reserialise">Reserialise</button>
+  </div>
   <textarea rows="6" id="serialOP"></textarea>
 </template>
 
