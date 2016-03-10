@@ -145,28 +145,17 @@
     ],
     "define": [
       "goog.dom.ASSUME_STANDARDS_MODE=true",
-      "goog.json.USE_NATIVE_JSON=true",
       "goog.DEBUG=false",
       "ol.ENABLE_DOM=false",
       "ol.ENABLE_WEBGL=false",
       "ol.ENABLE_RASTER_REPROJECTION=false",
       "ol.ENABLE_IMAGE=false"
     ],
-    "jscomp_error": [
-      "*"
-    ],
-    "jscomp_off": [
-      "useOfGoogBase",
-      "lintChecks"
-    ],
     "extra_annotation_name": [
       "api", "observable"
     ],
     "compilation_level": "ADVANCED",
-    "warning_level": "VERBOSE",
     "manage_closure_dependencies": true,
-    "create_source_map": "build/mapmakeol.js.map",
-    "source_map_format": "V3",
     "js_output_file": "build/mapmakeol.js",
     "output_wrapper_file": "build/outputwrapper"
   }
