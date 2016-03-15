@@ -25,11 +25,14 @@
       <div id="components-title" class="toolbartitle">Components</div>
       <div id="components-content" class="toolbarcontent">
         <div><i>Add components:</i></div>
-        <button id="centerbutton" class="addbutton">Go to</button>
-        <button id="drawbutton" class="addbutton">Draw</button>
-        <button id="mousepositionbutton" class="addbutton">Mouse position</button>
-        <button id="featuredisplaybutton" class="addbutton vectorButton">Popup</button>
-        <button id="tooltipbutton" class="addbutton vectorButton">Tooltip</button>
+        <select id="addcomponent" title="Add component">
+          <option value="choose">Choose:</option>
+          <option id="centeroption" value="center">Go to</option>
+          <option id="drawoption" value="draw">Draw</option>
+          <option id="mousepositionoption" value="mouseposition">Mouse position</option>
+          <option id="featuredisplayoption" class="vectorOption" value="featuredisplay">Popup</option>
+          <option id="tooltipoption" class="vectorOption" value="tooltip">Tooltip</option>
+        </select>
       </div>
     </section>
     <section>
