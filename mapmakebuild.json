@@ -162,6 +162,8 @@
     ],
     "compilation_level": "ADVANCED",
     "manage_closure_dependencies": true,
+    "use_types_for_optimization": true,
+    "output_manifest": "build/mapmakemanifest",
     "js_output_file": "build/mapmakeol.js",
     "output_wrapper_file": "build/outputwrapper"
   }
