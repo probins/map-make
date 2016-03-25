@@ -154,6 +154,7 @@
       "ol.ENABLE_DOM=false",
       "ol.ENABLE_WEBGL=false",
       "ol.ENABLE_RASTER_REPROJECTION=false",
+      "ol.ENABLE_VECTOR_TILE=false",
       "ol.ENABLE_IMAGE=false"
     ],
     "extra_annotation_name": [
