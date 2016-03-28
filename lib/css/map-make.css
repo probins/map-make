@@ -95,7 +95,6 @@ mapdef {
 
 .ol-control {
   position: absolute;
-  background-color: #eee;
   background-color: rgba(255,255,255,0.4);
   border-radius: 4px;
   padding: 2px;
@@ -125,7 +124,6 @@ mapdef {
   height: 1.375em;
   width: 1.375em;
   line-height: .4em;
-  background-color: #7b98bc;
   background-color: rgba(0,60,136,0.5);
   border: none;
   border-radius: 2px;
@@ -140,7 +138,6 @@ mapdef {
 .ol-control button:hover,
 .ol-control button:focus {
   text-decoration: none;
-  background-color: #4c6079;
   background-color: rgba(0,60,136,0.7);
 }
 .ol-zoom .ol-zoom-in {
@@ -149,7 +146,6 @@ mapdef {
 .ol-zoom .ol-zoom-out {
   border-radius: 0 0 2px 2px;
 }
-
 
 .ol-attribution {
   text-align: right;
@@ -177,6 +173,7 @@ mapdef {
 .ol-attribution img {
   max-height: 2em;
   max-width: inherit;
+  vertical-align: middle;
 }
 .ol-attribution ul, .ol-attribution button {
   display: inline-block;
