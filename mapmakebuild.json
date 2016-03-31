@@ -137,7 +137,7 @@
       "ol.style.Style#getImage",
       "ol.style.Style#getStroke"
   ],
-  "jvm": ["-Xmx256m", "-server", "-XX:+TieredCompilation"],
+  "jvm": ["-server", "-XX:+TieredCompilation"],
   "namespace": "OL3",
   "compile": {
     "externs": [
