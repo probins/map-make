@@ -1,0 +1,11 @@
+{
+  "extends": "openlayers",
+  "globals": {
+    "Promise": false,
+    "System": false,
+    "Slideout": false
+  },
+  "rules": {
+    "valid-jsdoc": 0
+  }
+}

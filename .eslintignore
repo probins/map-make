@@ -1,0 +1,3 @@
+lib/plugins/*
+lib/*.min.js
+lib/ol.js

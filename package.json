@@ -9,7 +9,7 @@
   },
   "dependencyMap": {},
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.8.0"
+    "eslint": "^2.6.0",
+    "eslint-config-openlayers": "^4.1.0"
   }
 }
