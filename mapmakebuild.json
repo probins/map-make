@@ -13,6 +13,7 @@
       "ol.format.GPX",
       "ol.format.KML",
       "ol.geom.LineString",
+      "ol.geom.MultiLineString",
       "ol.geom.Point",
       "ol.geom.Polygon",
       "ol.interaction.Draw",
@@ -50,6 +51,7 @@
       "ol.extent.extend",
       "ol.extent.getCenter",
       "ol.extent.getTopLeft",
+      "ol.loadingstrategy.bbox",
       "ol.proj.transform",
       "ol.proj.transformExtent",
 
