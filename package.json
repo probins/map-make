@@ -1,15 +1,15 @@
 {
-  "configFile": "local.html",
-  "directories": {
-    "jspm_packages": "jspm_packages",
-    "lib": "lib"
-  },
-  "buildConfig": {
-    "uglify": true
-  },
-  "dependencyMap": {},
   "devDependencies": {
     "eslint": "^2.6.0",
     "eslint-config-openlayers": "^4.1.0"
+  },
+  "jspm": {
+    "directories": {
+      "jspm_packages": "jspm_packages",
+      "lib": "lib"
+    },
+    "buildConfig": {
+      "uglify": true
+    }
   }
 }
