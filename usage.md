@@ -7,7 +7,7 @@
 - enter the raster layer you want to load; this should be the code listed at the top of one of those in the [sources registry](https://github.com/probins/map-make/tree/master/lib/registry/sources); for example `osm/osm`. Then click on `Add`. You should then see the OpenStreetMap displayed, and you can zoom in as you wish.
 - click on the menu toggle in the map to hide the menu; click again to redisplay
 - click on `Layers` again to hide this part of the menu, and then click on `Components`
-- click on, for example, `Mouse position` to display the coordinates of the cursor on the current display (this is not useful on touch-screen devices; hide the menu so this displays properly); or on `Go to` to enter a particular coordinate (you can use the zoom-level dropdown to zoom in/out)
+- click on, for example, `Mouse position` to display the coordinates of the cursor on the current display (this is not useful on touch-screen devices; hide the menu so this displays properly); or on `Go to` to enter a particular coordinate to zoom to
 - now add a vector file by going back to the `Layers` sections and entering the details. There are examples in [`map-make-samples`](https://github.com/probins/map-make-samples), for example `https://github.jspm.io/probins/map-make-samples/data/barcelona.geojson` (`Name/Identifier` is simply what is used in the layerswitcher)
 - you can now hide/redisplay this vector file by clicking the appropriate box in the layerswitcher.
 
