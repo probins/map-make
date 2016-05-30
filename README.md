@@ -1,6 +1,6 @@
 # map-make
 
-A script and code registry to create simple maps using [OpenLayers 3](http://www.openlayers.org) by simply filling in a form or defining a json object.
+A script and code registry to create simple maps using [OpenLayers 3](http://www.openlayers.org) by simply filling in a form or defining a json object or custom element.
 
 ## Objective
 
@@ -28,7 +28,9 @@ The main html file `map-make.html` is all that needs to be installed. When loade
 
 This is fine for one-off maps, but is unwieldy for maps you want to reuse, so the *map definition* (mapDef) can be saved for future use.
 
-This is a JSON object stored in a file which can be loaded from a url. There are some examples of mapDef files in `https://github.com/probins/map-make-samples`.
+This can be a JSON object stored in a file which can be loaded from a url. There are some examples of mapDef files in `https://github.com/probins/map-make-samples`.
+
+It can also be a `<mapdef>` custom element defined in the HTML file.
 
 In addition, parameters can be specified as key-value pairs in the query string.
 
