@@ -226,3 +226,9 @@ mapdef {
   font-size: 1.2em;
   will-change: transform;
 }
+
+.ol-dragzoom {
+  box-sizing: border-box;
+  border-radius: 2px;
+  border: 2px solid blue;
+}
