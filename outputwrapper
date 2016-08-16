@@ -1,0 +1,4 @@
+// v3.17.1-313-gbe1bec3 15.8.16
+System.register([],function(_export,_context){var OL3;return {setters:[],execute:function(){OL3={};%output%;var olp=OL3.ol;_export("default",olp)}}});
+// creates module called 'default'; different from module.exports= which just sets module eq to var; so imports have to be changed from "require(xx)" to "require(xx).default"
+// var OL3={};%output%module.exports=OL3.ol;
