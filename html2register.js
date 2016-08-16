@@ -4,7 +4,7 @@ fs.readFile('lib/registry/components/zoom.html', 'utf8', function (err, data) {
   if (err) {
     return console.log(err);
   }
-  fs.writeFile('lib/registry/components/zoom.htm', '"use strict";System.register([],function(_export,_context){return{setters:[],execute:function(){_export("default",'+JSON.stringify(data)+');}};});', function(err) {
+  fs.writeFile('dist/registry/components/zoom.htm', '"use strict";System.register([],function(_export,_context){return{setters:[],execute:function(){_export("default",'+JSON.stringify(data)+');}};});', function(err) {
     if(err) {
       console.log(err);
     } else {
