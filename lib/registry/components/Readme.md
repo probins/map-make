@@ -18,6 +18,8 @@ These initially appear as toolbar buttons, which when clicked either add content
 ###### Toolbar
 * Add a layer (`addlayer.js`)
 * Go to (`center.js`)
+* Geolocation (`geolocation.js`)
+* Place search (`placesearch.js`)
 * Use map definition (`mapdef.js`)
 
 ##### Map widgets
