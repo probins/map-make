@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./toolbar.htm', './component.js', '../../ol.js', '../../olMap.js', '../../utils.js', '../../mapDef.js'], function (_export, _context) {
+System.register(['./toolbar.htm.js', './component.js', '../../ol.js', '../../olMap.js', '../../utils.js', '../../mapDef.js'], function (_export, _context) {
   var tpl, Component, ol, olMap, utils, md, toolbar, map, $, mapDef, i, template, divs, cb, listener, btns, comp, slideout;
   return {
-    setters: [function (_toolbarHtm) {
-      tpl = _toolbarHtm.default;
+    setters: [function (_toolbarHtmJs) {
+      tpl = _toolbarHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_olJs) {

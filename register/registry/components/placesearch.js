@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./placesearch.htm', './component.js', '../../utils.js', './toolbar.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
+System.register(['./placesearch.htm.js', './component.js', '../../utils.js', './toolbar.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
   var tpl, Component, utils, ol, olMap, component, $, map;
   return {
-    setters: [function (_placesearchHtm) {
-      tpl = _placesearchHtm.default;
+    setters: [function (_placesearchHtmJs) {
+      tpl = _placesearchHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_utilsJs) {

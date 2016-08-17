@@ -1,6 +1,6 @@
 'use strict';
 
-System.register(['./layerswitcher.htm', './component.js', './toolbar.js'], function (_export, _context) {
+System.register(['./layerswitcher.htm.js', './component.js', './toolbar.js'], function (_export, _context) {
   var tpl, Component, toolbar, component, lst, layersDiv, rastersTpl, rastersDiv, vectorsTpl, vectorsDiv, added;
 
 
@@ -13,8 +13,8 @@ System.register(['./layerswitcher.htm', './component.js', './toolbar.js'], funct
   }
 
   return {
-    setters: [function (_layerswitcherHtm) {
-      tpl = _layerswitcherHtm.default;
+    setters: [function (_layerswitcherHtmJs) {
+      tpl = _layerswitcherHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_toolbarJs) {

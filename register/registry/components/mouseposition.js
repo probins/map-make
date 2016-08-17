@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./mouseposition.htm', './component.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
+System.register(['./mouseposition.htm.js', './component.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
   var tpl, Component, ol, olMap, component, template, map;
   return {
-    setters: [function (_mousepositionHtm) {
-      tpl = _mousepositionHtm.default;
+    setters: [function (_mousepositionHtmJs) {
+      tpl = _mousepositionHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_olJs) {

@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./popup.htm', './component.js', '../../olMap.js', '../../ol.js'], function (_export, _context) {
+System.register(['./popup.htm.js', './component.js', '../../olMap.js', '../../ol.js'], function (_export, _context) {
   var tpl, Component, olMap, ol, component, map, temp, overlay;
   return {
-    setters: [function (_popupHtm) {
-      tpl = _popupHtm.default;
+    setters: [function (_popupHtmJs) {
+      tpl = _popupHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_olMapJs) {

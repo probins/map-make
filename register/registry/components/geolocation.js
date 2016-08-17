@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./geolocation.htm', './component.js', '../../ol.js', '../../olMap.js', '../../utils.js', './toolbar.js'], function (_export, _context) {
+System.register(['./geolocation.htm.js', './component.js', '../../ol.js', '../../olMap.js', '../../utils.js', './toolbar.js'], function (_export, _context) {
   var tpl, Component, ol, olMap, utils, component, map, template, $, msgs, markerEl, marker;
   return {
-    setters: [function (_geolocationHtm) {
-      tpl = _geolocationHtm.default;
+    setters: [function (_geolocationHtmJs) {
+      tpl = _geolocationHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_olJs) {

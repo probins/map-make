@@ -1,6 +1,6 @@
 'use strict';
 
-System.register(['./draw.htm', './component.js', '../../ol.js', '../../olMap.js', '../../utils.js', './toolbar.js', '../../select.js', '../../vectors.js', '../../measure.js', './popup.js'], function (_export, _context) {
+System.register(['./draw.htm.js', './component.js', '../../ol.js', '../../olMap.js', '../../utils.js', './toolbar.js', '../../select.js', '../../vectors.js', '../../measure.js', './popup.js'], function (_export, _context) {
   var tpl, Component, ol, olMap, utils, select, vectors, measure, popup, component, map, $, overlay, joinKey, DRAWID, DECIMALS, source, features, interactions, listener, form, endCallback, i, wasDelete, wasModAtts, evtKey, op, formatType, saveall;
 
 
@@ -230,8 +230,8 @@ System.register(['./draw.htm', './component.js', '../../ol.js', '../../olMap.js'
 
   // add helptemplate to toolbar
   return {
-    setters: [function (_drawHtm) {
-      tpl = _drawHtm.default;
+    setters: [function (_drawHtmJs) {
+      tpl = _drawHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_olJs) {

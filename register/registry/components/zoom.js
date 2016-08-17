@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./zoom.htm', './component.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
+System.register(['./zoom.htm.js', './component.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
   var tpl, Component, ol, olMap, component, map, template, level;
   return {
-    setters: [function (_zoomHtm) {
-      tpl = _zoomHtm.default;
+    setters: [function (_zoomHtmJs) {
+      tpl = _zoomHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_olJs) {

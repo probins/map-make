@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./center.htm', './component.js', '../../utils.js', './toolbar.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
+System.register(['./center.htm.js', './component.js', '../../utils.js', './toolbar.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
   var tpl, Component, utils, ol, olMap, component, $, map;
   return {
-    setters: [function (_centerHtm) {
-      tpl = _centerHtm.default;
+    setters: [function (_centerHtmJs) {
+      tpl = _centerHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_utilsJs) {

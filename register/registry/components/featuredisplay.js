@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./featuredisplay.htm', './component.js', '../../olMap.js', '../../select.js', '../../measure.js', './popup.js'], function (_export, _context) {
+System.register(['./featuredisplay.htm.js', './component.js', '../../olMap.js', '../../select.js', '../../measure.js', './popup.js'], function (_export, _context) {
   var tpl, Component, olMap, select, measure, popup, component, featureTemplate, map, overlay;
   return {
-    setters: [function (_featuredisplayHtm) {
-      tpl = _featuredisplayHtm.default;
+    setters: [function (_featuredisplayHtmJs) {
+      tpl = _featuredisplayHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_olMapJs) {

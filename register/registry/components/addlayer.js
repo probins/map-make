@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./addlayer.htm', './component.js', '../../awesomplete.js', '../../utils.js', '../../olMap.js', './toolbar.js', '../../mapDef.js', '../../rasters.js', '../../vectors.js'], function (_export, _context) {
+System.register(['./addlayer.htm.js', './component.js', '../../awesomplete.js', '../../utils.js', '../../olMap.js', './toolbar.js', '../../mapDef.js', '../../rasters.js', '../../vectors.js'], function (_export, _context) {
   var tpl, Component, Awesomplete, utils, olMap, md, rasters, vectors, component, $, map, mapDef;
   return {
-    setters: [function (_addlayerHtm) {
-      tpl = _addlayerHtm.default;
+    setters: [function (_addlayerHtmJs) {
+      tpl = _addlayerHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_awesompleteJs) {

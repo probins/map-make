@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./tooltip.htm', './component.js', '../../utils.js', '../../ol.js', '../../olMap.js', '../../vectors.js', '../../measure.js'], function (_export, _context) {
+System.register(['./tooltip.htm.js', './component.js', '../../utils.js', '../../ol.js', '../../olMap.js', '../../vectors.js', '../../measure.js'], function (_export, _context) {
   var tpl, Component, utils, ol, olMap, vectors, measure, component, $, map, select;
   return {
-    setters: [function (_tooltipHtm) {
-      tpl = _tooltipHtm.default;
+    setters: [function (_tooltipHtmJs) {
+      tpl = _tooltipHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_utilsJs) {
