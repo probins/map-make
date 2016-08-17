@@ -38,16 +38,16 @@ See [Usage file](usage.md) for more detailed instructions and examples.
 
 ## Technical details
 
-The code is modularised, and runs entirely in the browser, using [JSPM](http://jspm.io/) and the [loader polyfill](https://github.com/ModuleLoader/es6-module-loader/) to load the appropriate modules direct from this Github repo. The modules currently use CJS-style `require` and `module.exports`; this will change to ES2015 modules once that is implemented in browsers. JSPM uses HTTP/2 to enable bulk-loading of modules and remove the need to bundle.
+The code is modularised, and runs entirely in the browser, using the [JSPM](http://jspm.io/) CDN to load the appropriate modules direct from this Github repo. This uses HTTP/2 to enable bulk-loading of modules and remove the need to bundle. The modules are written in `lib/` using ES2015 `import`/`export`, and these are currently converted to `System.register` format using Babel, stored in `register`. These modules are then loaded in the browser using the [system register loader](https://github.com/ModuleLoader/system-register-loader). Once ES2015 modules are implemented in browsers, this conversion step and loader will no longer be needed. Instead the ES6 modules will be loaded with `<script type="module">`.
 
 Unfortunately, at the moment the OL3 code is not compatible with modular loading, so it's not possible to load the relevant OL3 code with each module. This should change as OL3 moves away from the Closure library, which should speed up the initial load. At the moment, a custom build of all the OL3 code used is loaded; no account is taken of which components are needed for a specific map.
 
 For more info on registry entries, see the Readme in the appropriate section of `lib/registry`.
 
-`map-make.html` loads `initloader.js` as the initial bootstrap. By default, this loads from JSPM, but a custom version can be created and used instead, for example, for testing on localhost.
+`map-make.html` loads `initloader.js` as the initial bootstrap; this is a standard script, not a module. By default, this loads from JSPM, but is configurable with a `data-configVars` attribute, for example, for testing on localhost.
 
 ### External libraries
-Besides OL3, [Proj4js](http://proj4js.org/) and [slideout.js](https://mango.github.io/slideout/) are used. Polyfills for `Promise` and `fetch()` are loaded if not natively supported. The [Font Awesome webfont](http://fontawesome.io/) is also used, and the `add layer` module uses [Awesomplete](https://leaverou.github.io/awesomplete/) for autocompletion.
+Besides OL3, [Proj4js](http://proj4js.org/) and [slideout.js](https://mango.github.io/slideout/) are used. Polyfills for `Promise` and `fetch()` are loaded if not natively supported. The [Font Awesome webfont](http://fontawesome.io/) is also used, and the `add layer` module uses [Awesomplete](https://leaverou.github.io/awesomplete/) for autocompletion. Slideout is loaded from CDN, but OL3, Proj4js and Awesomplete are loaded with ES2015/System.register wrappers instead of the supplied UMD or other wrapper. See `lib/registry/projections/Readme.md` for details of the Proj4js custom build.
 
 ## Raster sources
 Some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files, and should be provided at runtime in the map definition.
