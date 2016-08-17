@@ -1,14 +1,14 @@
 'use strict';
 
-System.register(['./addlayer.htm', './component.js', 'https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.1/awesomplete.min.js', '../../utils.js', '../../olMap.js', './toolbar.js', '../../mapDef.js', '../../rasters.js', '../../vectors.js'], function (_export, _context) {
+System.register(['./addlayer.htm', './component.js', '../../awesomplete.js', '../../utils.js', '../../olMap.js', './toolbar.js', '../../mapDef.js', '../../rasters.js', '../../vectors.js'], function (_export, _context) {
   var tpl, Component, Awesomplete, utils, olMap, md, rasters, vectors, component, $, map, mapDef;
   return {
     setters: [function (_addlayerHtm) {
       tpl = _addlayerHtm.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
-    }, function (_httpsCdnjsCloudflareComAjaxLibsAwesomplete111AwesompleteMinJs) {
-      Awesomplete = _httpsCdnjsCloudflareComAjaxLibsAwesomplete111AwesompleteMinJs.default;
+    }, function (_awesompleteJs) {
+      Awesomplete = _awesompleteJs.default;
     }, function (_utilsJs) {
       utils = _utilsJs.default;
     }, function (_olMapJs) {
