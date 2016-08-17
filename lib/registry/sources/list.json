@@ -14,5 +14,5 @@
   "pl/topo",
   "pt/dgt/sc",
   "si/gurs",
-  "srtm/4326", "srtm/laea", "maps4free"
+  "srtm/4326", "srtm/laea", "srtm/maps4free"
 ]
