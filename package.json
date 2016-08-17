@@ -5,8 +5,7 @@
   },
   "jspm": {
     "directories": {
-      "jspm_packages": "jspm_packages",
-      "lib": "lib"
+      "dist": "register"
     },
     "buildConfig": {
       "uglify": true
