@@ -1,7 +1,7 @@
 'use strict';
 
-System.register(['./ol.js', './olMap.js', './registry/components/layerswitcher.js', './registry/components/zoom.js'], function (_export, _context) {
-  var ol, olMap, switcher, zoom, map;
+System.register(['./ol.js', './olMap.js', './registry/components/layerswitcher.js', './registry/components/zoom.js', './utils.js'], function (_export, _context) {
+  var ol, olMap, switcher, zoom, utils, map, $;
 
 
   function getLayers() {
@@ -53,6 +53,11 @@ System.register(['./ol.js', './olMap.js', './registry/components/layerswitcher.j
             f.getGeometry().transform(oldProjCode, newProjCode);
           });
         });
+      }
+      // no projected cursorposition if 4326
+      var projCursor = $('.projcursor');
+      if (projCursor) {
+        projCursor.style.display = newProjCode == 'EPSG:4326' ? 'none' : '';
       }
       this.setView(olMap.views[newProjCode]);
       zoom.setZooms();
@@ -140,9 +145,12 @@ System.register(['./ol.js', './olMap.js', './registry/components/layerswitcher.j
       switcher = _registryComponentsLayerswitcherJs.default;
     }, function (_registryComponentsZoomJs) {
       zoom = _registryComponentsZoomJs.default;
+    }, function (_utilsJs) {
+      utils = _utilsJs.default;
     }],
     execute: function () {
       map = olMap.get();
+      $ = utils.$;
 
       _export('default', {
         addInitial: function (rasters, options) {

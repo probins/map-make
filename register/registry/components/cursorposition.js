@@ -1,7 +1,7 @@
 'use strict';
 
-System.register(['./cursorposition.htm.js', './component.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
-  var tpl, Component, ol, olMap, component, template, map;
+System.register(['./cursorposition.htm.js', './component.js', '../../ol.js', '../../olMap.js', '../../utils.js'], function (_export, _context) {
+  var tpl, Component, ol, olMap, utils, component, template, map, $;
   return {
     setters: [function (_cursorpositionHtmJs) {
       tpl = _cursorpositionHtmJs.default;
@@ -11,6 +11,8 @@ System.register(['./cursorposition.htm.js', './component.js', '../../ol.js', '..
       ol = _olJs.default;
     }, function (_olMapJs) {
       olMap = _olMapJs.default;
+    }, function (_utilsJs) {
+      utils = _utilsJs.default;
     }],
     execute: function () {
       component = new Component(tpl, 'cursorposition');
@@ -20,6 +22,7 @@ System.register(['./cursorposition.htm.js', './component.js', '../../ol.js', '..
       document.head.appendChild(template);
 
       map = olMap.get();
+      $ = utils.$;
 
 
       // cursorposition in LatLons
@@ -41,6 +44,10 @@ System.register(['./cursorposition.htm.js', './component.js', '../../ol.js', '..
         // set class to override OL default position/style
         className: 'llcursor projcursor'
       }));
+
+      if (map.getView().getProjection().getCode() == 'EPSG:4326') {
+        $('.projcursor').style.display = 'none';
+      }
     }
   };
 });
