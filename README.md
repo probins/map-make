@@ -1,6 +1,6 @@
 # map-make
 
-A script and code registry to create simple maps using [OpenLayers 3](http://www.openlayers.org) by simply filling in a form or defining a json object or custom element.
+A script and code registry to create simple maps using [OpenLayers 3](http://www.openlayers.org) with no need to know or code Javascript: simply specify options in a form or define the same in a json object or custom element.
 
 ## Objective
 
