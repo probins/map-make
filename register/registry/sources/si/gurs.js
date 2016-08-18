@@ -14,7 +14,7 @@ System.register(['../../../ol.js', '../../projections/3912.js'], function (_expo
       prefix = 'raster_gurs_pub:SI.GURS.RASTRI.';
       mapTypes = [prefix + 'DPK1000', prefix + 'DPK1000', prefix + 'DPK500', prefix + 'DPK250', prefix + 'DTK50', prefix + 'DTK50'];
       sourceOptions = {
-        url: 'http://prostor2.gov.si:80/ows2-m-pub/ows?',
+        url: 'http://prostor4.gov.si:80/ows2-m-pub/wms?',
         params: {
           'VERSION': '1.3',
           'LAYERS': mapTypes[0] // initial value; see view resolution below
