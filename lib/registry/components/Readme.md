@@ -30,4 +30,4 @@ These initially appear as toolbar buttons, which when clicked either add content
 ** Tooltip (`tooltip.js`) shows name/title of vector feature on mouseover (not useful in devices without a mouse)
 
 ##### HTML/CSS
-Stored in *.html files, one for each component with DOM content. `html2register.js` converts these to a pseudo-module *.htm.js in `System.register` format, analagous to SystemJS plugin. These are then imported by the appropriate js file.
+Stored in *.html files, one for each component with DOM content. `html2register.js` converts these to a pseudo-module *.htm.js in `System.register` format, analagous to SystemJS plugin. These are then imported by the appropriate js file. This is a temporary arrangement until HTML Imports or their replacement are more widely supported.
