@@ -1,10 +1,10 @@
 'use strict';
 
-System.register(['./mouseposition.htm.js', './component.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
+System.register(['./cursorposition.htm.js', './component.js', '../../ol.js', '../../olMap.js'], function (_export, _context) {
   var tpl, Component, ol, olMap, component, template, map;
   return {
-    setters: [function (_mousepositionHtmJs) {
-      tpl = _mousepositionHtmJs.default;
+    setters: [function (_cursorpositionHtmJs) {
+      tpl = _cursorpositionHtmJs.default;
     }, function (_componentJs) {
       Component = _componentJs.default;
     }, function (_olJs) {
@@ -13,8 +13,8 @@ System.register(['./mouseposition.htm.js', './component.js', '../../ol.js', '../
       olMap = _olMapJs.default;
     }],
     execute: function () {
-      component = new Component(tpl, 'mouseposition');
-      template = component.getTemplate('mouseposition');
+      component = new Component(tpl, 'cursorposition');
+      template = component.getTemplate('cursorposition');
 
       // only style, so can be added to head
       document.head.appendChild(template);
@@ -22,13 +22,14 @@ System.register(['./mouseposition.htm.js', './component.js', '../../ol.js', '../
       map = olMap.get();
 
 
-      // mousePosition in LatLons
+      // cursorposition in LatLons
       map.addControl(new ol.control.MousePosition({
         coordinateFormat: function (coordinate) {
           // 4 decimal places for latlons
           return ol.coordinate.toStringHDMS(coordinate) + ' (' + ol.coordinate.format(coordinate, '{y}, {x}', 4) + ')';
         },
-        projection: 'EPSG:4326'
+        projection: 'EPSG:4326',
+        className: 'llcursor'
       }));
 
       // ... and in projected coords
@@ -38,7 +39,7 @@ System.register(['./mouseposition.htm.js', './component.js', '../../ol.js', '../
           return 'projected: ' + ol.coordinate.toStringXY(coordinate, 0);
         },
         // set class to override OL default position/style
-        className: 'ol-mouse-position projmouse'
+        className: 'llcursor projcursor'
       }));
     }
   };
