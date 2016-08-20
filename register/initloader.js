@@ -99,71 +99,77 @@ for (var js in configVars.js.heads) {
 function initSystem() {
   var loader = new window.SystemRegisterLoader(document.baseURI);
   System.loader = loader;
-  // config SystemJS
-  // SystemJS.config({
-  //   depCache: {
-  //     'map-make.js': ['utils.js', 'mapDef.js'],
-  //     'rasters.js': ['ol.js', 'olMap.js', 'registry/components/layerswitcher.js', 'registry/components/zoom.js'],
-  //     'vectors.js': ['ol.js', 'olMap.js', 'registry/components/layerswitcher.js', 'rasters.js', 'mongo.js'],
-  //     'mongo.js': ['ol.js'],
-  //     'registry/components/addlayer.js': ['registry/components/addlayer.htm',
-  //         'https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.1/awesomplete.min.js'],
-  //     'registry/components/geolocation.js': ['registry/components/geolocation.htm', 'registry/components/toolbar.js'],
-  //     'registry/components/layerswitcher.js': ['registry/components/layerswitcher.htm', 'registry/components/toolbar.js'],
-  //     'registry/components/toolbar.js': ['registry/components/component.js', 'registry/components/toolbar.htm', 'olMap.js'],
-  //     'registry/components/zoom.js': ['registry/components/component.js', 'registry/components/zoom.htm'],
-  //     'registry/projections/common.js': ['registry/projections/proj4.js'],
-  //     'registry/projections/21781.js': ['registry/projections/common.js'],
-  //     'registry/projections/25830.js': ['registry/projections/common.js'],
-  //     'registry/projections/25831.js': ['registry/projections/common.js'],
-  //     'registry/projections/25832.js': ['registry/projections/common.js'],
-  //     'registry/projections/27700.js': ['registry/projections/common.js'],
-  //     'registry/projections/28992.js': ['registry/projections/common.js'],
-  //     'registry/projections/32633.js': ['registry/projections/common.js'],
-  //     'registry/projections/3035.js': ['registry/projections/common.js'],
-  //     'registry/projections/3763.js': ['registry/projections/common.js'],
-  //     'registry/projections/3812.js': ['registry/projections/common.js'],
-  //     'registry/projections/3912.js': ['registry/projections/common.js'],
-  //     'registry/sources/be/ign/topo.js': ['registry/projections/3812.js'],
-  //     'registry/sources/ch/topo/pixel.js': ['registry/projections/21781.js'],
-  //     'registry/sources/cz/zm.js': ['registry/projections/32633.js'],
-  //     'registry/sources/de/bkg/atlasde.js': ['registry/projections/25832.js'],
-  //     'registry/sources/es/icc/topo.js': ['registry/projections/25831.js'],
-  //     'registry/sources/es/ign/mapas.js': ['registry/projections/25830.js'],
-  //     'registry/sources/es/ign/mtn.js': ['registry/projections/25830.js'],
-  //     'registry/sources/gb/os.js': ['registry/projections/27700.js'],
-  //     'registry/sources/nl/ngr/achter.js': ['registry/projections/28992.js'],
-  //     'registry/sources/pt/dgt/sc.js': ['registry/projections/3763.js'],
-  //     'registry/sources/si/gurs.js': ['registry/projections/3912.js'],
-  //     'registry/sources/srtm/laea.js': ['registry/projections/3035.js']
-  //   }
-  // });
-  // var conf = {}, dir = 'registry/components/';
-  // ['addlayer', 'center', 'draw', 'featuredisplay', 'mapdef', 'cursorposition',
-  //     'placesearch', 'popup', 'tooltip']
-  //     .forEach(function(c) {
-  //       conf[dir + c + '.js'] = [dir + c + '.htm'];
-  //     });
-  // ['draw.js', 'featuredisplay.js'].forEach(function(c) {
-  //   conf[dir + c].push('select.js');
-  //   conf[dir + c].push('registry/components/popup.js');
-  //   conf[dir + c].push('measure.js');
-  // });
-  // conf[dir + 'tooltip.js'].push('measure.js');
-  // conf[dir + 'draw.js'].push('registry/components/toolbar.js');
-  // SystemJS.config({
-  //   depCache: conf
-  // });
+
+  // dependency tree
+  var compDir = 'registry/components/', projDir = 'registry/projections/',
+        sourceDir = 'registry/sources/', js = '.js';
+  System.depTree = {
+    'map-make.js': ['utils' + js, 'mapDef' + js],
+    'measure.js': ['ol' + js],
+    'mongo.js': ['ol' + js],
+    'olMap.js': ['ol' + js],
+    'rasters.js': ['ol' + js, 'olMap' + js, compDir + 'layerswitcher' + js,
+        compDir + 'zoom' + js, 'utils' + js],
+    'select.js': ['ol' + js, 'olMap' + js, 'vectors' + js],
+    'vectors.js': ['ol' + js, 'olMap' + js, compDir + 'layerswitcher' + js,
+        'rasters' + js, 'mongo' + js, 'utils' + js]
+  };
+  // sources
+  var sources = ['be/ign/topo', 'ch/topo/pixel', 'cz/zm', 'de/bkg/atlasde',
+      'es/icc/topo', 'es/ign/mapas', 'es/ign/mtn', 'gb/os', 'nl/ngr/achter',
+      'pt/dgt/sc', 'si/gurs', 'srtm/laea'];
+  var projs = ['3812', '21781', '32633', '25832', '25831', '25830', '25830',
+      '27700', '28992', '3763', '3912', '3035'];
+  sources.forEach(function(s, i) {
+    System.depTree[sourceDir + s + js] = [projDir + projs[i] + js];
+  });
+  // projections
+  var common = 'common' + js;
+  System.depTree[projDir + common] = [projDir + 'proj4' + js];
+  projs.splice(5, 1); // remove duplicate 25830
+  projs.forEach(function(p) {
+    System.depTree[projDir + p + js] = [projDir + common];
+  });
+  // components
+  ['addlayer', 'center', 'draw', 'featuredisplay', 'geolocation', 'mapdef', 'cursorposition',
+      'layerswitcher', 'placesearch', 'popup', 'toolbar', 'tooltip', 'zoom']
+    .forEach(function(c) {
+      System.depTree[compDir + c + js] = [compDir + 'component' + js, compDir + c + '.htm' + js];
+    });
+  System.depTree[compDir + 'toolbar' + js].push('olMap' + js);
+  ['draw', 'featuredisplay'].forEach(function(c) {
+    System.depTree[compDir + c + js].push('select' + js);
+    System.depTree[compDir + c + js].push(compDir + 'popup' + js);
+    System.depTree[compDir + c + js].push('measure' + js);
+  });
+  System.depTree[compDir + 'tooltip' + js].push('measure' + js);
+  System.depTree[compDir + 'tooltip' + js].push('vectors' + js);
+  ['addlayer', 'center', 'draw', 'geolocation', 'mapdef', 'layerswitcher', 'placesearch']
+    .forEach(function(c) {
+      System.depTree[compDir + c + js].push(compDir + 'toolbar' + js);
+    });
+  var add = System.depTree[compDir + 'addlayer' + js];
+  add = add.concat(['awesomplete' + js, 'mapDef' + js, 'rasters' + js, 'vectors' + js, 'utils' + js, 'olMap' + js]);
 
   // set custom property on System for the moment
-  System.sourceList = configVars.systemConfig.baseURL + 'registry/sources/list.json';
+  System.sourceList = configVars.systemConfig.baseURL + sourceDir + 'list.json';
 
   System.importModule = function(module) {
+    // preload dependencies
+    var importDeps = function(dep) {
+      if (System.depTree[dep]) {
+        System.depTree[dep].forEach(function(depend) {
+          importDeps(depend);
+          System.loader.import(configVars.systemConfig.baseURL + depend);
+        });
+      }
+    };
+    importDeps(module);
     return System.loader.import(configVars.systemConfig.baseURL + module);
   };
 
   // bootstrap load of map-make using SystemJS
-  System.importModule('map-make.js').catch(function(err) {
+  System.importModule('map-make' + js).catch(function(err) {
     console.log(err);
     alert('Error reading map-make.js');
     return;
