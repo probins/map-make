@@ -20,8 +20,8 @@
 (function() {
 var configVars = {
   "css": {
-    "fontawesome": "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css",
-    "map-make": "https://github.jspm.io/probins/map-make/css/map-make.css"
+    "fontawesome": "https://github.jspm.io/probins/map-make@master/css/fa.css",
+    "map-make": "https://github.jspm.io/probins/map-make@master/css/map-make.css"
   },
   "js": {
     "heads": {
