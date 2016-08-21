@@ -4,7 +4,7 @@
  * - create System.importModule() as frontend for System.loader.import, which can later
  *   be changed to import() or module script injection or whatever is implemented
  * - bootstrap the map-make module.
- * Sets onload function for fontawesome to create the initial spinner
+ * Sets onload function for css to create the initial spinner
  *
  * The configuration variables determine which package versions etc to load.
  * By default, these are the values in `configVars` below, but these can be
@@ -20,7 +20,6 @@
 (function() {
 var configVars = {
   "css": {
-    "fontawesome": "https://github.jspm.io/probins/map-make@master/css/fa.css",
     "map-make": "https://github.jspm.io/probins/map-make@master/css/map-make.css"
   },
   "js": {
@@ -72,7 +71,7 @@ for (var css in configVars.css) {
   var link  = document.createElement('link');
   link.rel  = 'stylesheet';
   link.href = configVars.css[css];
-  if (css === 'fontawesome') {
+  if (css === 'map-make') {
     link.onload = createSpinner;
   }
   head.appendChild(link);
