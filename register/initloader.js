@@ -171,7 +171,8 @@ function initSystem() {
   // bootstrap load of map-make using SystemJS
   System.importModule('map-make' + js).catch(function(err) {
     console.log(err);
-    alert('Error reading map-make.js');
+    System.error = true;
+    document.body.innerHTML = 'Error reading map-make.js';
     return;
   });
 }
