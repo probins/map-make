@@ -16,7 +16,7 @@ Also helps developers try out different options.
   this can be overridden by specifying a center and zoom level
 - raster sources can be in different projections, and can be made in/visible by the layerswitcher provided by default
 - the layerswitcher will automatically reproject vector features when the projection of the underlying raster source changes
-- uses the default OL3 zoom and scaleline controls, to which other widgets such as mouse position display, tooltips and feature info popups can be added; these widgets are also stored in a registry (`lib/registry/components`)
+- uses the default OL3 zoom and scaleline controls, to which other widgets such as cursor position display, tooltips and feature info popups can be added; these widgets are also stored in a registry (`lib/registry/components`)
 - custom feature styles can be specified for each vector source
 - vector data/features can be drawn and moved/edited; this includes splitting and joining of linestrings
 - map div uses 100% of screen viewport so keyboard arrows can pan map
@@ -38,7 +38,7 @@ See [Usage file](usage.md) for more detailed instructions and examples.
 
 ## Technical details
 
-The code is modularised, and runs entirely in the browser, using the [JSPM](http://jspm.io/) CDN to load the appropriate modules direct from this Github repo. This uses HTTP/2 to enable bulk-loading of modules and remove the need to bundle. The JS source is in `lib/` and uses ES2015 module syntax (`import`/`export`). These are currently converted to `System.register` format using Babel, and stored in `register/`. These modules are then loaded in the browser using the [system register loader](https://github.com/ModuleLoader/system-register-loader). Once ES2015 modules are implemented in browsers, this conversion step and loader will no longer be needed. Instead the ES6 modules will be loaded directly with `<script type="module">`.
+The code is modularised, and runs entirely in the browser, using the [JSPM](http://jspm.io/) CDN to load the appropriate modules direct from this Github repo. This uses HTTP/2 to enable bulk-loading of modules and remove the need to bundle; dependencies are pre-loaded to prevent round-trips. The JS source is in `lib/` and uses ES2015 module syntax (`import`/`export`). These are currently converted to `System.register` format using Babel, and stored in `register/`. These modules are then loaded in the browser using the [system register loader](https://github.com/ModuleLoader/system-register-loader). Once ES2015 modules are implemented in browsers, this conversion step and loader will no longer be needed. Instead the ES2015 modules will be loaded directly with `<script type="module">`.
 
 Unfortunately, at the moment the OL3 code is not compatible with modular loading, so it's not possible to load the relevant OL3 code with each module. This should change as OL3 moves away from the Closure library, which should speed up the initial load. At the moment, a custom build of all the OL3 code used is loaded; no account is taken of which components are needed for a specific map.
 
@@ -47,7 +47,7 @@ For more info on registry entries, see the Readme in the appropriate section of 
 `map-make.html` loads `initloader.js` as the initial bootstrap; this is a standard script, not a module. By default, this loads from JSPM, but is configurable with a `data-configVars` attribute, for example, for testing on localhost.
 
 ### External libraries
-Besides OL3, [Proj4js](http://proj4js.org/) and [slideout.js](https://mango.github.io/slideout/) are used. Polyfills for `Promise` and `fetch()` are loaded if not natively supported. The [Font Awesome webfont](http://fontawesome.io/) is also used, and the `add layer` module uses [Awesomplete](https://leaverou.github.io/awesomplete/) for autocompletion. Slideout is loaded from CDN, but OL3, Proj4js and Awesomplete are loaded with ES2015/System.register wrappers instead of the supplied UMD or other wrapper. See `lib/registry/projections/Readme.md` for details of the Proj4js custom build.
+Besides OL3, [Proj4js](http://proj4js.org/) and [slideout.js](https://mango.github.io/slideout/) are used. Polyfills for `Promise` and `fetch()` are loaded if not natively supported. A custom version of the [Font Awesome webfont](http://fontawesome.io/) including only those glyphs used is also loaded, and the `add layer` module uses [Awesomplete](https://leaverou.github.io/awesomplete/) for autocompletion. Slideout is loaded from CDN, but OL3, Proj4js and Awesomplete are loaded with ES2015/System.register wrappers instead of the supplied UMD or other wrapper. See `lib/registry/projections/Readme.md` for details of the Proj4js custom build. The CSS for Font Awesome and Slideout is combined into one file (`map-make.css`), which is minified into `register/`.
 
 ## Raster sources
 Some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files, and should be provided at runtime in the map definition.
