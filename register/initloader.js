@@ -1,5 +1,6 @@
 /**
  * Initial bootstrap loader.
+ * Uses document.currentScript, so has to be script not module.
  * Injects CSS/JS into <head>, and sets an onload function for loaderpolyfill to:
  * - create System.importModule() as frontend for System.loader.import, which can later
  *   be changed to import() or module script injection or whatever is implemented
@@ -15,13 +16,12 @@
  *   <script data-configVars='{"map-make":"../map-make/lib/css/map-make.css","baseURL":"../map-make/lib/"}'
  *       src="../map-make/lib/initloader.js"></script>
  * will set `css/map-make` and `systemConfig/baseURL` in `configVars`.
+ * Note: relative baseURL uses URL(), so will not work in IE and other old browsers.
  */
 
 (function() {
 var configVars = {
-  "css": {
-    "map-make": "https://github.jspm.io/probins/map-make@master/css/map-make.css"
-  },
+  "css": "css/map-make.css",
   "js": {
     "heads": {
       "slideout": "https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js",
@@ -39,8 +39,8 @@ var script, head  = document.getElementsByTagName('head')[0];
 var localConfig = JSON.parse(document.currentScript.getAttribute('data-configVars'));
 for (var conf in localConfig) {
   switch (conf) {
-    case 'map-make':
-      configVars.css['map-make'] = localConfig[conf];
+    case 'css':
+      configVars.css = localConfig[conf];
       break;
     case 'baseURL':
       var base = localConfig[conf];
@@ -58,24 +58,21 @@ for (var conf in localConfig) {
   }
 }
 
-function createSpinner() {
-  // create initial div for spinner
-  var statusDiv = document.createElement('div');
-  statusDiv.id = 'status';
-  statusDiv.innerHTML = '<i class="fa fa-spinner fa-pulse fa-5x"></i>';
-  document.body.appendChild(statusDiv);
-}
-
-// load configVars.css entries
-for (var css in configVars.css) {
+  // load configVars.css
   var link  = document.createElement('link');
   link.rel  = 'stylesheet';
-  link.href = configVars.css[css];
-  if (css === 'map-make') {
-    link.onload = createSpinner;
-  }
+  link.href = configVars.systemConfig.baseURL + configVars.css;
+  link.onload = function() {
+    // create status div
+    var statusDiv = document.createElement('div');
+    statusDiv.id = 'status';
+    // add spinner to it
+    statusDiv.innerHTML = '<i class="fa fa-spinner fa-pulse fa-5x"></i>';
+    // and add to body
+    document.body.appendChild(statusDiv);
+  };
   head.appendChild(link);
-}
+
 
 // load fetch/Promises polyfill if not natively supported
 if (!window.Promise || !window.fetch) {
