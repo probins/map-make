@@ -83,14 +83,16 @@ if (!window.Promise || !window.fetch) {
 
 // load configVars.js.heads entries
 // loaderpolyfill has an onload function
-for (var js in configVars.js.heads) {
-  script  = document.createElement('script');
-  script.src = configVars.js.heads[js];
-  if (js == 'loaderpolyfill') {
-    script.onload = initSystem;
+window.addEventListener('load', function() {
+  for (var js in configVars.js.heads) {
+    script  = document.createElement('script');
+    script.src = configVars.js.heads[js];
+    if (js == 'loaderpolyfill') {
+      script.onload = initSystem;
+    }
+    document.body.appendChild(script);
   }
-  head.appendChild(script);
-}
+});
 
 function initSystem() {
   var loader = new window.SystemRegisterLoader(document.baseURI);
