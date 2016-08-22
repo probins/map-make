@@ -92,7 +92,7 @@ function initSystem() {
   // dependency tree
   var compDir = 'registry/components/', projDir = 'registry/projections/',
         sourceDir = 'registry/sources/', js = '.js';
-  System.depTree = {
+  var depTree = {
     'map-make.js': ['utils' + js, 'mapDef' + js],
     'measure.js': ['ol' + js],
     'mongo.js': ['ol' + js],
@@ -110,35 +110,35 @@ function initSystem() {
   var projs = ['3812', '21781', '32633', '25832', '25831', '25830', '25830',
       '27700', '28992', '3763', '3912', '3035'];
   sources.forEach(function(s, i) {
-    System.depTree[sourceDir + s + js] = [projDir + projs[i] + js];
+    depTree[sourceDir + s + js] = [projDir + projs[i] + js];
   });
   // projections
   var common = 'common' + js;
-  System.depTree[projDir + common] = [projDir + 'proj4' + js];
+  depTree[projDir + common] = [projDir + 'proj4' + js];
   projs.splice(5, 1); // remove duplicate 25830
   projs.forEach(function(p) {
-    System.depTree[projDir + p + js] = [projDir + common];
+    depTree[projDir + p + js] = [projDir + common];
   });
   // components
   ['addlayer', 'center', 'draw', 'featuredisplay', 'geolocation', 'mapdef', 'cursorposition',
       'layerswitcher', 'placesearch', 'popup', 'toolbar', 'tooltip', 'zoom']
     .forEach(function(c) {
-      System.depTree[compDir + c + js] = [compDir + 'component' + js, compDir + c + '.htm' + js];
+      depTree[compDir + c + js] = [compDir + 'component' + js, compDir + c + '.htm' + js];
     });
-  System.depTree[compDir + 'toolbar' + js].push('olMap' + js);
-  System.depTree[compDir + 'toolbar' + js].push(compDir + 'slideout.min' + js);
+  depTree[compDir + 'toolbar' + js].push('olMap' + js);
+  depTree[compDir + 'toolbar' + js].push(compDir + 'slideout.min' + js);
   ['draw', 'featuredisplay'].forEach(function(c) {
-    System.depTree[compDir + c + js].push('select' + js);
-    System.depTree[compDir + c + js].push(compDir + 'popup' + js);
-    System.depTree[compDir + c + js].push('measure' + js);
+    depTree[compDir + c + js].push('select' + js);
+    depTree[compDir + c + js].push(compDir + 'popup' + js);
+    depTree[compDir + c + js].push('measure' + js);
   });
-  System.depTree[compDir + 'tooltip' + js].push('measure' + js);
-  System.depTree[compDir + 'tooltip' + js].push('vectors' + js);
+  depTree[compDir + 'tooltip' + js].push('measure' + js);
+  depTree[compDir + 'tooltip' + js].push('vectors' + js);
   ['addlayer', 'center', 'draw', 'geolocation', 'mapdef', 'layerswitcher', 'placesearch']
     .forEach(function(c) {
-      System.depTree[compDir + c + js].push(compDir + 'toolbar' + js);
+      depTree[compDir + c + js].push(compDir + 'toolbar' + js);
     });
-  var add = System.depTree[compDir + 'addlayer' + js];
+  var add = depTree[compDir + 'addlayer' + js];
   add = add.concat(['awesomplete' + js, 'mapDef' + js, 'rasters' + js, 'vectors' + js, 'utils' + js, 'olMap' + js]);
 
   // set custom property on System for the moment
@@ -147,8 +147,8 @@ function initSystem() {
   System.importModule = function(module) {
     // preload dependencies
     var importDeps = function(dep) {
-      if (System.depTree[dep]) {
-        System.depTree[dep].forEach(function(depend) {
+      if (depTree[dep]) {
+        depTree[dep].forEach(function(depend) {
           importDeps(depend);
           System.loader.import(baseURL + depend);
         });
