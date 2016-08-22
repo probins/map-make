@@ -8,14 +8,14 @@
  * Sets onload function for css to create the initial spinner
  *
  * The configuration variables determine which package versions etc to load.
- * By default, these are the values in `configVars` below, but these can be
- * overridden by setting the `data-configVars` attribute in the script tag loading
- * `initloader.js`. This can be used to use different versions of software,
- * or to load, for example, from localhost.
+ * By default, these are the values in `configVars` below, relative to `baseURL`,
+ * which is by default relative to this script. These can be overridden by setting
+ * the `data-configVars` attribute in the script tag loading `initloader.js`.
+ * This can be used to use different versions of software, or to load, for example, from localhost.
  * For example,
- *   <script data-configVars='{"map-make":"../map-make/lib/css/map-make.css","baseURL":"../map-make/lib/"}'
+ *   <script data-configVars='{"css":"../another/path/css/map-make.css","baseURL":"./further/path/map-make/lib/"}'
  *       src="../map-make/lib/initloader.js"></script>
- * will set `css/map-make` and `systemConfig/baseURL` in `configVars`.
+ * will set `css` and `baseURL` in `configVars`.
  * Note: relative baseURL uses URL(), so will not work in IE and other old browsers.
  */
 
@@ -25,16 +25,16 @@ var configVars = {
   "js": {
     "heads": {
       "slideout": "https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js",
-      "loaderpolyfill": "https://github.jspm.io/probins/map-make@master/loaderpolyfill.js"
+      "loaderpolyfill": "loaderpolyfill.js"
     },
     "fetchpromise": "https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,Promise"
-  },
-  "systemConfig": {
-    "baseURL": "https://github.jspm.io/probins/map-make@master/"
   }
 };
 
 var script, head  = document.getElementsByTagName('head')[0];
+
+// baseURL by default relative to this script
+var baseURL = document.currentScript.getAttribute('src').replace('initloader.js','');
 
 var localConfig = JSON.parse(document.currentScript.getAttribute('data-configVars'));
 for (var conf in localConfig) {
@@ -43,12 +43,7 @@ for (var conf in localConfig) {
       configVars.css = localConfig[conf];
       break;
     case 'baseURL':
-      var base = localConfig[conf];
-      // relative url, convert to absolute
-      if (base.indexOf('.') === 0) {
-        base = new URL(base, document.baseURI).href;
-      }
-      configVars.systemConfig.baseURL = base;
+      baseURL = localConfig[conf];
       break;
     case 'loaderpolyfill':
       configVars.js.heads.loaderpolyfill = localConfig[conf];
@@ -57,11 +52,16 @@ for (var conf in localConfig) {
       break;
   }
 }
+  // relative url, convert to absolute
+  if (baseURL.indexOf('.') === 0) {
+    baseURL = new URL(baseURL, document.baseURI).href;
+  }
 
   // load configVars.css
   var link  = document.createElement('link');
   link.rel  = 'stylesheet';
-  link.href = configVars.systemConfig.baseURL + configVars.css;
+  link.href = (configVars.css.indexOf('h') == 0) ?
+      configVars.css : baseURL + configVars.css;
   link.onload = function() {
     // create status div
     var statusDiv = document.createElement('div');
@@ -86,7 +86,8 @@ if (!window.Promise || !window.fetch) {
 window.addEventListener('load', function() {
   for (var js in configVars.js.heads) {
     script  = document.createElement('script');
-    script.src = configVars.js.heads[js];
+    script.src = (configVars.js.heads[js].indexOf('h') == 0) ?
+        configVars.js.heads[js] : baseURL + configVars.js.heads[js];
     if (js == 'loaderpolyfill') {
       script.onload = initSystem;
     }
@@ -150,7 +151,7 @@ function initSystem() {
   add = add.concat(['awesomplete' + js, 'mapDef' + js, 'rasters' + js, 'vectors' + js, 'utils' + js, 'olMap' + js]);
 
   // set custom property on System for the moment
-  System.sourceList = configVars.systemConfig.baseURL + sourceDir + 'list.json';
+  System.sourceList = baseURL + sourceDir + 'list.json';
 
   System.importModule = function(module) {
     // preload dependencies
@@ -158,12 +159,12 @@ function initSystem() {
       if (System.depTree[dep]) {
         System.depTree[dep].forEach(function(depend) {
           importDeps(depend);
-          System.loader.import(configVars.systemConfig.baseURL + depend);
+          System.loader.import(baseURL + depend);
         });
       }
     };
     importDeps(module);
-    return System.loader.import(configVars.systemConfig.baseURL + module);
+    return System.loader.import(baseURL + module);
   };
 
   // bootstrap load of map-make using SystemJS
