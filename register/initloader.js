@@ -22,12 +22,8 @@
 (function() {
 var configVars = {
   "css": "css/map-make.css",
-  "js": {
-    "heads": {
-      "loaderpolyfill": "loaderpolyfill.js"
-    },
-    "fetchpromise": "https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,Promise"
-  }
+  "loaderpolyfill": "loaderpolyfill.js",
+  "fetchpromise": "https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,Promise"
 };
 
 var script, head  = document.getElementsByTagName('head')[0];
@@ -45,7 +41,7 @@ for (var conf in localConfig) {
       baseURL = localConfig[conf];
       break;
     case 'loaderpolyfill':
-      configVars.js.heads.loaderpolyfill = localConfig[conf];
+      configVars.loaderpolyfill = localConfig[conf];
       break;
     default:
       break;
@@ -76,22 +72,17 @@ for (var conf in localConfig) {
 // load fetch/Promises polyfill if not natively supported
 if (!window.Promise || !window.fetch) {
   script  = document.createElement('script');
-  script.src = configVars.js.fetchpromise;
+  script.src = configVars.fetchpromise;
   head.appendChild(script);
 }
 
-// load configVars.js.heads entries
-// loaderpolyfill has an onload function
+// load loaderpolyfill, with onload function
 window.addEventListener('load', function() {
-  for (var js in configVars.js.heads) {
-    script  = document.createElement('script');
-    script.src = (configVars.js.heads[js].indexOf('h') == 0) ?
-        configVars.js.heads[js] : baseURL + configVars.js.heads[js];
-    if (js == 'loaderpolyfill') {
-      script.onload = initSystem;
-    }
-    document.body.appendChild(script);
-  }
+  script  = document.createElement('script');
+  script.src = (configVars.loaderpolyfill.indexOf('h') == 0) ?
+      configVars.loaderpolyfill : baseURL + configVars.loaderpolyfill;
+  script.onload = initSystem;
+  document.body.appendChild(script);
 });
 
 function initSystem() {
