@@ -24,7 +24,6 @@ var configVars = {
   "css": "css/map-make.css",
   "js": {
     "heads": {
-      "slideout": "https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js",
       "loaderpolyfill": "loaderpolyfill.js"
     },
     "fetchpromise": "https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,Promise"
@@ -136,6 +135,7 @@ function initSystem() {
       System.depTree[compDir + c + js] = [compDir + 'component' + js, compDir + c + '.htm' + js];
     });
   System.depTree[compDir + 'toolbar' + js].push('olMap' + js);
+  System.depTree[compDir + 'toolbar' + js].push(compDir + 'slideout.min' + js);
   ['draw', 'featuredisplay'].forEach(function(c) {
     System.depTree[compDir + c + js].push('select' + js);
     System.depTree[compDir + c + js].push(compDir + 'popup' + js);
