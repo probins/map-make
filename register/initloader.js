@@ -1,6 +1,5 @@
 /**
  * Initial bootstrap loader.
- * Uses document.currentScript, so has to be script not module.
  * Injects CSS/JS into <head>, and sets an onload function for loaderpolyfill to:
  * - create System.importModule() as frontend for System.loader.import, which can later
  *   be changed to import() or module script injection or whatever is implemented
@@ -29,9 +28,10 @@ var configVars = {
 var script, head  = document.getElementsByTagName('head')[0];
 
 // baseURL by default relative to this script
-var baseURL = document.currentScript.getAttribute('src').replace('initloader.js','');
+var currentScript = document.getElementsByTagName('script')[0];
+var baseURL = currentScript.getAttribute('src').replace('initloader.js','');
 
-var localConfig = JSON.parse(document.currentScript.getAttribute('data-configVars'));
+var localConfig = JSON.parse(currentScript.getAttribute('data-configVars'));
 for (var conf in localConfig) {
   switch (conf) {
     case 'css':
