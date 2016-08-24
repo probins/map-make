@@ -8,7 +8,7 @@
 - click on the menu toggle in the map to hide the menu; click again to redisplay
 - click on `Layers` again to hide this part of the menu, and then click on `Components`
 - click on, for example, `Cursor position` to display the coordinates of the cursor on the current display (this is not useful on touch-screen devices; hide the menu so this displays properly); or on `Go to` to enter a particular coordinate to zoom to
-- now add a vector file by going back to the `Layers` sections and entering the details. There are examples in [`map-make-samples`](https://github.com/probins/map-make-samples), for example `https://github.jspm.io/probins/map-make-samples/data/barcelona.geojson` (`Name/Identifier` is simply what is used in the layerswitcher)
+- now add a vector file by going back to the `Layers` sections and entering the details. You can enter either a URL to load from an external server (must be CORS-enabled), or specify a file on your local disk. If you want to load a file from an external server which is not CORS-enabled (does not allow loading from a different domain), fetch the file in your browser directly, save it to your local disk, and then load from there. `Name/Identifier` is simply the name used in the layerswitcher.
 - you can now hide/redisplay this vector file by clicking the appropriate box in the layerswitcher.
 
 #### Saving and reusing a mapDef
@@ -16,7 +16,7 @@
 - click on `Create MapDef`, and you will see the JSON map definition in the text box below. Save this to a publicly accessible file, for example, called `mymapdef.json`. [Technical note: these files must be on a server which is CORS-enabled.]
 - to use the stored mapDef, enter the URL in the `Map definition` section of the slideout menu and press Enter. Note that this will replace whatever map is currently displayed, so, if you want to keep this, make sure you save a mapDef for it before loading the new one.
 
-As stated in the Readme, there are some sample mapDefs in [`map-make-samples`](https://github.com/probins/map-make-samples). For example, entering `https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json` will load a map with 3 raster layers (Catalonia, Spain and OSM) and 2 vector files.
+As stated in the Readme, there are some sample mapDefs in [`map-make-samples`](https://github.com/probins/map-make-samples). For example, entering `https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json` will load a map with 3 raster layers (Catalonia, Spain and OSM) and 2 vector files. Again, external servers must be authorised for cross-domain use (CORS).
 
 #### Defining the map in the querystring
 Most of the map definition stored in a mapDef can also be defined using the querystring. For example, instead of entering a mapDef URL in the `Map definition` section of the menu, you can load the HTML file with a `mapDef` parameter. For example, `map-make.html?mapDef=https://github.jspm.io/probins/map-make-samples/mapDefs/cataloniaVectors.json` will load the same mapDef used above. Entering `map-make.html?rasters=osm/osm,osm/opentopo&components=cursorposition,center` will load the OSM and OpenTopo maps with the cursorposition and center (Go to) components. The keys can be abbreviated: `rasters` -> `r`, `vectors` -> `v`, `components` -> `c`, `zoom` -> `z`.

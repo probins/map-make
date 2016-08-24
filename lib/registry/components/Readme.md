@@ -26,8 +26,8 @@ These initially appear as toolbar buttons, which when clicked either add content
 * Cursor position (`cursorposition.js`) (not useful in devices without a mouse or similar device)
 * Draw (`draw.js`); adds a dropdown menu of draw tools to the map, and also adds a vector layer to store the drawn features. The output of drawn features appears in the toolbar
 * vector widgets: the buttons only appear when a vector layer has been added, either by the user or by the draw component
-** Popup ('featuredisplay.js`); displays feature details in a popup when the feature is clicked/selected
-** Tooltip (`tooltip.js`) shows name/title of vector feature on mouseover (not useful in devices without a mouse)
+  * Popup (`featuredisplay.js`); displays feature details in a popup when the feature is clicked/selected
+  * Tooltip (`tooltip.js`) shows name/title of vector feature on mouseover (not useful in devices without a mouse)
 
 ##### HTML/CSS
 Stored in *.html files, one for each component with DOM content. `html2register.js` converts these to a pseudo-module *.htm.js in `System.register` format, analagous to SystemJS plugin. These are then imported by the appropriate js file. This is a temporary arrangement until HTML Imports or their replacement are more widely supported.
