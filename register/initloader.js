@@ -90,18 +90,17 @@ function initSystem() {
   System.loader = loader;
 
   // dependency tree
-  var compDir = 'registry/components/', projDir = 'registry/projections/',
-        sourceDir = 'registry/sources/', js = '.js';
+  var regDir = 'registry/';
+  var compDir = regDir + 'components/', projDir = regDir + 'projections/',
+      sourceDir = regDir + 'sources/', js = '.js';
   var depTree = {
     'map-make.js': ['utils' + js, 'mapDef' + js],
-    'measure.js': ['ol' + js],
-    'mongo.js': ['ol' + js],
     'olMap.js': ['ol' + js],
     'rasters.js': ['ol' + js, 'olMap' + js, compDir + 'layerswitcher' + js,
         compDir + 'zoom' + js, 'utils' + js],
     'select.js': ['ol' + js, 'olMap' + js, 'vectors' + js],
     'vectors.js': ['ol' + js, 'olMap' + js, compDir + 'layerswitcher' + js,
-        'rasters' + js, 'mongo' + js, 'utils' + js]
+        'rasters' + js, 'mongo' + js]
   };
   // sources
   var sources = ['be/ign/topo', 'ch/topo/pixel', 'cz/zm', 'de/bkg/atlasde',
@@ -139,7 +138,7 @@ function initSystem() {
       depTree[compDir + c + js].push(compDir + 'toolbar' + js);
     });
   var add = depTree[compDir + 'addlayer' + js];
-  add = add.concat(['awesomplete' + js, 'mapDef' + js, 'rasters' + js, 'vectors' + js, 'utils' + js, 'olMap' + js]);
+  add = add.concat(['awesomplete' + js, 'rasters' + js, 'vectors' + js, 'olMap' + js]);
 
   // set custom property on System for the moment
   System.sourceList = baseURL + sourceDir + 'list.json';
