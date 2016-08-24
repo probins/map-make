@@ -1,3 +1,4 @@
-lib/plugins/*
 lib/*.min.js
+lib/awesomplete.js
 lib/ol.js
+lib/registry/projections/proj4.js

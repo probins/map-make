@@ -5,6 +5,10 @@
     "System": false,
     "Slideout": false
   },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
   "rules": {
     "valid-jsdoc": 0
   }
