@@ -1,14 +1,30 @@
 {
+  "name": "map-make",
+  "version": "1.0.0",
+  "description": "OpenLayers map generator",
+  "main": "none",
   "devDependencies": {
-    "eslint": "^2.6.0",
-    "eslint-config-openlayers": "^4.1.0"
+    "clean-css": "^3.4.19",
+    "eslint-config-openlayers": "^4.1.0",
+    "eslint": "^2.6.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/probins/map-make.git"
+  },
+  "author": "Peter Robins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/probins/map-make/issues"
+  },
+  "homepage": "https://github.com/probins/map-make#readme",
   "jspm": {
     "directories": {
-      "dist": "register"
+      "lib": "lib"
     },
     "buildConfig": {
       "uglify": true
     }
   }
+
 }

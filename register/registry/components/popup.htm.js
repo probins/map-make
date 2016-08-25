@@ -1,1 +1,0 @@
-"use strict";System.register([],function(_export,_context){return{setters:[],execute:function(){_export("default","<template id=\"popuptemplate\">\n  <style>\n    #popup {\n      background-color: white;\n    }\n  </style>\n  <div id=\"popup\">\n  </div>\n</template>\n");}};});
