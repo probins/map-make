@@ -30,7 +30,7 @@ This is fine for one-off maps, but is unwieldy for maps you want to reuse, so th
 
 This can be a JSON object stored in a file which can be loaded from a url. There are some examples of mapDef files in `https://github.com/probins/map-make-samples`.
 
-It can also be a `<mapdef>` custom element defined in the HTML file.
+It can also be a `<map-def>` custom element defined in the HTML file.
 
 In addition, parameters can be specified as key-value pairs in the query string.
 
