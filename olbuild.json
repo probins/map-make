@@ -146,7 +146,6 @@
       "ol.style.Style#getImage",
       "ol.style.Style#getStroke"
   ],
-  "jvm": ["-server", "-XX:+TieredCompilation"],
   "namespace": "OL3",
   "compile": {
     "externs": [
@@ -157,8 +156,7 @@
       "externs/olx.js"
     ],
     "define": [
-      "goog.DEBUG=false",
-      "ol.ENABLE_DOM=false",
+      "ol.DEBUG=false",
       "ol.ENABLE_WEBGL=false",
       "ol.ENABLE_RASTER_REPROJECTION=false",
       "ol.ENABLE_VECTOR_TILE=false",
@@ -171,8 +169,7 @@
     "compilation_level": "ADVANCED",
     "manage_closure_dependencies": true,
     "use_types_for_optimization": true,
-    "output_manifest": "build/mapmakemanifest",
-    "js_output_file": "build/mapmakeol.js",
-    "output_wrapper_file": "build/outputwrapper"
+    "output_manifest": "build/mmmanifest",
+    "output_wrapper": "var OL3={};%output%;var olExport=OL3.ol;export default olExport;"
   }
 }
