@@ -169,7 +169,6 @@
     "compilation_level": "ADVANCED",
     "manage_closure_dependencies": true,
     "use_types_for_optimization": true,
-    "output_manifest": "build/mmmanifest",
     "output_wrapper": "var OL3={};%output%;var olExport=OL3.ol;export default olExport;"
   }
 }
