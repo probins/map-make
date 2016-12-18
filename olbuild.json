@@ -53,7 +53,6 @@
       "ol.extent.extend",
       "ol.extent.getCenter",
       "ol.extent.getTopLeft",
-      "ol.loadingstrategy.bbox",
       "ol.proj.addCoordinateTransforms",
       "ol.proj.addProjection",
       "ol.proj.transform",
