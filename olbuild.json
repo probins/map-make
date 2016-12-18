@@ -39,9 +39,6 @@
       "ol.tilegrid.TileGrid",
       "ol.tilegrid.WMTS",
 
-      "ol.events.condition.never",
-      "ol.events.condition.noModifierKeys",
-      "ol.events.condition.pointerMove",
       "ol.MapBrowserEvent#coordinate",
       "ol.MapBrowserEvent#pixel",
 
