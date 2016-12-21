@@ -24,7 +24,6 @@
       "ol.layer.Vector",
       "ol.proj.Projection",
       "ol.source.BingMaps",
-      "ol.source.OSM",
       "ol.source.TileImage",
       "ol.source.TileWMS",
       "ol.source.Vector",
