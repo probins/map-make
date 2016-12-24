@@ -1,6 +1,5 @@
 {
   "exports": [
-      "ol.Attribution",
       "ol.Feature",
       "ol.Map",
       "ol.Overlay",
@@ -42,11 +41,6 @@
 
       "ol.Observable.unByKey",
       "ol.control.defaults",
-      "ol.extent.containsCoordinate",
-      "ol.extent.createEmpty",
-      "ol.extent.extend",
-      "ol.extent.getCenter",
-      "ol.extent.getTopLeft",
       "ol.proj.addCoordinateTransforms",
       "ol.proj.addProjection",
       "ol.proj.transform",
