@@ -50,8 +50,6 @@
       "ol.Collection#extend",
       "ol.Collection#forEach",
       "ol.Collection#getArray",
-      "ol.Collection#getLength",
-      "ol.Collection#getProperties",
       "ol.Collection#item",
       "ol.Collection#push",
       "ol.Feature#getGeometry",
