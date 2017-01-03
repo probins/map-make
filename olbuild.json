@@ -63,8 +63,6 @@
       "ol.Map#addLayer",
       "ol.Map#addOverlay",
       "ol.Map#getLayers",
-      "ol.Map#getTargetElement",
-      "ol.Map#getViewport",
       "ol.Object#get",
       "ol.Object#getProperties",
       "ol.Object#set",
