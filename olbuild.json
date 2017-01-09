@@ -14,7 +14,6 @@
       "ol.geom.MultiLineString",
       "ol.geom.Point",
       "ol.geom.Polygon",
-      "ol.interaction.DragZoom",
       "ol.interaction.Draw",
       "ol.interaction.Modify",
       "ol.interaction.Select",
