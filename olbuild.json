@@ -80,7 +80,7 @@
       "ol.format.KML#writeFeatures",
       "ol.format.GeoJSON#readGeometry",
       "ol.format.GeoJSON#writeGeometry",
-      "ol.geom.LineString#getLength",
+      "ol.geom.LineString#getType",
       "ol.geom.LineString#clone",
       "ol.geom.Point#clone",
       "ol.geom.Polygon#clone",
