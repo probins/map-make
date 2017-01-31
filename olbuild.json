@@ -119,7 +119,12 @@
       "externs/closure-compiler.js",
       "externs/geojson.js",
       "externs/oli.js",
-      "externs/olx.js"
+      "externs/olx.js",
+      "externs/cartodb.js",
+      "externs/esrijson.js",
+      "externs/proj4js.js",
+      "externs/tilejson.js",
+      "externs/topojson.js"
     ],
     "define": [
       "ol.ENABLE_WEBGL=false",
@@ -131,7 +136,7 @@
     ],
     "compilation_level": "ADVANCED",
     "manage_closure_dependencies": true,
-    "use_types_for_optimization": true,
+    "rewrite_polyfills": false,
     "output_wrapper": "var OL3={};%output%;var olExport=OL3.ol;export default olExport;"
   }
 }
