@@ -67,3 +67,9 @@ See issues.
 ## Contributions
 
 are welcome, as are all good ideas on how this can be developed further.
+
+## Release process
+Code is loaded from a release tag. Which release tag to use is defined in `initloader.js`. So:
+- changes can be committed and pushed to Github without affecting the loaded code 
+- for new release, add a new tag (`git tag n.n.n`) and `git push --tags`
+- change `initloader.js` to use new tag/release; when pushed to Github, this release will be used
