@@ -72,6 +72,7 @@
         <p>To use the <b>Join</b> tool, first make sure the ends of the two lines to be joined are adjacent; then select the tool, and then select the 2 lines by clicking one, then clicking the second with the shift key. This only works on LineStrings, not MultiLineStrings.</p>
         <p>The <b>save</b> tools will save either the changed features, or all the features currently displayed, to the 'feature output' section of the toolbar. You can either copy this into a file, or use the 'Download' link to save as a file on your device. By default, this is GeoJSON output, but this can be changed to KML or GPX output by using the dropdown selection, and clicking 'Reserialise'. MongoDB output (GeoJSON geometries with attributes at the top level) is also possible. LineString and Polygon geometries can be simplified (Douglas-Peucker). And if there is only one feature, for GeoJSON the geometry only can be output.</p>
         <p><b>Clear changes</b> will delete all the new/changed features.</p>
+        <p>Note that all newly drawn features will be added to the 'Drawn' layer. A feature in another layer can be modified/deleted, but will be moved to the 'Drawn' layer. You cannot at present add features to another layer.</p>
       </div>
     </div>
   </section>
