@@ -1,4 +1,3 @@
-jspm_packages/
-config.js
 node_modules/
 lib/map-make-samples/
+awesomplete.js
