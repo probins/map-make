@@ -1,0 +1,20 @@
+{
+  "description": "OpenStreetMap, IGN and Catalan rasters with 2 vector sources",
+  "rasters": ["es/icc/topo", "es/ign/mapas", "osm/osm"],
+  "vectors": [{
+    "url": "https://cdn.jsdelivr.net/gh/probins/map-make@master/data/girona.geojson",
+    "attribution": "route lines: me",
+    "id": "Girona"
+  },
+  {
+    "url": "https://cdn.jsdelivr.net/gh/probins/map-make@master/data/barcelona.geojson",
+    "style": {"stroke": {
+      "color": "rgba(160, 125, 0, 0.6)",
+      "width": 3,
+      "lineDash": [5]
+    }},
+    "attribution": "route lines: me",
+    "id": "Barcelona"
+  }],
+  "components": ["cursorposition", "tooltip", "featuredisplay"]
+}

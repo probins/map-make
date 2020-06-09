@@ -28,9 +28,7 @@ The main html file `map-make.html` is all that needs to be installed. When loade
 
 This is fine for one-off maps, but is unwieldy for maps you want to reuse, so the *map definition* (mapDef) can be saved for future use.
 
-This can be a JSON object stored in a file which can be loaded from a url. There are some examples of mapDef files in `https://github.com/probins/map-make-samples`.
-
-It can also be a `<map-def>` custom element defined in the HTML file.
+This can be a JSON object stored in a file which can be loaded from a url. It can also be a `<map-def>` custom element defined in the HTML file.
 
 In addition, parameters can be specified as key-value pairs in the query string.
 
@@ -64,6 +62,7 @@ Besides OL, [Proj4js](http://proj4js.org/) is used by the projection modules (`r
 * minified versions of `lib/` js sources, created using `terser input -c -m --module -o output` (the `module` option means top-level names can be mangled)
 * the external libs are already compressed, so are simply copied from `lib`
 * the html files aren't compressed, so are also copied from `lib`
+* there are some sample mapDefs in `samples/mapDefs`, with sample HTML files to load them, using the jsDelivr CDN - see 'Usage' above.
 
 ## Raster sources
 Some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files, and should be provided at runtime in the map definition.

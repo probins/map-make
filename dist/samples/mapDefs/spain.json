@@ -1,0 +1,10 @@
+    {
+    	"description": "IGN topo rasters without vectors",
+      "rasters": ["es/ign/mapas"],
+      "components": ["cursorposition"],
+      "center": {
+        "lon": -2,
+        "lat": 40
+      },
+      "zoom": 2
+    }
