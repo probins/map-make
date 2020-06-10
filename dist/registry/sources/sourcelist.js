@@ -1,4 +1,4 @@
-[
+export default [
   "at/topo",
   "be/ign/topo",
   "bing/AerialLabels", "bing/Road",
@@ -15,4 +15,4 @@
   "pt/dgt/sc",
   "si/gurs",
   "srtm/4326", "srtm/laea", "srtm/maps4free"
-]
+];
