@@ -1,1 +1,1 @@
-import e from"../../../ext/ol.js";export default{getLayers:function(i){return[new e.layer.Tile({preload:Infinity,source:new e.source.BingMaps({key:i.apikey,imagerySet:"AerialWithLabels"}),id:"Bing Aerial with Labels"})]}};
+import e from"../../../ext/ol.js";export default{getLayers:function(r){return[new e.layer.Tile({preload:1/0,source:new e.source.BingMaps({key:r.apikey,imagerySet:"AerialWithLabels"}),id:"Bing Aerial with Labels"})]}};
