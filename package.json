@@ -4,9 +4,9 @@
   "description": "OpenLayers map generator",
   "main": "none",
   "devDependencies": {
-    "clean-css": "^3.4.19",
-    "eslint-config-openlayers": "^4.1.0",
-    "eslint": "^2.6.0"
+    "clean-css": "^4.2.3",
+    "eslint": "^2.6.0",
+    "eslint-config-openlayers": "^4.1.0"
   },
   "repository": {
     "type": "git",
