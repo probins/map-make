@@ -1,0 +1,1 @@
+import o from"./common.js";o.addProjection("EPSG:25832","+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs");export default{projCode:"EPSG:25832"};

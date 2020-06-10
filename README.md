@@ -59,7 +59,8 @@ Besides OL, [Proj4js](http://proj4js.org/) is used by the projection modules (`r
 
 `map-make`'s bootstrap loader loads from `dist/`
 * `css` and `font` directories (can also be used when testing on localhost)
-* minified versions of `lib/` js sources, created using `terser input -c -m --module -o output` (the `module` option means top-level names can be mangled)
+* minified versions of `lib/` js sources, created using `terser input -c -m --module -o output` (the `module` option means top-level names can be mangled). `terser` does not have file iteration, but can use e.g. `for file in lib/*.js; do terser lib/${file##*/} -c -m --
+module -o dist/${file##*/}; done`
 * the external libs are already compressed, so are simply copied from `lib`
 * the html files aren't compressed, so are also copied from `lib`
 * there are some sample mapDefs in `samples/mapDefs`, with sample HTML files to load them, using the jsDelivr CDN - see 'Usage' above.

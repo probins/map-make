@@ -1,0 +1,1 @@
+import o from"../../ext/ol.js";import r from"./ext/proj4.js";var e=["EPSG:4326","EPSG:3857"];export default{addProjection:function(n,t){-1===e.indexOf(n)&&(r.defs(n,t),o.proj.addProjection(new o.proj.Projection({code:n,units:"m"})),e.forEach((function(e){var t=r(e,n);o.proj.addCoordinateTransforms(e,n,t.forward,t.inverse)})),e.push(n))}};

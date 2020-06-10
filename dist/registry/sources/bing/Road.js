@@ -1,0 +1,1 @@
+import e from"../../../ext/ol.js";export default{getLayers:function(r){return[new e.layer.Tile({preload:Infinity,source:new e.source.BingMaps({key:r.apikey,imagerySet:"Road"}),id:"Bing Road"})]}};
