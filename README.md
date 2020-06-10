@@ -54,7 +54,7 @@ Besides OL, [Proj4js](http://proj4js.org/) is used by the projection modules (`r
 ### `lib` and `dist`
 `lib/` contains:
 * uncompressed module sources which can be loaded for testing on localhost
-* compressed code for external libraries
+* compressed code for external libraries in `ext/`, `registry/components/ext/` and `registry/projections/ext/`; these are all in a simple `export default` wrapper so they can be loaded as dependencies
 * component HTML in `registry/components/*.html.js` are `<template` elements in a simple `export default` wrapper so they can be loaded as dependencies
 
 `map-make`'s bootstrap loader loads from `dist/`
