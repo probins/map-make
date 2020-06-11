@@ -46,7 +46,7 @@ For more info on registry entries, see the Readme in the appropriate section of 
 
     <script data-configVars='{"css":"../another/path/css/map-make.css","baseURL":"./further/path/map-make/lib/"}' src="../map-make/lib/initloader.js"></script>
 
-uses a local `initloader`, CSS and base URL. This can be pushed to Github, and tested there; only when the release tag is added, and the `tag` field is changed in `initloader`, will this be used by default.
+uses a local `initloader`, CSS and base URL. A new version can be pushed to Github, and tested there; only when the release tag is added, and the `tag` field is changed in `initloader`, will this be used by default. See `initloader.js` source for more info.
 
 ### External libraries
 Besides OL, [Proj4js](http://proj4js.org/) is used by the projection modules (`registry/projections`), [slideout.js](https://mango.github.io/slideout/) by the `toolbar` component, and [Awesomplete](https://leaverou.github.io/awesomplete/) by the `addlayer` component for autocompletion. Until these libraries produce ES-module versions, these are wrapped in an `export default` so they can be imported. See `lib/registry/projections/Readme.md` for details of the Proj4js custom build. The CSS for OL, Font Awesome and Slideout is combined into one file (`css/map-make.css`), which is minified into `dist/css/`; that for Awesomplete is loaded from CDN from the `addlayer` component. A custom version of the [Font Awesome webfont](http://fontawesome.io/) including only those glyphs used is loaded by `map-make.css`.
