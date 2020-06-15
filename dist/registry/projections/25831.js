@@ -1,1 +1,1 @@
-import o from"./common.js";o.addProjection("EPSG:25831","+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs");export default{projCode:"EPSG:25831"};
+import"https://cdn.jsdelivr.net/gh/probins/myproj@0.2.0/dist/es/utm.js";import o from"./common.js";o.addProjection("EPSG:25831","+proj=utm +zone=31 +ellps=GRS80 +units=m +no_defs");export default{projCode:"EPSG:25831"};

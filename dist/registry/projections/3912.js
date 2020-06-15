@@ -1,1 +1,1 @@
-import o from"./common.js";o.addProjection("EPSG:3912","+proj=tmerc +lat_0=0 +lon_0=15 +k=0.9999 +x_0=500000 +y_0=-5000000 +ellps=bessel +towgs84=577.326,90.129,463.919,5.137,1.474,5.297,2.4232 +units=m +no_defs");export default{projCode:"EPSG:3912"};
+import"https://cdn.jsdelivr.net/gh/probins/myproj@0.2.0/dist/es/tmerc.js";import o from"./common.js";o.addProjection("EPSG:3912","+proj=tmerc +lat_0=0 +lon_0=15 +k=0.9999 +x_0=500000 +y_0=-5000000 +ellps=bessel +towgs84=577.326,90.129,463.919,5.137,1.474,5.297,2.4232 +units=m +no_defs");export default{projCode:"EPSG:3912"};

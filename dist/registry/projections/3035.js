@@ -1,1 +1,1 @@
-import o from"./common.js";o.addProjection("EPSG:3035","+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs");export default{projCode:"EPSG:3035"};
+import"https://cdn.jsdelivr.net/gh/probins/myproj@0.2.0/dist/es/laea.js";import o from"./common.js";o.addProjection("EPSG:3035","+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs");export default{projCode:"EPSG:3035"};
