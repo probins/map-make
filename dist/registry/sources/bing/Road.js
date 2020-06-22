@@ -1,1 +1,1 @@
-import e from"../../../ext/ol.js";export default{getLayers:function(r){return[new e.layer.Tile({preload:1/0,source:new e.source.BingMaps({key:r.apikey,imagerySet:"Road"}),id:"Bing Road"})]}};
+import e from"../../../ext/ol.js";import o from"../../projections/3857.js";export default{getLayers:function(o){return[new e.layer.Tile({preload:1/0,source:new e.source.BingMaps({key:o.apikey,imagerySet:"Road"}),id:"Bing Road"})]}};
