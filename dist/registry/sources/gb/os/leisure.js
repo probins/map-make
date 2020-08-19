@@ -1,0 +1,1 @@
+import e from"./common.js";e.options.id="OS Leisure",e.options.sourceOptions.url=e.baseURL.replace("LAYER","Leisure_27700");export default{getLayers:e.getLayers,projCode:e.projCode,resolutions:e.resolutions,extent:e.extent};

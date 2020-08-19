@@ -1,0 +1,1 @@
+import o from"./common.js";o.options.id="OS Outdoor",o.options.sourceOptions.url=o.baseURL.replace("LAYER","Outdoor_27700");export default{getLayers:o.getLayers,projCode:o.projCode,resolutions:o.resolutions,extent:o.extent};
