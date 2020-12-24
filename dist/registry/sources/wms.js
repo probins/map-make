@@ -1,0 +1,1 @@
+import{ol as e}from"../../deps.js";export default function(i){return i.sourceOptions.tileGrid=new e.tilegrid.TileGrid(i.tileGridOptions),[new e.layer.Tile({id:i.id,source:new e.source.TileWMS(i.sourceOptions)})]}
