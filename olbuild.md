@@ -2,7 +2,7 @@ ol is imported in:
 * mongo.js (Feature, GeoJSON), rasters.js (Projection, transformExtent), select.js (Select, unByKey), vectors.js (transformExtent, VectorSource, VectorLayer, Style, Stroke, Fill, Circle), olMap.js (Map, controlDefaults, ScaleLine, GroupLayer, transform, View, Control)
 * registry/components/center.js (transform), cursorposition.js (MousePosition), draw.js (Draw, Modify, unByKey, LineString, Feature), geolocation.js (Overlay, transform), mapdef.js (transform), placesearch.js (transform), popup.js (Overlay), serialise.js (Feature), tooltip.js (Select)
 * registry/projections/common.js (addProjection, Projection, addCoordinateTransforms)
-* registry/sources/bing/AerialLabels.js (Bing, TileLayer), bing/Road.js, fr/ign/cassini.js, gb/os.js, it/pcn.js, it/pcn32633.js, pt/dgt/sc.js, pt/dgt/sc200.js, si/gurs.js, srtm/4326.js, srtm/laea.js, wms.js (TileGrid, TileLayer, TileWMS), wmts.js (WMTSTileGrid, TileLayer, WMTS), xyz.js (TileGrid, TileLayer, XYZ)
+* registry/sources/bing/common.js (Bing, TileLayer), gb/os.js, it/pcn.js, it/pcn32633.js, pt/dgt/sc.js, pt/dgt/sc200.js, si/gurs.js, tileimage.js (TileGrid, TileImage, TileLayer), wms.js (TileGrid, TileLayer, TileWMS), wmts.js (WMTSTileGrid, TileLayer, WMTS), xyz.js (TileGrid, TileLayer, XYZ)
 
 
 "ol.Feature": mongo, components/draw, components/serialise
