@@ -1,0 +1,15 @@
+    {
+    	"description": "French IGN topo rasters without vectors",
+      "rasters": [
+      	{"fr/ign/topo": "sg68l6zf6zemkg3cdr0bknay"},
+      	{"fr/ign/photos": "sg68l6zf6zemkg3cdr0bknay"},
+      	{"fr/ign/cassini": "sg68l6zf6zemkg3cdr0bknay"},
+      	{"fr/ign/etat": "sg68l6zf6zemkg3cdr0bknay"}
+      ],
+      "components": ["cursorposition"],
+      "center": {
+        "lon": 2.265,
+        "lat": 46.3
+      },
+      "zoom": 1
+    }
