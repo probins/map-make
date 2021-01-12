@@ -1,14 +1,1 @@
-export default `
-<template id="cursorpositiontemplate">
-  <style>
-    .llcursor {
-      top: 8px;
-      right: 8px;
-      position: absolute;
-    }
-    .projcursor {
-      top: 28px;
-    }
-  </style>
-</template>
-`;
+export default'\n<template id="cursorpositiontemplate">\n  <style>\n    .llcursor {\n      top: 8px;\n      right: 8px;\n      position: absolute;\n    }\n    .projcursor {\n      top: 28px;\n    }\n  </style>\n</template>\n';

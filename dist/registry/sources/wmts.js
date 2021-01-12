@@ -1,1 +1,1 @@
-import{ol as e}from"../../deps.js";export default function(t){return t.sourceOptions.tileGrid=new e.tilegrid.WMTS(t.tileGridOptions),[new e.layer.Tile({id:t.id,extent:t.extent,source:new e.source.WMTS(t.sourceOptions)})]}
+import{WMTSTileGrid as e,TileLayer as t,WMTS as i}from"../../deps.js";export default function(n){return n.sourceOptions.tileGrid=new e(n.tileGridOptions),[new t({id:n.id,extent:n.extent,source:new i(n.sourceOptions)})]}

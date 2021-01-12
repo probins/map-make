@@ -25,7 +25,7 @@ Solutions:
 ### Strategies
 1. code entry points as `https://cdn.jsdelivr.net/gh/openlayers/openlayers@6.4.3/src/ol/...`
 2. code entry points as `ol/...`, and use import map to map to jsdelivr
-3. code entry points as `deps.js`, and then have 2 (or more) different `deps.js` files - no good for dynamic imports/loading
+3. code entry points as `deps.js`, and then have 2 (or more) different `deps.js` files - no good for dynamic imports/loading with code splitting
 
 
 ### Module conversion
@@ -38,7 +38,7 @@ Solutions:
 #### One-file build
 One build containing all functions used, as with previous version:
 * build from `lib/oldeps.js` to `lib/ext/ol.js` using `denopack.config.ts` (328k as opposed to former 215k = +53%) - bug in denopack means output has to be moved
-* use default `deps.js`, which does `export * from './ext/ol.js';`; comment out `deps.js` remapping line in import map
+* use default `deps.js`, which does `export * from './ext/ol.js';`; comment out `deps.js` remapping line in html import map
 * disadvantage of importing everything in one file is that there is limited tree-shaking (but see multi-file below)
 
 #### Import from source
@@ -61,13 +61,10 @@ Code splitting; include map-make code in build
 
 
 ### Issues
-* formats created when add layer
-* mongo imported with vectors
-* bug in draw featureButton l243
-* logo in OS/IGNfr
-* cat (http)/ch (prob outdated)/it (pending)/pt (pending) don't work
+* draw move doesn't work doesn't work properly in current prod; works up to 2.5.2 but not in 2.5.3
+* ch (prob outdated -changed to current)/it (http)/pt (http) don't work
+* formats could be imported/created when needed; ditto mongo
 * catch errors from all `import()`
-* initial zoom level not displayed
 
 #### OL
 * olView imports vectors whether use them or not
@@ -75,7 +72,7 @@ Code splitting; include map-make code in build
 * PluggableMap not much use any more
 
 
-test with atlasde:
+split code test with atlasde:
 - startup in olMap:
     - on initial View instantiation, this.projection_ set with createProjection for 3857
     - createResolutionConstraint runs createProjection for 3857

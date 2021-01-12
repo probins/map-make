@@ -1,1 +1,1 @@
-import projDef from"https://cdn.jsdelivr.net/gh/probins/myproj@0.4.0/defs/epsg28992.js";import"https://cdn.jsdelivr.net/gh/probins/myproj@0.4.0/dist/esbare/sterea.js";import common from"./common.js";const projCode="EPSG:28992";common.addProjection(projCode,projDef);export default{projCode:projCode};
+import o from"myproj/defs/epsg28992.js";import"myproj/dist/esbare/sterea.js";import r from"./common.js";r.addProjection("EPSG:28992",o);export default{projCode:"EPSG:28992"};

@@ -1,1 +1,1 @@
-import{ol as e}from"../../../deps.js";import r from"../../projections/3857.js";export default{getLayers:function(r){return[new e.layer.Tile({preload:1/0,source:new e.source.BingMaps({key:r.apikey,imagerySet:"Road"}),id:"Bing Road"})]}};
+import e from"./common.js";const o={imagerySet:"Road",id:"Bing Road"};export default{getLayers:function(t){return o.apikey=t.apikey,e.getLayers(o)}};

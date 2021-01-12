@@ -1,10 +1,1 @@
-export default `
-<template id="featuredisplaytemplate">
-  <div class="featureDisplay">
-    <div>Id: <span class="featureId"></span></div>
-    <div class="featureAtts"></div>
-    <div class="featureHav">calculated length: <span class="featureLenHav"></span> km</div>
-  </div>
-  <div class="featureAtt"></div>
-</template>
-`;
+export default'\n<template id="featuredisplaytemplate">\n  <div class="featureDisplay">\n    <div>Id: <span class="featureId"></span></div>\n    <div class="featureAtts"></div>\n    <div class="featureHav">calculated length: <span class="featureLenHav"></span> km</div>\n  </div>\n  <div class="featureAtt"></div>\n</template>\n';

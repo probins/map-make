@@ -1,1 +1,1 @@
-import o from"https://cdn.jsdelivr.net/gh/probins/myproj@0.4.0/defs/epsg21781.js";import"https://cdn.jsdelivr.net/gh/probins/myproj@0.4.0/dist/esbare/somerc.js";import r from"./common.js";r.addProjection("EPSG:21781",o);export default{projCode:"EPSG:21781"};
+import o from"myproj/defs/epsg21781.js";import"myproj/dist/esbare/somerc.js";import r from"./common.js";r.addProjection("EPSG:21781",o);export default{projCode:"EPSG:21781"};

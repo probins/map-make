@@ -1,0 +1,1 @@
+import{Bing as e,TileLayer as r}from"../../../deps.js";import o from"../../projections/3857.js";export default{getLayers:function(o){return[new r({id:o.id,preload:1/0,source:new e({key:o.apikey,imagerySet:o.imagerySet})})]}};

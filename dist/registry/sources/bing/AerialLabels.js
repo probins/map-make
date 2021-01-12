@@ -1,1 +1,1 @@
-import{ol as e}from"../../../deps.js";import r from"../../projections/3857.js";export default{getLayers:function(r){return[new e.layer.Tile({preload:1/0,source:new e.source.BingMaps({key:r.apikey,imagerySet:"AerialWithLabels"}),id:"Bing Aerial with Labels"})]}};
+import e from"./common.js";const i={imagerySet:"AerialWithLabels",id:"Bing Aerial with Labels"};export default{getLayers:function(t){return i.apikey=t.apikey,e.getLayers(i)}};
