@@ -17,7 +17,7 @@ const config: RollupOptions = {
   ],
   input: './lib/oldeps.js',
   output: {
-    banner: `/* OL version ${OLVersion} ${new Date().toISOString()} */`,
+    banner: `/* @preserve OL version ${OLVersion} ${new Date().toISOString()} */`,
     file: "lib/ext/ol.js",
     format: "esm",
     sourcemap: true
