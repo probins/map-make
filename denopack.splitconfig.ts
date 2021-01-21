@@ -1,11 +1,19 @@
-import { pluginImportResolver } from "https://deno.land/x/denopack@0.10.0/plugin/importResolver/mod.ts";
-import { pluginChainResolver } from "https://deno.land/x/denopack@0.10.0/plugin/chainResolver/mod.ts";
-import { myPlugin } from './myPlugin.js';
+import { importMapPlugin } from './importMapPlugin.js';
 import { pluginTerserTransform, RollupOptions, useCache } from "https://deno.land/x/denopack@0.10.0/mod.ts";
 
 const config: RollupOptions = {
   plugins: [
-    pluginChainResolver(myPlugin(), pluginImportResolver()),
+    importMapPlugin({
+      "importMap": {
+        "imports": {
+          "ol/": "https://cdn.jsdelivr.net/gh/openlayers/openlayers@6.4.3/src/ol/",
+          "/lib/ext/ol.js": "/lib/oldeps.js",
+          // "myproj/": "https://cdn.jsdelivr.net/gh/probins/myproj@0.4.2/",
+          "rbush": "https://jspm.dev/rbush",
+          "rbush/rbush.js": "https://jspm.dev/rbush"
+        }
+      }
+    }),
     ...useCache(),
     pluginTerserTransform({
       module: true,
@@ -55,7 +63,7 @@ const config: RollupOptions = {
   },
   external: /^https:\/\/cdn.jsdelivr.net\/gh\/probins\/myproj/,
   output: {
-    dir: "dist/",
+    dir: "public/",
     format: "esm",
     // sourcemap: true
   }

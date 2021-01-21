@@ -4,7 +4,7 @@
 * load OL build in browser
 
 ### Basic tools
-- import maps: supported in [Deno](https://deno.land/manual@v1.6.2/linking_to_external_code/import_maps) and [Chrome](https://bugs.chromium.org/p/chromium/issues/detail?id=848607) (by default probably from v89), Node Rollup partially with plugin, denopack with plugin
+- import maps: supported in [Deno](https://deno.land/manual@v1.6.2/linking_to_external_code/import_maps) and [Chrome](https://bugs.chromium.org/p/chromium/issues/detail?id=848607) (by default probably from v89), Node Rollup partially with plugin, denopack with plugin (denopack does not work with 1.7.0, so installed `deno163` and edited `~/.deno/bin/denopack` to use it)
 - jspm.dev or esm.sh can serve npm packages as ES module; jspm serves zipped file which rollup import map plugin can't use; esm.sh serves unzipped file
 - deno info xxx (gives dependency graph)
 - rollup/terser in Node; needs
@@ -18,7 +18,7 @@
 - pbf (used by MVT)
 - ol-mapbox-style (in package.json, but only used in an example)
 
-#### myproj
+#### proj
 defs and reprojection modules
 
 Solutions:
@@ -32,7 +32,7 @@ Solutions:
     - hard-coded as `'https://cdn.jsdelivr.net/gh/probins/myproj@0.4.2/...`; would have to be changed on new version (then again, probably won't happen very often)
     - import map would be better, but can only use when implemented in all browsers
 
-### Strategies
+### Alternative strategies
 1. code entry points as `https://cdn.jsdelivr.net/gh/openlayers/openlayers@6.4.3/src/ol/...`; this means all entry points have to be changed every time new version
 2. code entry points as `ol/...`, and use import map to map to jsdelivr
 3. code entry points as `deps.js`, and then have 2 (or more) different `deps.js` files - no good for dynamic imports/loading with code splitting
@@ -44,7 +44,7 @@ Solutions:
 ### One-file build
 One build containing all functions used, as with previous version:
 * build from `lib/oldeps.js` to `lib/ext/ol.js` using `denopack.config.ts` (328k as opposed to former 215k = +53%) - bug in denopack means output has to be moved
-* Lume copies to `dist/`
+* Lume copies/minifies `lib/` to `dist/`
 * disadvantage of importing everything in one file is that there is limited tree-shaking (but see multi-file below)
 
 ### Loading options
@@ -55,12 +55,15 @@ One build containing all functions used, as with previous version:
 ### Multi-file build
 Code splitting; include map-make code in build
 * can use denopack with custom import map `myPlugin.js`
-* use `denopack.splitconfig.ts`
-* change output config to dir, and list all entry points
-* use `depsfromoldeps.js` (have to swap out until import map works)
+* use `denopack.splitconfig.ts`, which:
+    * changes output config to dir
+    * lists all entry points
+    * outputs to `public/`
+* can use/swap out `depsfromoldeps.js` if no import map
+* issue with addLayer import() wrong dir ref
 * issue with projection cache not being updated
-* minimal map is 187K; +88K for addLayer (adds rasters/vectors); +157K for OSM (TileImage and KML). So this is actually > single-file build. Total size 616K - nearly double single-file. So OL has to be split better: exclude vectors from Map/View; remove 3857/4326 variants; manage formats/geoms better
-* not worth the bother
+* minimal map is 195K (olMap+KML); +90K for addLayer (adds rasters/vectors); +35K for OSM (TileImage). So not much diff to single-file build. Total size 592K - nearly double single-file. So OL has to be split better: exclude vectors from Map/View; remove 3857/4326 variants; manage formats/geoms better
+* not worth the bother until better tree-shaking in OL
 
 
 
@@ -72,12 +75,13 @@ Code splitting; include map-make code in build
 * ol 6.4.3 works, but 6.5.0, for example with at/be/es wmts, loads modules but not map tiles; osm/icc/srtm (xyz/wms/tileimage) work however
 * draw move doesn't work properly in current prod; works up to 2.5.2 but not in 2.5.3
 * ch (prob outdated -changed to current)/it (http)/pt (http) don't work
-* formats could be imported/created when needed; ditto mongo
+* formats could be imported/created when needed; ditto mongo. Requires going async
+* could split vectors/rasters in addLayer
 * catch errors from all `import()`
 
 #### OL
 * olView imports vectors whether use them or not
-* format/geometry deps wrong way round
+* format/geometry deps wrong way round; separate read/write
 * PluggableMap not much use any more
 
 
@@ -92,3 +96,35 @@ split code test with atlasde:
     - back in olMap:
     - this.projection_ set to null with createProjection for 25832; breakpoint for createProjection() in KML is not being triggered, so is not being run
     - createResolutionConstraint runs createProjection for 25832, which also returns null, and then tries to use projection.extent, which doesn't exist
+
+
+### Denopack default
+config file imports `useCache()` from `plugin/hooks.ts`, which uses:
+- `plugin/importResolver.js`, which uses `util/resolver.js`
+- `loadFile()` from `plugin/fileLoader/mod.ts`, which expects `file://` or `http://` and uses `readfile`/`fetch` as appropriate.
+
+### Resolving
+Denopack uses browser version of Rollup, which doesn't allow filesystem reads. So `util/resolver.js` always returns with protocol:
+If no importer:
+- if importee has protocol: return importee
+- if no protocol:
+    - if absolute, `return new URL(`file:///${importee}`).toString();`
+    - if relative, `return new URL(`file:///${path.join(Deno.cwd(), importee)}`).toString();`
+If importer:
+- if importee has protocol: return importee
+- if not:
+    - if importer has protocol, `return new URL(importee, importer).toString();`
+    - if importee absolute path: `return resolver(importee, undefined);`, i.e. as above with no importer
+    - else resolve as with no importer, `return resolver(`file:///${path.join(path.parse(importer).dir, importee)}`, undefined);`
+
+https://github.com/timreichen/importmap/blob/master/mod.ts has:
+- `createAsURL(specifier, baseURL)` which does:
+    - if baseURL and relative specifier, `return new URL(specifier, baseURL).toString()`
+    - else `return new URL(specifier).toString()`
+- ` resolveImportMatch(normalizedSpecifier, specifierMap)` which matches if:
+    - key in Map === normalizedSpecifier
+    - key in Map endsWith('/')  && normalizedSpecifier.startsWith(key)
+- `resolve(specifier, importMap, baseURL)` returns:
+    - if `resolveImportMatch()` where `normalizedSpecifier` is `createAsURL(specifier, baseURL)`, return the matched url
+    - else return `createAsURL(specifier, baseURL)`
+Also handles scopes.
