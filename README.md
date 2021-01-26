@@ -36,7 +36,7 @@ See [Usage file](usage.md) for more detailed instructions and examples.
 
 ## Technical details
 
-The code is modularised, and runs entirely in the browser, using the [jsDelivr](https://cdn.jsdelivr.net/) CDN to load the appropriate modules direct from this Github repo. This uses HTTP/2 to enable bulk-loading of modules and remove the need to bundle; dependencies are pre-loaded to prevent round-trips (this is currently disabled). The JS source is in `lib/` and is in ES2015 module syntax (`import`/`export`). The modules are loaded from HTML with `<script type="module">`, or dynamically from code using `import()`.
+The code is modularised, and runs entirely in the browser, using the [jsDelivr](https://cdn.jsdelivr.net/) CDN to load the appropriate modules direct from this Github repo. This uses HTTP/2 to enable bulk-loading of modules and reduce the need to bundle; dependencies are pre-loaded to prevent round-trips (this is currently disabled). The JS source is in `lib/` and is in ES2015 module syntax (`import`/`export`). The modules are loaded from HTML with `<script type="module">`, or dynamically from code using `import()`.
 
 Although OL now uses ES modules, like most large libraries, it assumes static dependencies loaded as a monolithic build; it is hard to use with dynamic modular loading. For this reason, the relevant OL code is not loaded with each module. At the moment, a custom build including all the OL code used is loaded up-front, and no account is taken of which components are needed for a specific map. It's hoped this can be improved with future versions.
 
@@ -49,20 +49,19 @@ For more info on registry entries, see the Readme in the appropriate section of 
 uses a local `initloader`, CSS and base URL. A new version can be pushed to Github, and tested there; only when the release tag is added, and the `tag` field is changed in `initloader`, will this be used by default. See `initloader.js` source for more info.
 
 ### External libraries
-Besides OL, [Proj4js](http://proj4js.org/) is used by the projection modules (`registry/projections`), [slideout.js](https://mango.github.io/slideout/) by the `toolbar` component, and [Awesomplete](https://leaverou.github.io/awesomplete/) by the `addlayer` component for autocompletion. Until these libraries produce ES-module versions, these are wrapped in an `export default` so they can be imported. See `lib/registry/projections/Readme.md` for details of the Proj4js custom build. The CSS for OL, Font Awesome and Slideout is combined into one file (`css/map-make.css`), which is minified into `dist/css/`; that for Awesomplete is loaded from CDN from the `addlayer` component. A custom version of the [Font Awesome webfont](http://fontawesome.io/) including only those glyphs used is loaded by `map-make.css`.
+Besides OL, a modular build of [Proj4js](http://proj4js.org/) is used by the projection modules (`registry/projections`), [slideout.js](https://mango.github.io/slideout/) by the `toolbar` component, and [Awesomplete](https://leaverou.github.io/awesomplete/) by the `addlayer` component for autocompletion. Until these libraries produce ES-module versions, the last two are wrapped in an `export default` so they can be imported. See `lib/registry/projections/Readme.md` for details of the Proj4js custom build. The CSS for OL, Font Awesome and Slideout is combined into one file (`css/map-make.css`), which is minified into `dist/css/`; that for Awesomplete is loaded from CDN from the `addlayer` component. A custom version of the [Font Awesome webfont](http://fontawesome.io/) including only those glyphs used is loaded by `map-make.css`.
 
 ### `lib` and `dist`
 `lib/` contains:
+* `css` and `font` directories
 * uncompressed module sources which can be loaded for testing on localhost
-* compressed code for external libraries in `ext/`, `registry/components/ext/` and `registry/projections/ext/`; these are all in a simple `export default` wrapper so they can be loaded as dependencies
+* compressed code for external libraries in `ext/` and `registry/components/ext/`; these are in a simple `export default` wrapper so they can be loaded as dependencies
 * component HTML in `registry/components/*.html.js` are `<template` elements in a simple `export default` wrapper so they can be loaded as dependencies
-
-`map-make`'s bootstrap loader loads from `dist/`
-* `css` and `font` directories (can also be used when testing on localhost)
-* minified versions of `lib/` js sources, created using `terser input -c -m --module -o output` (the `module` option means top-level names can be mangled). `terser` does not have file iteration, but can use e.g. `for file in lib/*.js; do terser lib/${file##*/} -c --module -o dist/${file##*/}; done`. The files are not very large, so this doesn't make a great deal of difference.
-* the external libs are already compressed, so are simply copied from `lib`
-* the html files aren't compressed, so are also copied from `lib`
 * there are some sample mapDefs in `samples/mapDefs`, with sample HTML files to load them, using the jsDelivr CDN - see 'Usage' above.
+
+`map-make`'s bootstrap loader by default loads from `dist/`, which is built from `lib` using (Lume)[https://lumeland.github.io/], a Deno static site generator
+* `css`, `ext`, `samples`, and `font` directories are copied from `lib/`
+* minified versions of `lib/` js sources are created using Lume's Terser plugin, which uses the `module` option so top-level names can be mangled. The files are not very large, so this doesn't make a great deal of difference.
 
 ## Raster sources
 Some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files, and should be provided at runtime in the map definition.

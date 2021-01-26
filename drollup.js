@@ -1,22 +1,22 @@
+import { rollup } from "https://deno.land/x/drollup@2.38.1+0.7.4/mod.ts";
+import { pluginTerserTransform } from "https://deno.land/x/denopack@0.10.0/plugin/terserTransform/mod.ts";
 import { importMapPlugin } from './importMapPlugin.js';
-import { pluginTerserTransform, RollupOptions, useCache } from "https://deno.land/x/denopack@0.10.0/mod.ts";
 
 const OLVersion = '6.4.3';
 
-const config: RollupOptions = {
+const options = {
   plugins: [
     importMapPlugin({
       "importMap": {
         "imports": {
-          "ol/": "https://cdn.jsdelivr.net/gh/openlayers/openlayers@6.4.3/src/ol/",
+          "ol/": `https://cdn.jsdelivr.net/gh/openlayers/openlayers@${OLVersion}/src/ol/`,
           "/lib/ext/ol.js": "/lib/oldeps.js",
           // "myproj/": "https://cdn.jsdelivr.net/gh/probins/myproj@0.4.2/",
-          "rbush": "https://jspm.dev/rbush",
-          "rbush/rbush.js": "https://jspm.dev/rbush"
+          "rbush": "https://jspm.dev/npm:rbush@3.0.1!cjs",
+          "rbush/rbush.js": "https://jspm.dev/npm:rbush@3.0.1!cjs"
         }
       }
     }),
-    ...useCache(),
     pluginTerserTransform({
       module: true,
       compress: true,
@@ -27,9 +27,10 @@ const config: RollupOptions = {
   output: {
     banner: `/* @preserve OL version ${OLVersion} ${new Date().toISOString()} */`,
     file: "lib/ext/ol.js",
-    format: "esm",
     sourcemap: true
   }
 };
 
-export default config;
+const bundle = await rollup(options);
+await bundle.write(options.output);
+await bundle.close();
