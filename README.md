@@ -59,9 +59,10 @@ Besides OL, a modular build of [Proj4js](http://proj4js.org/) is used by the pro
 * component HTML in `registry/components/*.html.js` are `<template` elements in a simple `export default` wrapper so they can be loaded as dependencies
 * there are some sample mapDefs in `samples/mapDefs`, with sample HTML files to load them, using the jsDelivr CDN - see 'Usage' above.
 
-`map-make`'s bootstrap loader by default loads from `dist/`, which is built from `lib` using (Lume)[https://lumeland.github.io/], a Deno static site generator
+`map-make`'s bootstrap loader by default loads from `dist/`, which is built from `lib` using (Lume)[https://lumeland.github.io/], a Deno static site generator, and the `_build.js` build file: `deno run -A --unstable ./runLume.js`
 * `css`, `ext`, `samples`, and `font` directories are copied from `lib/`
-* minified versions of `lib/` js sources are created using Lume's Terser plugin, which uses the `module` option so top-level names can be mangled. The files are not very large, so this doesn't make a great deal of difference.
+* minified versions of `lib/` js sources are created using Lume's Terser plugin, which uses the `module` option so top-level names can be mangled. The files are not very large, so this doesn't make a great deal of difference
+* `depsfrom*` and `oldeps*` are used for building and are not needed in `dist`.
 
 ## Raster sources
 Some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files, and should be provided at runtime in the map definition.
