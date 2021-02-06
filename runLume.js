@@ -15,7 +15,7 @@ const options = {
 
 site.use(terser(options));
 
-site.ignore("depsfromoldeps.js", "depsfromoldepscdn.js", "oldeps.js", "oldepscdn.js", "registry/components/Readme.md", "registry/projections/Readme.md", "registry/sources/Readme.md");
+site.ignore("depsfromoldeps.js", "depsfromoldepscdn.js", "oldepscdn.js", "registry/components/Readme.md", "registry/projections/Readme.md", "registry/sources/Readme.md");
 site.copy("css");
 site.copy("ext");
 site.copy("font");
