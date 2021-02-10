@@ -75,7 +75,6 @@ Code splitting; include map-make code in build
 - ol's examples use relative addresses from src, e.g. `import Map from '../src/ol/Map.js';`, which is then built with `parcel build --experimental-scope-hoisting --public-url . index.html`; this creates small minified `simple.js`, plus 240kB `common.js`; displays js with Node-style addresses with no `.js`, e.g. `import Map from 'ol/Map';`, which is what is also given as example in Readme
 
 ### Issues
-* ol 6.4.3 works, but 6.5.0, for example with at/be/es wmts, loads modules but not map tiles; osm/icc/srtm (xyz/wms/tileimage) work however
 * draw move doesn't work properly in current prod; works up to 2.5.2 but not in 2.5.3
 * ch (prob outdated -changed to current)/it (http)/pt (http) don't work
 * formats could be imported/created when needed; ditto mongo. Requires going async

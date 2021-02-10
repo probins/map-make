@@ -1,8 +1,8 @@
-import { rollup } from "https://deno.land/x/drollup@2.38.1+0.7.4/mod.ts";
+import { rollup } from "https://deno.land/x/drollup@2.38.4+0.10.0/mod.ts";
 import { pluginTerserTransform } from "https://deno.land/x/denopack@0.10.0/plugin/terserTransform/mod.ts";
 import { importMapPlugin } from './importMapPlugin.js';
 
-const OLVersion = '6.4.3';
+const OLVersion = '6.5.0';
 
 const options = {
   plugins: [
