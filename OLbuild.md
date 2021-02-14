@@ -70,6 +70,11 @@ Code splitting; include map-make code in build
 * deno-rollup creates 73k olMap and 113k KML (OL) + 17k (total ~200k) for minimal map; + 71k vectors, 35k draw, 34k TileImage, and small files for everything else. Total size 484K. So OL has to be split better: exclude vectors from Map/View; remove 3857/4326 variants; manage formats/geoms better
 * not worth the bother until better tree-shaking in OL
 
+### Split build without deps.js
+* user code needs to refer to `ol/...` (for building with import map)
+* can use `deno run -A --unstable ./drollup.split.js` (output to sep dir so can compare)
+
+
 ### Other examples
 - my olexamples use absolute url for each import
 - ol's examples use relative addresses from src, e.g. `import Map from '../src/ol/Map.js';`, which is then built with `parcel build --experimental-scope-hoisting --public-url . index.html`; this creates small minified `simple.js`, plus 240kB `common.js`; displays js with Node-style addresses with no `.js`, e.g. `import Map from 'ol/Map';`, which is what is also given as example in Readme

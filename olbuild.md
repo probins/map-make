@@ -1,5 +1,5 @@
 ol is imported in:
-* mongo.js (Feature, GeoJSON), rasters.js (Projection, transformExtent), select.js (Select, unByKey), vectors.js (transformExtent, VectorSource, VectorLayer, Style, Stroke, Fill, Circle), olMap.js (Map, controlDefaults, ScaleLine, GroupLayer, transform, View, Control)
+* mongo.js (Feature, GeoJSON), olMap.js (Map, controlDefaults, ScaleLine, GroupLayer, transform, View, Control), rasters.js (Projection, transformExtent), select.js (Select, unByKey), vectors.js (transformExtent, VectorSource, VectorLayer, Style, Stroke, Fill, Circle)
 * registry/components/center.js (transform), cursorposition.js (MousePosition), draw.js (Draw, Modify, unByKey, LineString, Feature), geolocation.js (Overlay, transform), mapdef.js (transform), placesearch.js (transform), popup.js (Overlay), serialise.js (Feature), tooltip.js (Select)
 * registry/projections/common.js (addProjection, Projection, addCoordinateTransforms)
 * registry/sources/bing/common.js (Bing, TileLayer), gb/os.js, it/pcn.js, it/pcn32633.js, pt/dgt/sc.js, pt/dgt/sc200.js, si/gurs.js, tileimage.js (TileGrid, TileImage, TileLayer), wms.js (TileGrid, TileLayer, TileWMS), wmts.js (WMTSTileGrid, TileLayer, WMTS), xyz.js (TileGrid, TileLayer, XYZ)
@@ -28,7 +28,7 @@ ol is imported in:
 "ol.proj.Projection": projections/common
 "ol.source.BingMaps": sources/bing/*
 "ol.source.TileImage": sources/srtm/*
-"ol.source.TileWMS": sources/wms, sources/gb/os, sources/it/pcn*, sources/pt/dgt/*, sources/si/gurs
+"ol.source.TileWMS": sources/wms, sources/gb/os, sources/it/pcn..., sources/pt/dgt/, sources/si/gurs
 "ol.source.Vector": vectors
 "ol.source.WMTS": sources/wmts
 "ol.source.XYZ": sources/xyz
