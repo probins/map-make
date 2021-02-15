@@ -1,1 +1,0 @@
-function e(e){return document.querySelector(e)}function r(e){return document.querySelectorAll(e)}export{e as $,r as $$};

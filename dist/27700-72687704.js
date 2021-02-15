@@ -1,0 +1,1 @@
+import r from"https://cdn.jsdelivr.net/gh/probins/myproj@0.4.2/defs/epsg27700.js";import"https://cdn.jsdelivr.net/gh/probins/myproj@0.4.2/dist/esbare/tmerc.js";import{c as o}from"./common-6085510f.js";o.addProjection("EPSG:27700",r);var s={projCode:"EPSG:27700"};export{s as p};

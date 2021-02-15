@@ -1,1 +1,0 @@
-import{TileGrid as e,TileImage as i,TileLayer as o}from"../../deps.js";export default function(r){return r.sourceOptions.tileGrid=new e(r.tileGridOptions),[new o({id:r.id,source:new i(r.sourceOptions)})]}

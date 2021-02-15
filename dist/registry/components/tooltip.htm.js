@@ -1,1 +1,0 @@
-export default'\n<template id="tooltiptemplate">\n  <style>\n    #tooltip {\n      position: absolute;\n      background-color: white;\n      z-index: 20000;\n    }\n  </style>\n  <div id="tooltip"></div>\n</template>\n';

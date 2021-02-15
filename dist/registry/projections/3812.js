@@ -1,1 +1,0 @@
-import o from"https://cdn.jsdelivr.net/gh/probins/myproj@0.4.2/defs/epsg3812.js";import"https://cdn.jsdelivr.net/gh/probins/myproj@0.4.2/dist/esbare/lcc.js";import r from"./common.js";r.addProjection("EPSG:3812",o);export default{projCode:"EPSG:3812"};

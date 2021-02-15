@@ -1,1 +1,0 @@
-import{Select as t,unByKey as e}from"./deps.js";import n from"./olMap.js";import o from"./vectors.js";const r=n.get(),s=new t({layers:o.getLayers().getArray()});r.addInteraction(s);let a,f,c=!1;export default{get:function(){return s},displayOn:function(t){f=t,c||(a=s.on("select",f))},drawOn:function(){a&&e(a),c=!0},drawOff:function(){f&&(a=s.on("select",f)),c=!1}};

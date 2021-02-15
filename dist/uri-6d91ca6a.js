@@ -1,0 +1,1 @@
+function n(n,o){const e=[];Object.keys(o).forEach((function(n){null!==o[n]&&void 0!==o[n]&&e.push(n+"="+encodeURIComponent(o[n]))}));const c=e.join("&");return(n=-1===(n=n.replace(/[?&]$/,"")).indexOf("?")?n+"?":n+"&")+c}export{n as a};

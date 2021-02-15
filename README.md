@@ -3,12 +3,10 @@
 A script and code registry to create simple maps using [OpenLayers](http://www.openlayers.org) with no need to know or code Javascript: simply specify options in a form or define the same in a json object or custom element.
 
 ## Objective
-
 Simplify map creation for those with little or no knowledge of Javascript or cartography.
 Also helps developers try out different options.
 
 ## Current features
-
 - raster source definitions stored in a registry (`lib/registry/sources`); pretty much any raster source supported by OL can be added to this
 - GeoJSON, KML and GPX vector sources can be loaded and displayed over the raster source
 - by default, maps with vector data will initially be zoomed to the extent of the data;
@@ -23,8 +21,7 @@ Also helps developers try out different options.
 - should be usable on both mouse/keyboard (desktop/laptop) and touch-screen (mobile) devices
 
 ## Usage
-
-The main html file `map-make.html` is all that needs to be installed. When loaded in the browser, this will display the main menu which enables you to define which sources and tools you wish to use.
+The main html file `map-make.html` is all that needs to be installed. When loaded in the browser, this will display the main toolbar which enables you to define which sources and tools you wish to use.
 
 This is fine for one-off maps, but is unwieldy for maps you want to reuse, so the *map definition* (mapDef) can be saved for future use.
 
@@ -35,40 +32,41 @@ In addition, parameters can be specified as key-value pairs in the query string.
 See [Usage file](usage.md) for more detailed instructions and examples.
 
 ## Technical details
-
-The code is modularised, and runs entirely in the browser, using the [jsDelivr](https://cdn.jsdelivr.net/) CDN to load the appropriate modules direct from this Github repo. This uses HTTP/2 to enable bulk-loading of modules and reduce the need to bundle; dependencies are pre-loaded to prevent round-trips (this is currently disabled). The JS source is in `lib/` and is in ES2015 module syntax (`import`/`export`). The modules are loaded from HTML with `<script type="module">`, or dynamically from code using `import()`.
-
-Although OL now uses ES modules, like most large libraries, it assumes static dependencies loaded as a monolithic build; it is hard to use with dynamic modular loading. For this reason, the relevant OL code is not loaded with each module. At the moment, a custom build including all the OL code used is loaded up-front, and no account is taken of which components are needed for a specific map. It's hoped this can be improved with future versions.
+The JS source is in `lib/` and is modularised in ES2015 module syntax (`import`/`export`). It runs entirely in the browser, using the [jsDelivr](https://cdn.jsdelivr.net/) CDN to load the appropriate modules direct from this Github repo. The initial entry point is from the HTML file with other modules loaded dynamically from code using `import()`.
 
 For more info on registry entries, see the Readme in the appropriate section of `lib/registry`.
 
-`map-make.html` loads `initloader.js` as the initial bootstrap, by default from `dist` on Github `master`, served from jsDelivr. This is a standard script, not a module. A field in `initloader` defines the latest version, and by default, it loads CSS from `dist/css/` for this version, and modules from `dist` for this version, using `initloader`'s URL as the base URL. A test HTML could load a local `initloader`, and both CSS and base URL can be overridden with a `data-configVars` attribute in the `<script>` tag, for example:
+Until version 3.1, the OL code was compiled into a separate build imported by the map-make modules, but since 3.1 the OL and map-make code has been built together, split into modules for each of the different entry points.
 
-    <script data-configVars='{"css":"../another/path/css/map-make.css","baseURL":"./further/path/map-make/lib/"}' src="../map-make/lib/initloader.js"></script>
+`map-make.html` loads `initloader.js` as the initial bootstrap, by default from `dist` on Github `master`, served from jsDelivr. This is a standard script, not a module. A field in `initloader` defines the latest version, and by default, it loads CSS from `dist/css/` for this version, and modules from `dist` for this version, using `initloader`'s URL as the base URL. This can however be overridden to enable loading a different version or from localhost. A test HTML could, for example, load a local `initloader`, and both CSS and base URL can be defined in a `data-configVars` attribute in the `<script>` tag:
 
-uses a local `initloader`, CSS and base URL. A new version can be pushed to Github, and tested there; only when the release tag is added, and the `tag` field is changed in `initloader`, will this be used by default. See `initloader.js` source for more info.
+```html
+<script data-configVars='{"css":"../another/path/css/map-make.css","baseURL":"./further/path/map-make/lib/"}' src="../map-make/lib/initloader.js"></script>
+```
+
+A new version can thus be pushed to Github, and tested there; only when the release tag is added, and the `tag` field is changed in `initloader`, will this be used by default. See below for more on the release procedure, and `initloader.js` source for more info.
 
 ### External libraries
 Besides OL, a modular build of [Proj4js](http://proj4js.org/) is used by the projection modules (`registry/projections`), [slideout.js](https://mango.github.io/slideout/) by the `toolbar` component, and [Awesomplete](https://leaverou.github.io/awesomplete/) by the `addlayer` component for autocompletion. Until these libraries produce ES-module versions, the last two are wrapped in an `export default` so they can be imported. See `lib/registry/projections/Readme.md` for details of the Proj4js custom build. The CSS for OL, Font Awesome and Slideout is combined into one file (`css/map-make.css`), which is minified into `dist/css/`; that for Awesomplete is loaded from CDN from the `addlayer` component. A custom version of the [Font Awesome webfont](http://fontawesome.io/) including only those glyphs used is loaded by `map-make.css`.
 
-### `lib` and `dist`
-`lib/` contains:
-* `css` and `font` directories
-* uncompressed module sources which can be loaded for testing on localhost
-* compressed code for external libraries in `ext/` and `registry/components/ext/`; these are in a simple `export default` wrapper so they can be loaded as dependencies
-* component HTML in `registry/components/*.html.js` are `<template` elements in a simple `export default` wrapper so they can be loaded as dependencies
-* there are some sample mapDefs in `samples/mapDefs`, with sample HTML files to load them, using the jsDelivr CDN - see 'Usage' above.
+### More on `lib` and `dist`
+As discussed above, the source is in `lib`, with a built/minified version in `dist`. The source imports OL modules using `ol/...` specifiers. An import map can then determine where `ol/` should be loaded from - for example, from localhost or from the repo. The build process takes these modules, also using an import map to load the OL code from the repo, and builds each of the entry modules into `dist`.
 
-`map-make`'s bootstrap loader by default loads from `dist/`, which is built from `lib` using (Lume)[https://lumeland.github.io/], a Deno static site generator, and the `_build.js` build file: `deno run -A --unstable ./runLume.js`
-* `css`, `ext`, `samples`, and `font` directories are copied from `lib/`
-* minified versions of `lib/` js sources are created using Lume's Terser plugin, which uses the `module` option so top-level names can be mangled. The files are not very large, so this doesn't make a great deal of difference
-* `depsfrom*` and `oldeps*` are used for building and are not needed in `dist`.
+So, `lib/` contains:
+* uncompressed module sources which can be loaded for testing on localhost
+* compressed code for external libraries in `registry/components/ext/`; these are in a simple `export default` wrapper so they can be loaded as dependencies
+* component HTML in `registry/components/*.html.js` are `<template>` elements in a simple `export default` wrapper so they can be loaded as dependencies
+
+`dist/` is built from `lib` using [deno-rollup](https://deno.land/x/drollup), a port of Rollup for Deno, with `drollup.split.js` as the config file. This is run with `deno run -A --unstable ./drollup.split.js`, which combines the map-make and OL code, and splits into modules corresponding to the dynamically imported map-make modules. This uses an import map to define where the external source is loaded from; see [build page](OLbuild.md) for more details. The modules are minified using deno-rollup's Terser plugin, and using the `module` option so top-level names can be mangled.
+
+The component `ext/` files are included in the build, but the `proj4js` files are at the moment kept external.
+
+`dist/` also contains `css` and `font` directories. `samples` contains some sample mapDefs and sample HTML files to load them, using the jsDelivr CDN - see 'Usage' above.
 
 ## Raster sources
 Some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files, and should be provided at runtime in the map definition.
 
 ## Limitations
-
 Only 1 raster layer can be active/visible at a time.
 
 At present, there is no error validation at all.
@@ -76,15 +74,13 @@ At present, there is no error validation at all.
 Because this software is based on new language features like modules, it will not work in old browsers such as IE.
 
 ## Future plans
-
 See issues.
 
 ## Contributions
-
 are welcome, as are all good ideas on how this can be developed further.
 
 ## Release process
 Code is loaded from a release tag. As mentioned above, which release tag to use is defined in `initloader.js`. So:
 - changes can be committed and pushed to Github without affecting the loaded code
 - for new release, add a new tag (`git tag n.n.n`) and `git push --tags`
-- change `initloader.js` to use new tag/release; when pushed to Github, this release will be used
+- change `initloader.js` to use new tag/release; when pushed to Github, this release will be used once jsDelivr's cache has cleared.

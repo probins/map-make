@@ -1,1 +1,0 @@
-export default'\n<template id="popuptemplate">\n  <style>\n    #popup {\n      background-color: white;\n    }\n  </style>\n  <div id="popup">\n  </div>\n</template>\n';
