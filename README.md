@@ -29,7 +29,7 @@ This can be a JSON object stored in a file which can be loaded from a url. It ca
 
 In addition, parameters can be specified as key-value pairs in the query string.
 
-See [Usage file](usage.md) for more detailed instructions and examples.
+There are some sample mapDefs and sample HTML files to load them in  `samples/`. See [Usage file](usage.md) for more detailed instructions and further examples.
 
 ## Technical details
 The JS source is in `lib/` and is modularised in ES2015 module syntax (`import`/`export`). It runs entirely in the browser, using the [jsDelivr](https://cdn.jsdelivr.net/) CDN to load the appropriate modules direct from this Github repo. The initial entry point is from the HTML file with other modules loaded dynamically from code using `import()`.
@@ -61,7 +61,7 @@ So, `lib/` contains:
 
 The component `ext/` files are included in the build, but the `proj4js` files are at the moment kept external.
 
-`dist/` also contains `css` and `font` directories. `samples` contains some sample mapDefs and sample HTML files to load them, using the jsDelivr CDN - see 'Usage' above.
+`dist/` also contains `css` and `font` directories.
 
 ## Raster sources
 Some source providers require an API code to be given when fetching tiles; these are specified in the appropriate source files, and should be provided at runtime in the map definition.
