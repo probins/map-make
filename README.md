@@ -57,7 +57,7 @@ So, `lib/` contains:
 * compressed code for external libraries in `registry/components/ext/`; these are in a simple `export default` wrapper so they can be loaded as dependencies
 * component HTML in `registry/components/*.html.js` are `<template>` elements in a simple `export default` wrapper so they can be loaded as dependencies
 
-`dist/` is built from `lib` using [deno-rollup](https://deno.land/x/drollup), a port of Rollup for Deno, with `drollup.split.js` as the config file. This is run with `deno run -A --unstable ./drollup.split.js`, which combines the map-make and OL code, and splits into modules corresponding to the dynamically imported map-make modules. This uses an import map to define where the external source is loaded from; see [build page](OLbuild.md) for more details. The modules are minified using deno-rollup's Terser plugin, and using the `module` option so top-level names can be mangled.
+`dist/` is built from `lib` using [deno-rollup](https://deno.land/x/drollup), a port of Rollup for Deno, with `drollup.split.js` as the config file. This is run with `deno run -A --unstable ./drollup.split.js`, which combines the map-make and OL code, and splits into modules corresponding to the dynamically imported map-make modules. This uses an import map to define where the external source is loaded from; see [build page](OLbuild.md) for more details. The modules are minified using deno-rollup's Terser plugin, and using the `module` option so top-level names can be mangled. `initloader.js` can be edited manually.
 
 The component `ext/` files are included in the build, but the `proj4js` files are at the moment kept external.
 
